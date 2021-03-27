@@ -11,6 +11,7 @@ gem 'rails-i18n', '>=1.2.2'
 gem 'devise', git: "https://github.com/heartcombo/devise.git"
 gem 'omniauth-twitter', '~> 1.4'
 gem 'dotenv-rails'
+gem 'mimemagic'
 
 # Use sqlite3 as the database for Active Record
 # Use Puma as the app server

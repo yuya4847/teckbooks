@@ -270,6 +270,7 @@ DEPENDENCIES
   google-analytics-rails
   jbuilder (~> 2.7)
   listen (~> 3.2)
+  mimemagic
   omniauth-twitter (~> 1.4)
   pg (= 0.20.0)
   puma (~> 4.1)
