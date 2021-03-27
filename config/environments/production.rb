@@ -47,7 +47,7 @@ Rails.application.configure do
     :user_name => "yuya004847yy@gmail.com",
     :password => "hihzcrzzgjrzkqrq",
     :authentication => :plain,
-    :domain => 'gmail.com',
+    :domain => 'heroku.com',
     :enable_starttls_auto => true
   }
   # Mount Action Cable outside main process or domain.
