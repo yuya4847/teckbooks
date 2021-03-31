@@ -188,9 +188,6 @@ RSpec.describe "Registrations", type: :system do
     it 'フォームが空だと送信できないこと' do
       @user = create(:user)
       visit '/users/confirmation/new.user'
-      fill_in 'user_email', with: ""
-      click_button 'メールを送る'
-      expect(page).to have_content 'メールアドレスを入力してください'
       fill_in 'user_email', with: "aaaaaaaa@aa.aa"
       click_button 'メールを送る'
       expect(page).to have_content 'メールアドレスは見つかりませんでした。'
@@ -256,9 +253,6 @@ RSpec.describe "Registrations", type: :system do
     it '不適切なメールアドレスだと送信できないこと' do
       @user = create(:user)
       visit '/users/password/new'
-      fill_in 'user_email', with: ""
-      click_button 'メールを送る'
-      expect(page).to have_content 'メールアドレスを入力してください'
       fill_in 'user_email', with: "aaaaaaaa@aa.aa"
       click_button 'メールを送る'
       expect(page).to have_content 'メールアドレスは見つかりませんでした。'
