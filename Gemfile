@@ -34,6 +34,10 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   gem 'sqlite3', '~> 1.4'
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'pry-rails'
+  gem 'rubocop-airbnb'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 

@@ -1,0 +1,21 @@
+inherit_from:
+  - .rubocop_airbnb.yml
+
+AllCops:
+  Exclude:
+    - 'app/helpers/application_helper.rb'
+    - 'db/**/*'
+    - 'bin/*'
+    - 'config/environments/*'
+    - 'config/application.rb'
+    - 'config/initializers/*'
+    - 'config/spring.rb'
+    - 'lib/tasks/*'
+    - 'vendor/**/*'
+    - 'path/ruby'
+    - 'node_modules/**/*'
+    - 'spec/**/*'
+    - 'Gemfile'
+
+Metrics/LineLength:
+  Max: 130
