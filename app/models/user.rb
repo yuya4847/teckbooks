@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :reviews, dependent: :destroy
   before_save { self.email = email.downcase }
   validates :username, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }, format: { with: Const::VALID_EMAIL_REGEX }

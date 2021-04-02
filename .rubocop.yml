@@ -4,6 +4,7 @@ inherit_from:
 AllCops:
   Exclude:
     - 'app/helpers/application_helper.rb'
+    - 'app/models/review.rb'
     - 'db/**/*'
     - 'bin/*'
     - 'config/environments/*'
