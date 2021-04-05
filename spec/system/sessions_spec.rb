@@ -1,9 +1,7 @@
 require 'rails_helper'
 RSpec.describe "Sessions", type: :system do
-  before do
-    @user = create(:user)
-    @unconfirmed_user = create(:unconfirmed_user)
-  end
+  let(:user) { create(:user) }
+  let(:unconfirmed_user) { create(:unconfirmed_user) }
 
   it 'ログインページの要素検証すること' do
     visit '/users/sign_in'
@@ -26,28 +24,28 @@ RSpec.describe "Sessions", type: :system do
     end
     # 誤ったemail
     fill_in 'user_email', with: 'invalidemail@sample.com'
-    fill_in 'user_password', with: @user.password
+    fill_in 'user_password', with: user.password
     click_button 'ログイン'
     within('.alert') do
       expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
     end
     # 誤ったpassword
-    fill_in 'user_email', with: @user.email
+    fill_in 'user_email', with: user.email
     fill_in 'user_password', with: 'invalid_password'
     click_button 'ログイン'
     within('.alert') do
       expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
     end
     # 有効なemailとpasswordだがアカウントが有効でない場合
-    fill_in 'user_email', with: @unconfirmed_user.email
-    fill_in 'user_password', with: @unconfirmed_user.password
+    fill_in 'user_email', with: unconfirmed_user.email
+    fill_in 'user_password', with: unconfirmed_user.password
     click_button 'ログイン'
     within('.alert') do
       expect(page).to have_content 'メールアドレスの本人確認が必要です。'
     end
     # 有効なemailとpassword
-    fill_in 'user_email', with: @user.email
-    fill_in 'user_password', with: @user.password
+    fill_in 'user_email', with: user.email
+    fill_in 'user_password', with: user.password
     click_button 'ログイン'
     within('.notice') do
       expect(page).to have_content 'ログインしました'
@@ -59,11 +57,10 @@ RSpec.describe "Sessions", type: :system do
     expect(page).to have_link 'ホーム'
     expect(page).to have_link 'サインアップ'
     expect(page).to have_link 'ログイン'
-    expect(page).not_to have_link 'プロフィール変更'
     expect(page).not_to have_link 'ログアウト'
 
-    fill_in 'user_email', with: @user.email
-    fill_in 'user_password', with: @user.password
+    fill_in 'user_email', with: user.email
+    fill_in 'user_password', with: user.password
     click_button 'ログイン'
     within('.notice') do
       expect(page).to have_content 'ログインしました'
@@ -71,14 +68,13 @@ RSpec.describe "Sessions", type: :system do
     expect(page).to have_link 'ホーム'
     expect(page).not_to have_link 'サインアップ'
     expect(page).not_to have_link 'ログイン'
-    expect(page).to have_link 'プロフィール変更'
     expect(page).to have_link 'ログアウト'
   end
 
   it 'ログアウトが可能であること' do
     visit '/users/sign_in'
-    fill_in 'user_email', with: @user.email
-    fill_in 'user_password', with: @user.password
+    fill_in 'user_email', with: user.email
+    fill_in 'user_password', with: user.password
     click_button 'ログイン'
     within('.notice') do
       expect(page).to have_content 'ログインしました'
@@ -107,29 +103,29 @@ RSpec.describe "Sessions", type: :system do
     context 'ログイン状態の場合' do
       it 'ログイン、新規登録ページにアクセスできないこと' do
         visit '/users/sign_in'
-        fill_in 'user_email', with: @user.email
-        fill_in 'user_password', with: @user.password
+        fill_in 'user_email', with: user.email
+        fill_in 'user_password', with: user.password
         click_button 'ログイン'
         within('.notice') do
           expect(page).to have_content 'ログインしました'
         end
+        expect(current_path).to eq userpage_path(user)
 
         visit root_path
         expect(current_path).to eq root_path
-        expect(page).to have_content @user.username
 
         visit '/users/edit'
         expect(current_path).to eq edit_user_registration_path
         expect(page).to have_content 'ユーザーを編集する'
 
         visit '/users/sign_in'
-        expect(current_path).to eq root_path
+        expect(current_path).to eq userpage_path(user)
         within('.alert') do
           expect(page).to have_content 'すでにログインしています。'
         end
 
         visit '/users/sign_up'
-        expect(current_path).to eq root_path
+        expect(current_path).to eq userpage_path(user)
         within('.alert') do
           expect(page).to have_content 'すでにログインしています。'
         end

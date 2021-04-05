@@ -7,6 +7,14 @@ FactoryBot.define do
     confirmed_at            { Time.now }
   end
 
+  factory :second_user, class: User do
+    username { "yuta" }
+    email { "aaayuta@example.com" }
+    password { "yuta_password" }
+    password_confirmation { "yuta_password" }
+    confirmed_at            { Time.now }
+  end
+
   factory :unconfirmed_user, class: User do
     username { "ken" }
     email { "testken@example.com" }

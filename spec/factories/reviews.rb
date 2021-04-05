@@ -22,4 +22,12 @@ FactoryBot.define do
     created_at { 20.minutes.ago }
     user_id { User.first.id }
   end
+
+  factory :normal_review, class: Review do
+    title { "it is normal" }
+    content { "it is very normal" }
+    rate { 3 }
+    created_at { 20.minutes.ago }
+    user_id { User.second.id }
+  end
 end

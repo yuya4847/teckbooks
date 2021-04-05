@@ -1,6 +1,8 @@
 require 'rails_helper'
 RSpec.describe "Registrations", type: :system do
   describe '#create' do
+    let(:user) { build(:user) }
+
     it '新規登録画面の要素検証すること' do
       visit '/users/sign_up'
       expect(page).to have_selector 'span', text: '※必須', count: 4
@@ -38,12 +40,11 @@ RSpec.describe "Registrations", type: :system do
     end
 
     it 'username,email,passwordが全て正しい場合、新規登録が可能であること' do
-      @user = build(:user)
       visit '/users/sign_up'
-      fill_in 'user_username', with: @user.username
-      fill_in 'user_email', with: @user.email
-      fill_in 'user_password', with: @user.password
-      fill_in 'user_password_confirmation', with: @user.password_confirmation
+      fill_in 'user_username', with: user.username
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
+      fill_in 'user_password_confirmation', with: user.password_confirmation
       click_button 'Sign up'
       within('.notice') do
         expect(page).to have_content '本人確認用のメールを送信しました。メール内のリンクからアカウントを有効化させてください。'
@@ -52,14 +53,12 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe '#edit' do
-    before do
-      @user = create(:user)
-    end
+    let(:user) { create(:user) }
 
     it 'プロフィール編集画面の要素検証すること' do
       visit '/users/sign_in'
-      fill_in 'user_email', with: @user.email
-      fill_in 'user_password', with: @user.password
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
       click_button 'ログイン'
       within('.notice') do
         expect(page).to have_content 'ログインしました'
@@ -82,8 +81,8 @@ RSpec.describe "Registrations", type: :system do
 
     it '適切なusernameだけ入力し編集完了できること' do
       visit '/users/sign_in'
-      fill_in 'user_email', with: @user.email
-      fill_in 'user_password', with: @user.password
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
       click_button 'ログイン'
       within('.notice') do
         expect(page).to have_content 'ログインしました'
@@ -94,7 +93,6 @@ RSpec.describe "Registrations", type: :system do
       fill_in 'user_password_confirmation', with: ""
       click_button '編集完了'
       expect(current_path).to eq root_path
-      expect(page).to have_content 'edit_user'
       expect(page).not_to have_content 'ようこそ'
       within('.notice') do
         expect(page).to have_content 'アカウント情報を変更しました。'
@@ -103,8 +101,8 @@ RSpec.describe "Registrations", type: :system do
 
     it 'username,passwordを適切な値が入力され編集完了できること' do
       visit '/users/sign_in'
-      fill_in 'user_email', with: @user.email
-      fill_in 'user_password', with: @user.password
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
       click_button 'ログイン'
       within('.notice') do
         expect(page).to have_content 'ログインしました'
@@ -115,7 +113,6 @@ RSpec.describe "Registrations", type: :system do
       fill_in 'user_password_confirmation', with: "edit_password"
       click_button '編集完了'
       expect(current_path).to eq root_path
-      expect(page).not_to have_content 'edit_user'
       expect(page).to have_content 'ようこそ'
       within('.notice') do
         expect(page).to have_content 'アカウント情報を変更しました。'
@@ -124,8 +121,8 @@ RSpec.describe "Registrations", type: :system do
 
     it 'username,emailを適切な値が入力され編集完了できること' do
       visit '/users/sign_in'
-      fill_in 'user_email', with: @user.email
-      fill_in 'user_password', with: @user.password
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
       click_button 'ログイン'
       within('.notice') do
         expect(page).to have_content 'ログインしました'
@@ -135,7 +132,6 @@ RSpec.describe "Registrations", type: :system do
       fill_in 'user_email', with: "edituser@example.com"
       click_button '編集完了'
       expect(current_path).to eq root_path
-      expect(page).to have_content 'edit_user'
       expect(page).not_to have_content 'ようこそ'
       within('.notice') do
         expect(page).to have_content 'アカウント情報を変更しました。変更されたメールアドレスの本人確認のため、本人確認用メールより確認処理をおこなってください。'
@@ -144,14 +140,12 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe '#destroy' do
-    before do
-      @user = create(:user)
-    end
+    let(:user) { create(:user) }
 
     it 'ユーザーのアカウントを停止できること' do
       visit '/users/sign_in'
-      fill_in 'user_email', with: @user.email
-      fill_in 'user_password', with: @user.password
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
       click_button 'ログイン'
       within('.notice') do
         expect(page).to have_content 'ログインしました'
@@ -164,8 +158,8 @@ RSpec.describe "Registrations", type: :system do
         expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております。'
       end
       visit '/users/sign_in'
-      fill_in 'user_email', with: @user.email
-      fill_in 'user_password', with: @user.password
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
       click_button 'ログイン'
       within('.alert') do
         expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
@@ -174,6 +168,8 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe 'accountの有効化' do
+    let(:user) { build(:user) }
+
     it 'アカウント有効化メール再送信画面の要素検証をすること' do
       visit '/users/confirmation/new.user'
       expect(page).to have_content 'アカウント有効化のメールを再送信'
@@ -186,7 +182,7 @@ RSpec.describe "Registrations", type: :system do
     end
 
     it 'フォームが空だと送信できないこと' do
-      @user = create(:user)
+      user.save
       visit '/users/confirmation/new.user'
       fill_in 'user_email', with: "aaaaaaaa@aa.aa"
       click_button 'メールを送る'
@@ -195,10 +191,10 @@ RSpec.describe "Registrations", type: :system do
 
     context 'アカウントが有効化できているとき' do
       it 'アカウント有効化のアカウント有効化が再送信できないこと' do
-        @user = create(:user)
+        user.save
         visit '/users/confirmation/new.user'
         expect(page).to have_content 'アカウント有効化のメールを再送信'
-        fill_in 'user_email', with: @user.email
+        fill_in 'user_email', with: user.email
         click_button 'メールを送る'
         expect(page).to have_content '以下のエラーにより、保存されませんでした。'
         expect(page).to have_content 'メールアドレスは既に登録済みです。ログインしてください。'
@@ -207,19 +203,18 @@ RSpec.describe "Registrations", type: :system do
 
     context 'メールが届いておらず有効化できていないとき' do
       it 'アカウント有効化のメールが再送信できること' do
-        @user = build(:user)
         visit '/users/sign_up'
-        fill_in 'user_username', with: @user.username
-        fill_in 'user_email', with: @user.email
-        fill_in 'user_password', with: @user.password
-        fill_in 'user_password_confirmation', with: @user.password_confirmation
+        fill_in 'user_username', with: user.username
+        fill_in 'user_email', with: user.email
+        fill_in 'user_password', with: user.password
+        fill_in 'user_password_confirmation', with: user.password_confirmation
         click_button 'Sign up'
         within('.notice') do
           expect(page).to have_content '本人確認用のメールを送信しました。メール内のリンクからアカウントを有効化させてください。'
         end
         visit '/users/confirmation/new.user'
         expect(page).to have_content 'アカウント有効化のメールを再送信'
-        fill_in 'user_email', with: @user.email
+        fill_in 'user_email', with: user.email
         click_button 'メールを送る'
         expect(page).to have_content 'アカウントの有効化について数分以内にメールでご連絡します。'
       end
@@ -227,10 +222,9 @@ RSpec.describe "Registrations", type: :system do
 
     context 'ユーザーを作っておらず有効化できていないとき' do
       it 'アカウント有効化のメールが送信できないこと' do
-        @user = build(:user)
         visit '/users/confirmation/new.user'
         expect(page).to have_content 'アカウント有効化のメールを再送信'
-        fill_in 'user_email', with: @user.email
+        fill_in 'user_email', with: user.email
         click_button 'メールを送る'
         expect(page).to have_content '以下のエラーにより、保存されませんでした。'
         expect(page).to have_content 'メールアドレスは見つかりませんでした。'
@@ -239,6 +233,8 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe 'パスワードの変更' do
+    let(:user) { create(:user) }
+
     it 'パスワード変更画面の要素検証すること' do
       visit '/users/password/new'
       expect(page).to have_content 'パスワードを変更'
@@ -251,7 +247,6 @@ RSpec.describe "Registrations", type: :system do
     end
 
     it '不適切なメールアドレスだと送信できないこと' do
-      @user = create(:user)
       visit '/users/password/new'
       fill_in 'user_email', with: "aaaaaaaa@aa.aa"
       click_button 'メールを送る'
@@ -259,14 +254,13 @@ RSpec.describe "Registrations", type: :system do
     end
 
     it 'パスワードを忘れたときに変更できること' do
-      @user = create(:user)
       visit '/users/sign_in'
       click_link "パスワードを忘れた方"
       expect(page).to have_content 'パスワードを変更'
       have_link "ログインする"
       have_link "サインアップする"
       have_link "アカウント有効化のメールが届いていない方"
-      fill_in 'user_email', with: @user.email
+      fill_in 'user_email', with: user.email
       click_button 'メールを送る'
       expect(page).to have_content 'パスワードの再設定について数分以内にメールでご連絡いたします。'
     end

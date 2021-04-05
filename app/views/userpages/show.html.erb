@@ -1,0 +1,32 @@
+<div>
+  <div>
+    <%= @user.username %>
+  </div>
+  <div>
+    <%= @user.profile %>
+  </div>
+  <div>
+    <%= @user.email %>
+  </div>
+  <div>
+    <% if @user.sex == "woman" %>
+      女
+    <% else %>
+      男
+    <% end %>
+  </div>
+</div>
+<% if @user == current_user %>
+  <div>
+    <%= link_to 'プロフィール変更', edit_user_registration_path %>
+  </div>
+<% end %>
+<% if @reviews %>
+<div>
+  <% @reviews.each do |review| %>
+  <div><%= review.title %></div>
+  <div><%= review.content %></div>
+  <div><%= review.rate %></div>
+  <% end %>
+</div>
+<% end %>
