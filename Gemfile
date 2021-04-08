@@ -11,7 +11,8 @@ gem 'rails-i18n', '>=1.2.2'
 gem 'devise', git: "https://github.com/heartcombo/devise.git"
 gem 'omniauth-twitter', '~> 1.4'
 gem 'dotenv-rails'
-gem 'mimemagic'
+gem 'carrierwave'
+gem 'mini_magick'
 
 # Use sqlite3 as the database for Active Record
 # Use Puma as the app server
@@ -52,6 +53,7 @@ end
 
 group :production do
   gem 'pg', '0.20.0'
+  gem 'fog'
 end
 
 group :test do

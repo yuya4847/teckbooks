@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  mount_uploader :avatar, AvatarUploader
   has_many :reviews, dependent: :destroy
   before_save { self.email = email.downcase }
   validates :username, presence: true, length: { maximum: 20 }
@@ -13,6 +14,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :confirmable,
          :timeoutable, :trackable
+  validate  :avatar_size
 
   # allow users to update their accounts without passwords
   def update_without_current_password(params, *options)
@@ -27,4 +29,13 @@ class User < ApplicationRecord
     clean_up_passwords
     result
   end
+
+  private
+
+    # アップロードされた画像のサイズをバリデーションする
+    def avatar_size
+      if avatar.size > 5.megabytes
+        errors.add(:avatar, "should be less than 5MB")
+      end
+    end
 end

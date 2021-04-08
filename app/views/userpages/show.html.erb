@@ -8,14 +8,29 @@
   <div>
     <%= @user.email %>
   </div>
-  <div>
+  <div class="">
     <% if @user.sex == "woman" %>
       女
     <% else %>
       男
     <% end %>
+    <% if @user.avatar.url %>
+      <div>
+        <img src="<%= @user.avatar.url %>" class="aaa">
+        <% if @user == current_user %>
+        <%= link_to "delete", userpage_path(current_user), method: :delete,
+                                  data: { confirm: "You sure?" } %>
+        <% end %>
+      </div>
+    <% else %>
+      <div>
+        <img src="/uploads/user/avatar/default.png" class="bbb">
+        <% if @user == current_user %>
+          <%= link_to 'アバターを変更する', edit_user_registration_path %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-</div>
 <% if @user == current_user %>
   <div>
     <%= link_to 'プロフィール変更', edit_user_registration_path %>

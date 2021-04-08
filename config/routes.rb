@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   }
   root 'homes#home'
   resources :userpages,     only: [:show]
+  delete 'userpages/:id', to: 'userpages#avatar_destroy'
 end
