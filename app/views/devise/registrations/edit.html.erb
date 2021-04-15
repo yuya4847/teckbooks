@@ -20,7 +20,7 @@
 
   <div class="field">
     <%= f.label :avatar %><br />
-    <%= f.file_field :avatar, accept: 'image/jpeg,image/gif,image/png' %>
+    <%= f.file_field :avatar, accept: 'image/jpeg,image/gif,image/png', class: "avatar_select" %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>

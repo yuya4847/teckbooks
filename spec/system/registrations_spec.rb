@@ -67,11 +67,13 @@ RSpec.describe "Registrations", type: :system do
       expect(page).to have_selector 'label', text: 'Username'
       expect(page).to have_selector 'label', text: 'メールアドレス'
       expect(page).to have_selector 'label', text: 'Profile'
+      expect(page).to have_selector 'label', text: 'Avatar'
       expect(page).to have_selector 'label', text: 'パスワード'
       expect(page).to have_selector 'label', text: 'パスワード(確認用）'
       expect(page).to have_selector 'input', class: 'username_form'
       expect(page).to have_selector 'input', class: 'email_form'
       expect(page).to have_selector 'textarea', class: 'profile_area'
+      expect(page).to have_selector 'input', class: 'avatar_select'
       expect(page).to have_selector 'input', class: 'password_form'
       expect(page).to have_selector 'input', class: 'password_confirmation_form'
       expect(page).to have_button '編集完了'
@@ -92,7 +94,7 @@ RSpec.describe "Registrations", type: :system do
       fill_in 'user_password', with: ""
       fill_in 'user_password_confirmation', with: ""
       click_button '編集完了'
-      expect(current_path).to eq root_path
+      expect(current_path).to eq userpage_path(user)
       expect(page).not_to have_content 'ようこそ'
       within('.notice') do
         expect(page).to have_content 'アカウント情報を変更しました。'
@@ -112,11 +114,15 @@ RSpec.describe "Registrations", type: :system do
       fill_in 'user_password', with: "edit_password"
       fill_in 'user_password_confirmation', with: "edit_password"
       click_button '編集完了'
-      expect(current_path).to eq root_path
-      expect(page).to have_content 'ようこそ'
+      expect(current_path).to eq new_user_session_path
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: "edit_password"
+      click_button 'ログイン'
+      expect(current_path).to eq userpage_path(user)
       within('.notice') do
-        expect(page).to have_content 'アカウント情報を変更しました。'
+        expect(page).to have_content 'ログインしました'
       end
+      expect(page).to have_content "edit_user"
     end
 
     it 'username,emailを適切な値が入力され編集完了できること' do
@@ -131,7 +137,7 @@ RSpec.describe "Registrations", type: :system do
       fill_in 'user_username', with: "edit_user"
       fill_in 'user_email', with: "edituser@example.com"
       click_button '編集完了'
-      expect(current_path).to eq root_path
+      expect(current_path).to eq userpage_path(user)
       expect(page).not_to have_content 'ようこそ'
       within('.notice') do
         expect(page).to have_content 'アカウント情報を変更しました。変更されたメールアドレスの本人確認のため、本人確認用メールより確認処理をおこなってください。'
@@ -263,6 +269,59 @@ RSpec.describe "Registrations", type: :system do
       fill_in 'user_email', with: user.email
       click_button 'メールを送る'
       expect(page).to have_content 'パスワードの再設定について数分以内にメールでご連絡いたします。'
+    end
+  end
+
+  describe 'アバター画像の変更及び削除' do
+    let(:user) { create(:user) }
+
+    it 'パスワード変更画面の要素検証すること' do
+      visit '/users/sign_in'
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
+      click_button 'ログイン'
+      within('.notice') do
+        expect(page).to have_content 'ログインしました'
+      end
+      expect(current_path).to eq userpage_path(user)
+      have_link "アバターを変更する"
+      have_link "プロフィール変更"
+      expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
+      click_link "アバターを変更する"
+      attach_file('user[avatar]', "#{Rails.root}/spec/factories/images/test_avatar.jpg")
+      click_button '編集完了'
+      expect(page).to have_content 'アカウント情報を変更しました。'
+      expect(current_path).to eq userpage_path(user)
+      have_no_link "アバターを変更する"
+      have_link "delete"
+      expect(page).not_to have_selector("img[src$='/uploads/user/avatar/default.png']")
+      expect(page).to have_selector("img[src$='/uploads/user/avatar/1/test_avatar.jpg']")
+      click_link "delete"
+      expect(page).to have_content 'アバターを取り消しました'
+      have_link "アバターを変更する"
+      expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
+      expect(page).not_to have_selector("img[src$='/uploads/user/avatar/1/test_avatar.jpg']")
+    end
+  end
+
+  describe '他ユーザーのプロフィールページのリンクの表示' do
+    let!(:user) { create(:user) }
+    let!(:second_user) { create(:second_user) }
+
+    it 'アバター変更, プロフィールの変更のリンクがないこと' do
+      visit '/users/sign_in'
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
+      click_button 'ログイン'
+      within('.notice') do
+        expect(page).to have_content 'ログインしました'
+      end
+      expect(current_path).to eq userpage_path(user)
+      have_link "アバターを変更する"
+      have_link "プロフィール変更"
+      visit userpage_path(second_user)
+      have_no_link "アバターを変更する"
+      have_no_link "プロフィール変更"
     end
   end
 end

@@ -21,8 +21,8 @@ RSpec.describe "Userpage", type: :request do
 
       it '正しいプロフィールや投稿を取得すること' do
         expect(response.body).to include user.username
-        expect(response.body).to include user.email
         expect(response.body).to include user.profile
+        expect(response.body).to include user.email
         expect(response.body).to include "男"
         expect(response.body).to include great_review.title
         expect(response.body).to include great_review.content

@@ -15,6 +15,7 @@
       男
     <% end %>
     <% if @user.avatar.url %>
+      <%= @user.avatar.url %>
       <div>
         <img src="<%= @user.avatar.url %>" class="aaa">
         <% if @user == current_user %>

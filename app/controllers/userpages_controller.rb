@@ -8,9 +8,11 @@ class UserpagesController < ApplicationController
 
   def avatar_destroy
     user = User.find(params[:id])
-    user.remove_avatar!
-    user.save
-    flash[:success] = "アバターの変更に成功しました。"
-    redirect_to userpage_path
+    if user == current_user
+      user.remove_avatar!
+      user.save
+      flash[:notice] = "アバターを取り消しました"
+      redirect_to userpage_path
+    end
   end
 end
