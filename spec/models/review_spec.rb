@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Review, type: :model do
-  describe '#new' do
-    let!(:user) { create(:user) }
-    let(:review) { user.reviews.build(title: "hello", content: "fine", rate: 1) }
+  let!(:user) { create(:user) }
+  let(:review) { user.reviews.build(title: "hello", content: "fine", rate: 1) }
 
+  describe '#new' do
     it "reviewを作成できること" do
       expect(review.valid?).to eq(true)
     end
@@ -67,5 +67,14 @@ RSpec.describe Review, type: :model do
       expect{ user.destroy }.to change{ Review.count }.by(-1)
     end
 
+  end
+
+  describe '#destroy' do
+    it "削除できること" do
+      review.save
+      expect do
+        review.destroy
+      end.to change(Review, :count).by(-1)
+    end
   end
 end
