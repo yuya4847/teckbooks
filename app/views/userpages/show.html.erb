@@ -8,14 +8,13 @@
   <div>
     <%= @user.email %>
   </div>
-  <div class="">
+  <div>
     <% if @user.sex == "woman" %>
       女
     <% else %>
       男
     <% end %>
     <% if @user.avatar.url %>
-      <%= @user.avatar.url %>
       <div>
         <img src="<%= @user.avatar.url %>" class="aaa">
         <% if @user == current_user %>
@@ -40,12 +39,19 @@
 <% if @reviews %>
 <div>
   <% @reviews.each do |review| %>
-  <div><%= review.title %></div>
-  <div><%= review.content %></div>
-  <div><%= review.rate %></div>
-  <%= link_to review.link, target: :_blank do %>
-    <%= review.link %>
-  <% end %>
+    <div>
+      <% if review.picture.url %>
+        <img src="<%= review.picture.url %>">
+      <% else %>
+        <b>画像はありません</b>
+      <% end %>
+    </div>
+    <div><%= review.title %></div>
+    <div><%= review.content %></div>
+    <div><%= review.rate %></div>
+    <%= link_to review.link, target: :_blank do %>
+      <%= review.link %>
+    <% end %>
   <% end %>
 </div>
 <% end %>

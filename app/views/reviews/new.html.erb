@@ -1,0 +1,43 @@
+<h1>投稿</h1>
+
+<%= form_for(@review) do |f| %>
+<% if @review.errors.any? %>
+<div id="error_explanation">
+  <div class="alert alert-danger">
+    The form contains <%= pluralize(@review.errors.count, "error") %>.
+  </div>
+  <ul>
+  <% @review.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
+  <div class="field">
+    <%= f.label :画像 %><br/>
+    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :タイトル %><br/>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :リンク %><br/>
+    <%= f.text_field :link %>
+  </div>
+
+  <div class="field">
+    <%= f.label :評価 %><br/>
+    <%= f.number_field :rate, min: 1, max: 5 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :内容 %><br/>
+    <%= f.text_area :content, placeholder: "テキストを入力してください..." %>
+  </div>
+
+  <%= f.submit "レビューを投稿する" %>
+<% end %>

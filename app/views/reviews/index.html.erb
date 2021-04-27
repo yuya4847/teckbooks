@@ -1,0 +1,29 @@
+<h2>全ての投稿</h2>
+
+<% @reviews.each do |review| %>
+<div>
+  <%= review.user.username %>
+  <% if review.user.avatar.url %>
+    <div>
+      <img src="<%= review.user.avatar.url %>" class="aaa">
+    </div>
+  <% else %>
+    <div>
+      <img src="/uploads/user/avatar/default.png" class="bbb">
+    </div>
+  <% end %>
+</div>
+<div>
+  <% if review.picture.url %>
+    <img src="<%= review.picture.url %>">
+  <% else %>
+    <b>画像はありません</b>
+  <% end %>
+</div>
+  <div><%= review.title %></div>
+  <div><%= review.content %></div>
+  <div><%= review.rate %></div>
+  <%= link_to review.link, target: :_blank do %>
+    <%= review.link %>
+  <% end %>
+<% end %>

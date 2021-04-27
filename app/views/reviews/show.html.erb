@@ -1,0 +1,9 @@
+<% if @review.picture.url %>
+  <img src="<%= @review.picture.url %>">
+<% end %>
+<div><%= @review.title %></div>
+<div><%= @review.content %></div>
+<div><%= @review.rate %></div>
+<%= link_to @review.link, target: :_blank do %>
+  <%= @review.link %>
+<% end %>

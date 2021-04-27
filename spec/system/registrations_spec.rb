@@ -295,12 +295,12 @@ RSpec.describe "Registrations", type: :system do
       have_no_link "アバターを変更する"
       have_link "delete"
       expect(page).not_to have_selector("img[src$='/uploads/user/avatar/default.png']")
-      expect(page).to have_selector("img[src$='/uploads/user/avatar/1/test_avatar.jpg']")
+      expect(page).to have_selector("img[src$='/uploads_test/user/avatar/1/test_avatar.jpg']")
       click_link "delete"
       expect(page).to have_content 'アバターを取り消しました'
       have_link "アバターを変更する"
       expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
-      expect(page).not_to have_selector("img[src$='/uploads/user/avatar/1/test_avatar.jpg']")
+      expect(page).not_to have_selector("img[src$='/uploads_test/user/avatar/1/test_avatar.jpg']")
     end
   end
 
