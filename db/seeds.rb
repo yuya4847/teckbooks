@@ -5,7 +5,8 @@ User.create!(
   sex: 1,
   password: "password1",
   password_confirmation: "password1",
-  confirmed_at: Time.now
+  confirmed_at: Time.now,
+  admin: true
 )
 
 User.create!(
@@ -32,7 +33,7 @@ Review.create!(
   content: "もこもこは、Rails 5からプログラミングの勉強をはじめ、
             この本はまだ自分には難しいと思った。",
   rate: 5,
-  link: "https://www.amazon.co.jp/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88-Ruby-Rails-%E3%81%99%E3%81%8C%E3%82%8F%E3%82%89-%E3%81%BE%E3%81%95%E3%81%AE%E3%82%8A/dp/4774165166",
+  link: "https://www.amazon.co.jp/%E3%83%91E1%AE%E3%82%8A/dp/4774165166",
   user_id: 1,
 )
 

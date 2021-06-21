@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   root 'homes#home'
   resources :userpages,     only: [:show]
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
-  resources :reviews,     only: [:index, :new, :create, :show]
+  resources :reviews
+  delete 'reviews/:id/:original_page', to: 'reviews#review_destroy', as: 'review_destroy'
 end

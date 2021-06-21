@@ -5,6 +5,7 @@ FactoryBot.define do
     password { "password" }
     password_confirmation { "password" }
     confirmed_at            { Time.now }
+    admin { true }
   end
 
   factory :second_user, class: User do
@@ -12,6 +13,14 @@ FactoryBot.define do
     email { "aaayuta@example.com" }
     password { "yuta_password" }
     password_confirmation { "yuta_password" }
+    confirmed_at            { Time.now }
+  end
+
+  factory :third_user, class: User do
+    username { "yuki" }
+    email { "aaayuki@example.com" }
+    password { "yuki_password" }
+    password_confirmation { "yuki_password" }
     confirmed_at            { Time.now }
   end
 

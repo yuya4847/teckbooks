@@ -1,4 +1,4 @@
-<h2>投稿</h2>
+<h2>投稿の編集</h2>
 
 <%= form_for(@review) do |f| %>
 <% if @review.errors.any? %>
@@ -16,28 +16,33 @@
 
   <div class="field">
     <%= f.label :画像 %><br/>
-    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png', class: "file_form" %>
+    <% if @review.picture.url %>
+      <img src="<%= @review.picture.url %>">
+    <% else %>
+      <b>画像はありません</b>
+    <% end %>
+    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png', class: "file_edit_form" %>
   </div>
 
   <div class="field">
     <%= f.label :タイトル %><span>※必須</span><br/>
-    <%= f.text_field :title, class: "title_form" %>
+    <%= f.text_field :title, class: "title_edit_form" %>
   </div>
 
   <div class="field">
     <%= f.label :リンク %><br/>
-    <%= f.text_field :link, class: "link_form" %>
+    <%= f.text_field :link, class: "link_edit_form" %>
   </div>
 
   <div class="field">
     <%= f.label :評価 %><span>※必須</span><br/>
-    <%= f.number_field :rate, min: 1, max: 5, class: "rate_form" %>
+    <%= f.number_field :rate, min: 1, max: 5, class: "rate_edit_form" %>
   </div>
 
   <div class="field">
     <%= f.label :内容 %><span>※必須</span><br/>
-    <%= f.text_area :content, placeholder: "テキストを入力してください...", class: "content_form" %>
+    <%= f.text_area :content, placeholder: "テキストを入力してください...", class: "content_edit_form" %>
   </div>
 
-  <%= f.submit "レビューを投稿する" %>
+  <%= f.submit "編集完了" %>
 <% end %>

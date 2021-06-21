@@ -3,12 +3,12 @@ RSpec.describe "Registrations", type: :system do
   describe '#create' do
     let(:user) { build(:user) }
 
-    it '新規登録画面の要素検証すること' do
+    it '新規ユーザー画面の要素検証すること' do
       visit '/users/sign_up'
       expect(page).to have_selector 'span', text: '※必須', count: 4
-      expect(page).to have_selector 'label', text: 'Username'
+      expect(page).to have_selector 'label', text: 'ユーザー名'
       expect(page).to have_selector 'label', text: 'メールアドレス'
-      expect(page).to have_selector 'label', text: 'Profile'
+      expect(page).to have_selector 'label', text: 'プロフィール'
       expect(page).to have_selector 'label', text: '性別'
       expect(page).to have_selector 'label', text: 'パスワード'
       expect(page).to have_selector 'label', text: 'パスワード(確認用）'
@@ -24,14 +24,14 @@ RSpec.describe "Registrations", type: :system do
       expect(page).to have_link 'アカウント有効化のメールが届いていない方'
     end
 
-    it '各入力欄に適切な値が入力されていない新規登録を許可しないこと' do
+    it '各入力欄に適切な値が入力されていない新規ユーザーを許可しないこと' do
       visit '/users/sign_up'
       click_button 'Sign up'
       within('.error_message') do
         expect(page).to have_content '以下のエラーにより、保存されませんでした。'
       end
       within('.error_messages') do
-        expect(page).to have_content 'Usernameを入力してください'
+        expect(page).to have_content 'ユーザー名を入力してください'
         expect(page).to have_content 'メールアドレスを入力してください'
         expect(page).to have_content 'メールアドレスは不正な値です'
         expect(page).to have_content 'パスワードを入力してください'
@@ -39,7 +39,7 @@ RSpec.describe "Registrations", type: :system do
       end
     end
 
-    it 'username,email,passwordが全て正しい場合、新規登録が可能であること' do
+    it 'username,email,passwordが全て正しい場合、新規ユーザーが可能であること' do
       visit '/users/sign_up'
       fill_in 'user_username', with: user.username
       fill_in 'user_email', with: user.email
@@ -56,17 +56,14 @@ RSpec.describe "Registrations", type: :system do
     let(:user) { create(:user) }
 
     it 'プロフィール編集画面の要素検証すること' do
-      visit '/users/sign_in'
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'ログイン'
+      log_in_as(user.email, user.password)
       within('.notice') do
         expect(page).to have_content 'ログインしました'
       end
       visit '/users/edit'
-      expect(page).to have_selector 'label', text: 'Username'
+      expect(page).to have_selector 'label', text: 'ユーザー名'
       expect(page).to have_selector 'label', text: 'メールアドレス'
-      expect(page).to have_selector 'label', text: 'Profile'
+      expect(page).to have_selector 'label', text: 'プロフィール'
       expect(page).to have_selector 'label', text: 'Avatar'
       expect(page).to have_selector 'label', text: 'パスワード'
       expect(page).to have_selector 'label', text: 'パスワード(確認用）'
@@ -82,10 +79,7 @@ RSpec.describe "Registrations", type: :system do
     end
 
     it '適切なusernameだけ入力し編集完了できること' do
-      visit '/users/sign_in'
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'ログイン'
+      log_in_as(user.email, user.password)
       within('.notice') do
         expect(page).to have_content 'ログインしました'
       end
@@ -102,10 +96,7 @@ RSpec.describe "Registrations", type: :system do
     end
 
     it 'username,passwordを適切な値が入力され編集完了できること' do
-      visit '/users/sign_in'
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'ログイン'
+      log_in_as(user.email, user.password)
       within('.notice') do
         expect(page).to have_content 'ログインしました'
       end
@@ -126,10 +117,7 @@ RSpec.describe "Registrations", type: :system do
     end
 
     it 'username,emailを適切な値が入力され編集完了できること' do
-      visit '/users/sign_in'
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'ログイン'
+      log_in_as(user.email, user.password)
       within('.notice') do
         expect(page).to have_content 'ログインしました'
       end
@@ -149,10 +137,7 @@ RSpec.describe "Registrations", type: :system do
     let(:user) { create(:user) }
 
     it 'ユーザーのアカウントを停止できること' do
-      visit '/users/sign_in'
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'ログイン'
+      log_in_as(user.email, user.password)
       within('.notice') do
         expect(page).to have_content 'ログインしました'
       end
@@ -304,24 +289,43 @@ RSpec.describe "Registrations", type: :system do
     end
   end
 
-  describe '他ユーザーのプロフィールページのリンクの表示' do
+  describe 'プロフィールページの表示' do
     let!(:user) { create(:user) }
     let!(:second_user) { create(:second_user) }
+    let!(:good_review) { create(:good_review) }
+    let!(:normal_review) { create(:normal_review) }
 
-    it 'アバター変更, プロフィールの変更のリンクがないこと' do
-      visit '/users/sign_in'
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'ログイン'
-      within('.notice') do
-        expect(page).to have_content 'ログインしました'
+    context "ユーザーが存在しない場合" do
+      it '存在しないプロフィールは閲覧できないこと' do
+        log_in_as(user.email, user.password)
+        within('.notice') do
+          expect(page).to have_content 'ログインしました'
+        end
+        visit userpage_path(3)
+        expect(current_path).to eq root_path
+        within('.alert') do
+          expect(page).to have_content 'ユーザーは存在しません。'
+        end
       end
-      expect(current_path).to eq userpage_path(user)
-      have_link "アバターを変更する"
-      have_link "プロフィール変更"
-      visit userpage_path(second_user)
-      have_no_link "アバターを変更する"
-      have_no_link "プロフィール変更"
+    end
+
+    context "ユーザーが存在する場合" do
+      it 'アバター変更, プロフィールの変更のリンクがないこと' do
+        log_in_as(user.email, user.password)
+        within('.notice') do
+          expect(page).to have_content 'ログインしました'
+        end
+        expect(current_path).to eq userpage_path(user)
+        expect(page).to have_link "アバターを変更する"
+        expect(page).to have_link "プロフィール変更"
+        expect(page).to have_link '編集する'
+        expect(page).to have_link '削除する'
+        visit userpage_path(second_user)
+        expect(page).to have_no_link "アバターを変更する"
+        expect(page).to have_no_link "プロフィール変更"
+        expect(page).to have_no_link '編集する'
+        expect(page).to have_no_link '削除する'
+      end
     end
   end
 end

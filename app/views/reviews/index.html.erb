@@ -23,7 +23,15 @@
   <div><%= review.title %></div>
   <div><%= review.content %></div>
   <div><%= review.rate %></div>
-  <%= link_to review.link, target: :_blank do %>
-    <%= review.link %>
-  <% end %>
+  <div>
+    <%= link_to review.link, target: :_blank do %>
+      <%= review.link %>
+    <% end %>
+  </div>
+  <div>
+    <% if current_user.admin? %>
+    <%= link_to "削除する", review_destroy_path(id: review.id, original_page: "exist"), method: :delete,
+                                data: { confirm: "本当にこの投稿を削除しますか？" } %>
+    <% end %>
+  </div>
 <% end %>

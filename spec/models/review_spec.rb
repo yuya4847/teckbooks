@@ -35,13 +35,10 @@ RSpec.describe Review, type: :model do
     it "rateの値が不適切な場合、reviewを作成できないこと" do
       review.rate = 0
       review.valid?
-      expect(review.errors[:rate]).to include('は1以上の値にしてください')
+      expect(review.errors[:rate]).to include('は1以上5以下の値にしてください')
       review.rate = 6
       review.valid?
-      expect(review.errors[:rate]).to include('は5以下の値にしてください')
-      review.rate = 5.3
-      review.valid?
-      expect(review.errors[:rate]).to include('は整数で入力してください')
+      expect(review.errors[:rate]).to include('は1以上5以下の値にしてください')
     end
 
     it "contentがない場合、reviewを作成できないこと" do

@@ -16,37 +16,28 @@ RSpec.describe "Sessions", type: :system do
   end
 
   it 'email,passwordの両方が正しい場合、ログインが可能であること' do
-    visit '/users/sign_in'
     # email,password共に未入力
-    click_button 'ログイン'
+    log_in_as(nil, nil)
     within('.alert') do
       expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
     end
     # 誤ったemail
-    fill_in 'user_email', with: 'invalidemail@sample.com'
-    fill_in 'user_password', with: user.password
-    click_button 'ログイン'
+    log_in_as('invalidemail@sample.com', user.password)
     within('.alert') do
       expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
     end
     # 誤ったpassword
-    fill_in 'user_email', with: user.email
-    fill_in 'user_password', with: 'invalid_password'
-    click_button 'ログイン'
+    log_in_as(user.email, 'invalid_password')
     within('.alert') do
       expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
     end
     # 有効なemailとpasswordだがアカウントが有効でない場合
-    fill_in 'user_email', with: unconfirmed_user.email
-    fill_in 'user_password', with: unconfirmed_user.password
-    click_button 'ログイン'
+    log_in_as(unconfirmed_user.email, unconfirmed_user.password)
     within('.alert') do
       expect(page).to have_content 'メールアドレスの本人確認が必要です。'
     end
     # 有効なemailとpassword
-    fill_in 'user_email', with: user.email
-    fill_in 'user_password', with: user.password
-    click_button 'ログイン'
+    log_in_as(user.email, user.password)
     within('.notice') do
       expect(page).to have_content 'ログインしました'
     end
@@ -58,10 +49,7 @@ RSpec.describe "Sessions", type: :system do
     expect(page).to have_link 'サインアップ'
     expect(page).to have_link 'ログイン'
     expect(page).not_to have_link 'ログアウト'
-
-    fill_in 'user_email', with: user.email
-    fill_in 'user_password', with: user.password
-    click_button 'ログイン'
+    log_in_as(user.email, user.password)
     within('.notice') do
       expect(page).to have_content 'ログインしました'
     end
@@ -72,10 +60,7 @@ RSpec.describe "Sessions", type: :system do
   end
 
   it 'ログアウトが可能であること' do
-    visit '/users/sign_in'
-    fill_in 'user_email', with: user.email
-    fill_in 'user_password', with: user.password
-    click_button 'ログイン'
+    log_in_as(user.email, user.password)
     within('.notice') do
       expect(page).to have_content 'ログインしました'
     end
@@ -102,10 +87,7 @@ RSpec.describe "Sessions", type: :system do
 
     context 'ログイン状態の場合' do
       it 'ログイン、新規登録ページにアクセスできないこと' do
-        visit '/users/sign_in'
-        fill_in 'user_email', with: user.email
-        fill_in 'user_password', with: user.password
-        click_button 'ログイン'
+        log_in_as(user.email, user.password)
         within('.notice') do
           expect(page).to have_content 'ログインしました'
         end
