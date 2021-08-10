@@ -15,5 +15,7 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-import '../javascripts/hello_webpacker'
+
+require("jquery")
 import '../stylesheets/hello_webpacker'
+global.$ = require('jquery')

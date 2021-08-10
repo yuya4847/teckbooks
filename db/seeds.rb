@@ -19,6 +19,26 @@ User.create!(
   confirmed_at: Time.now
 )
 
+20.times do |n|
+  name  = "加藤純一#{n+3}"
+  email = "cccuser#{n+3}@aaaa.com"
+  password = "password"
+  User.create!(username:  name,
+               email: email,
+               password:              password,
+               password_confirmation: password,
+               confirmed_at: Time.now
+  )
+end
+
+# リレーションシップ
+users = User.all
+user  = users.first
+following = users[2..6]
+followers = users[3..8]
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user) }
+
 Review.create!(
   title: "Railsチュートリアル",
   content: "もこもこは、Rails 5からプログラミングの勉強をはじめ、

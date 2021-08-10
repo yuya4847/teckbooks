@@ -1,4 +1,5 @@
 <div>
+  <div class="abc"></div>
   <div>
     <%= @user.username %>
   </div>
@@ -36,6 +37,28 @@
     <%= link_to 'プロフィール変更', edit_user_registration_path %>
   </div>
 <% end %>
+
+<div>
+  <a href="<%= following_user_path(@user) %>">
+    <span id="following">
+      <%= @user.following.count %>
+    </span>
+    following
+  </a>
+  <a href="<%= followers_user_path(@user) %>">
+    <span id="followers">
+      <%= @user.followers.count %>
+    </span>
+    followers
+  </a>
+</div>
+
+<% if current_user != @user %>
+  <div id="follow_form<%= @user.id %>">
+    <%= render 'shared/follow_form' %>
+  </div>
+<% end %>
+
 <% if @reviews %>
 <div>
   <% @reviews.each do |review| %>

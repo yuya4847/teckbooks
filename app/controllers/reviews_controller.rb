@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+  REAOMMEND_USERS = 5
   before_action :authenticate_user!, only: [:index, :new, :create, :show, :edit, :update, :review_destroy]
   before_action :review_exist?,       only: [:show, :edit]
   before_action :correct_user,       only: [:edit, :update]
@@ -6,6 +7,9 @@ class ReviewsController < ApplicationController
 
   def index
     @reviews = Review.all
+    @recommend_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
+    follow_ids: current_user.following.ids,
+    current_id: current_user).shuffle.take(REAOMMEND_USERS)
   end
 
   def new

@@ -1,0 +1,83 @@
+<div><%= @title %></div>
+
+<div>
+  <div>
+    <%= @user.username %>
+  </div>
+  <div>
+    <%= @user.profile %>
+  </div>
+  <div>
+    <%= @user.email %>
+  </div>
+  <div>
+    <% if @user.sex == "woman" %>
+      女
+    <% else %>
+      男
+    <% end %>
+    <% if @user.avatar.url %>
+      <div>
+        <img src="<%= @user.avatar.url %>" class="aaa">
+        <% if @user == current_user %>
+        <%= link_to "delete", userpage_path(current_user), method: :delete,
+                                  data: { confirm: "You sure?" } %>
+        <% end %>
+      </div>
+    <% else %>
+      <div>
+        <img src="/uploads/user/avatar/default.png" class="bbb">
+        <% if @user == current_user %>
+          <%= link_to 'アバターを変更する', edit_user_registration_path %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% if @user == current_user %>
+  <div>
+    <%= link_to 'プロフィール変更', edit_user_registration_path %>
+  </div>
+<% end %>
+
+<div>
+  <a href="<%= following_user_path(@user) %>">
+    <%= @user.following.count %>
+    following
+  </a>
+  <a href="<%= followers_user_path(@user) %>">
+    <%= @user.followers.count %>
+    followers
+  </a>
+</div>
+</div>
+
+<% if current_user != @user %>
+  <div>
+  <% if current_user.following?(@user) %>
+    <%= form_for(current_user.active_relationships.find_by(followed_id: @user.id),
+           html: { method: :delete }) do |f| %>
+           <%= f.submit "Unfollow" %>
+    <% end %>
+  <% else %>
+    <%= form_for(current_user.active_relationships.build) do |f| %>
+       <div><%= hidden_field_tag :followed_id, @user.id %></div>
+       <%= f.submit "Follow" %>
+    <% end %>
+  <% end %>
+  </div>
+<% end %>
+
+<% @users.each do |user| %>
+  <div>
+    <div><%= user.username %></div>
+    <% if user.avatar.url %>
+      <div>
+        <img src="<%= user.avatar.url %>" class="aaa">
+      </div>
+    <% else %>
+      <div>
+        <img src="/uploads/user/avatar/default.png" class="bbb">
+      </div>
+    <% end %>
+  </div>
+<% end %>

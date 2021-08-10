@@ -3,6 +3,7 @@ RSpec.describe "Reviews", type: :request do
     let!(:user) { create(:user, profile: "aaaaaaa", sex: 0) }
     let!(:second_user) { create(:second_user, profile: "bbbbbbb", sex: 1) }
     let!(:third_user) { create(:third_user) }
+    let!(:relationship) { create(:relationship) }
     let!(:good_review) { create(:good_review) }
     let!(:normal_review) { create(:normal_review) }
     let!(:recent_review) { build(:recent_review) }
@@ -84,6 +85,7 @@ RSpec.describe "Reviews", type: :request do
     end
 
     describe "#index" do
+      let!(:unfollow_user) { create(:unfollow_user) }
       context "ログインしている場合" do
         before do
           login_as(user)
@@ -107,6 +109,10 @@ RSpec.describe "Reviews", type: :request do
           expect(response.body).to include normal_review.link
           expect(response.body).to include normal_review.content
           expect(response.body).to include normal_review.rate.to_s
+        end
+
+        it 'フォローできるユーザーが正しく表示されること' do
+          expect(response.body).to include unfollow_user.username
         end
       end
 

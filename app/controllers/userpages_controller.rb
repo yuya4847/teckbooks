@@ -1,6 +1,6 @@
 class UserpagesController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :avatar_destroy]
-  before_action :user_exist?,       only: [:show]
+  before_action :authenticate_user!, only: [:show, :avatar_destroy, :following, :followers]
+  before_action :user_exist?,       only: [:show, :following, :followers]
   before_action :correct_user,       only: [:avatar_destroy]
 
   def show
@@ -16,6 +16,20 @@ class UserpagesController < ApplicationController
     redirect_to userpage_path
   end
 
+  def following
+    @title = "Following"
+    @user = User.find(params[:id])
+    @users = @user.following
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers
+    render 'show_follow'
+  end
+
   private
 
     def user_exist?
@@ -25,7 +39,6 @@ class UserpagesController < ApplicationController
       end
     end
 
-    # 正しいユーザーかどうか確認
     def correct_user
       @user = User.find(params[:id])
       unless @user == current_user
@@ -33,5 +46,4 @@ class UserpagesController < ApplicationController
         redirect_to root_path
       end
     end
-
 end

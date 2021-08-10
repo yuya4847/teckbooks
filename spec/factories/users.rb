@@ -24,6 +24,14 @@ FactoryBot.define do
     confirmed_at            { Time.now }
   end
 
+  factory :unfollow_user, class: User do
+    username { "yuji" }
+    email { "aaayuji@example.com" }
+    password { "yuji_password" }
+    password_confirmation { "yuji_password" }
+    confirmed_at            { Time.now }
+  end
+
   factory :unconfirmed_user, class: User do
     username { "ken" }
     email { "testken@example.com" }

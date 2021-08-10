@@ -294,6 +294,7 @@ RSpec.describe "Registrations", type: :system do
     let!(:second_user) { create(:second_user) }
     let!(:good_review) { create(:good_review) }
     let!(:normal_review) { create(:normal_review) }
+    let!(:relationship) { create(:relationship) }
 
     context "ユーザーが存在しない場合" do
       it '存在しないプロフィールは閲覧できないこと' do
@@ -316,10 +317,15 @@ RSpec.describe "Registrations", type: :system do
           expect(page).to have_content 'ログインしました'
         end
         expect(current_path).to eq userpage_path(user)
+        expect(page).to have_content user.username
+        expect(page).to have_content user.profile
+        expect(page).to have_content "男"
         expect(page).to have_link "アバターを変更する"
         expect(page).to have_link "プロフィール変更"
         expect(page).to have_link '編集する'
         expect(page).to have_link '削除する'
+        expect(page).to have_link '1 following'
+        expect(page).to have_link '0 followers'
         visit userpage_path(second_user)
         expect(page).to have_no_link "アバターを変更する"
         expect(page).to have_no_link "プロフィール変更"

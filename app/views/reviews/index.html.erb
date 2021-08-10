@@ -1,37 +1,60 @@
 <h2>全ての投稿</h2>
 
-<% @reviews.each do |review| %>
 <div>
-  <%= review.user.username %>
-  <% if review.user.avatar.url %>
-    <div>
-      <img src="<%= review.user.avatar.url %>" class="aaa">
-    </div>
-  <% else %>
-    <div>
-      <img src="/uploads/user/avatar/default.png" class="bbb">
-    </div>
-  <% end %>
-</div>
-<div>
-  <% if review.picture.url %>
-    <img src="<%= review.picture.url %>">
-  <% else %>
-    <b>画像はありません</b>
-  <% end %>
-</div>
-  <div><%= review.title %></div>
-  <div><%= review.content %></div>
-  <div><%= review.rate %></div>
+  <% @reviews.each do |review| %>
   <div>
-    <%= link_to review.link, target: :_blank do %>
-      <%= review.link %>
+    <%= review.user.username %>
+    <% if review.user.avatar.url %>
+      <div>
+        <img src="<%= review.user.avatar.url %>" class="aaa">
+      </div>
+    <% else %>
+      <div>
+        <img src="/uploads/user/avatar/default.png" class="bbb">
+      </div>
     <% end %>
   </div>
   <div>
-    <% if current_user.admin? %>
-    <%= link_to "削除する", review_destroy_path(id: review.id, original_page: "exist"), method: :delete,
-                                data: { confirm: "本当にこの投稿を削除しますか？" } %>
+    <% if review.picture.url %>
+      <img src="<%= review.picture.url %>">
+    <% else %>
+      <b>画像はありません</b>
     <% end %>
   </div>
-<% end %>
+    <div><%= review.title %></div>
+    <div><%= review.content %></div>
+    <div><%= review.rate %></div>
+    <div>
+      <%= link_to review.link, target: :_blank do %>
+        <%= review.link %>
+      <% end %>
+    </div>
+    <div>
+      <% if current_user.admin? %>
+      <%= link_to "削除する", review_destroy_path(id: review.id, original_page: "exist"), method: :delete,
+                                  data: { confirm: "本当にこの投稿を削除しますか？" } %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<div class="index">
+  <div>
+    <% @recommend_users.each do |recommend_user| %>
+      <div>
+        <% @user = recommend_user %>
+        <% if @user.avatar.url %>
+          <img src="<%= review.user.avatar.url %>" class="follow-logo">
+        <% else %>
+          <img src="/uploads/user/avatar/default.png" class="follow-default-logo">
+        <% end %>
+        <span><%= @user.username %></span>
+        <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
+          <%= render 'shared/follow_form' %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="index">
+
+</div>
