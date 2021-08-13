@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :user, class: User do
     username { "yuya" }
     email { "testyuya@example.com" }
+    profile { "よろしくお願いします。" }
     password { "password" }
     password_confirmation { "password" }
     confirmed_at            { Time.now }

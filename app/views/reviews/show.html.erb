@@ -1,24 +1,45 @@
-<% if @review.picture.url %>
-  <img src="<%= @review.picture.url %>">
-<% else %>
-  <b>画像はありません</b>
-<% end %>
-<div><%= @review.title %></div>
-<div><%= @review.content %></div>
-<div><%= @review.rate %></div>
 <div>
-  <%= link_to @review.link, target: :_blank do %>
-    <%= @review.link %>
+  <div>
+    <%= @review.user.username %>
+    <% if @review.user.avatar.url %>
+      <div>
+        <img src="<%= @review.user.avatar.url %>" class="aaa">
+      </div>
+    <% else %>
+      <div>
+        <img src="/uploads/user/avatar/default.png" class="bbb">
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <span>
+      <div id="like_form<%= @review.id %>" class="like_class<%= @review.id %>">
+        <%= render 'shared/like_form' %>
+      </div>
+    </span>
+  </div>
+  <% if @review.picture.url %>
+    <img src="<%= @review.picture.url %>">
+  <% else %>
+    <b>画像はありません</b>
   <% end %>
-</div>
-<div>
-  <% if @review.user == current_user %>
-    <%= link_to '編集する', edit_review_path(@review) %>
-  <% end %>
-</div>
-<div>
-  <% if @review.user == current_user %>
-    <%= link_to "削除する", review_destroy_path(id: @review.id, original_page: "not_exist"), method: :delete,
-                              data: { confirm: "本当にこの投稿を削除しますか？" } %>
-  <% end %>
+  <div><%= @review.title %></div>
+  <div><%= @review.content %></div>
+  <div><%= @review.rate %></div>
+  <div>
+    <%= link_to @review.link, target: :_blank do %>
+      <%= @review.link %>
+    <% end %>
+  </div>
+  <div>
+    <% if @review.user == current_user %>
+      <%= link_to '編集する', edit_review_path(@review) %>
+    <% end %>
+  </div>
+  <div>
+    <% if @review.user == current_user %>
+      <%= link_to "削除する", review_destroy_path(id: @review.id, original_page: "not_exist"), method: :delete,
+                                data: { confirm: "本当にこの投稿を削除しますか？" } %>
+    <% end %>
+  </div>
 </div>

@@ -1,12 +1,26 @@
 class Review < ApplicationRecord
   mount_uploader :picture, PictureUploader
   belongs_to :user
+  has_many :likes, dependent: :destroy
+  has_many :liked_users, through: :likes, source: :user
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
   validates :title, presence: true, length: { maximum: 50 }
   validate :rate_custom_error
   validates :content, presence: true, length: { maximum: 250 }
   validate  :picture_size
+
+    def like_by(user)
+     likes.create(user_id: user.id)
+    end
+
+    def unlike_by(user)
+      likes.find_by(user_id: user.id).destroy
+    end
+
+    def like_by?(user)
+      liked_users.include?(user)
+    end
 
   private
 

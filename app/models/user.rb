@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
   has_many :reviews, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :like_reviews, through: :likes
   has_many :active_relationships, class_name:  "Relationship",
                                   foreign_key: "follower_id",
                                   dependent:   :destroy

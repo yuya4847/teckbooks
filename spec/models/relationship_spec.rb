@@ -43,4 +43,31 @@ RSpec.describe Relationship, type: :model do
       expect(second_user.followers.include?(user)).to eq(false)
     end
   end
+
+  describe '#destroy' do
+    let!(:user) { create(:user) }
+    let!(:second_user) { create(:second_user) }
+    let(:relationship) { build(:relationship) }
+    
+    it "削除できること" do
+      relationship.save
+      expect do
+        relationship.destroy
+      end.to change(Relationship, :count).by(-1)
+    end
+
+    it "フォローしているユーザーの削除と同時に削除されること" do
+      relationship.save
+      expect do
+        user.destroy
+      end.to change(Relationship, :count).by(-1)
+    end
+
+    it "フォローされているユーザーの削除と同時に削除されること" do
+      relationship.save
+      expect do
+        second_user.destroy
+      end.to change(Relationship, :count).by(-1)
+    end
+  end
 end

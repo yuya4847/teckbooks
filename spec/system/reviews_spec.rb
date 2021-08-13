@@ -263,6 +263,7 @@ RSpec.describe "Reviews", type: :system do
             expect(page).to have_content 'ログインしました'
           end
           visit '/reviews/1'
+          expect(page).to have_content second_user.username
           expect(page).to have_content good_review.title
           expect(page).to have_content good_review.content
           expect(page).to have_content good_review.rate.to_s
@@ -279,6 +280,7 @@ RSpec.describe "Reviews", type: :system do
             expect(page).to have_content 'ログインしました'
           end
           visit '/reviews/2'
+          expect(page).to have_content third_user.username
           expect(page).to have_content normal_review.title
           expect(page).to have_content normal_review.content
           expect(page).to have_content normal_review.rate.to_s

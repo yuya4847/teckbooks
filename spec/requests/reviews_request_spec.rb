@@ -140,7 +140,8 @@ RSpec.describe "Reviews", type: :request do
             expect(response).to have_http_status(200)
           end
 
-          it '正しいレビューが全て投稿されている' do
+          it 'ユーザーと投稿が正しく表示されていること' do
+            expect(response.body).to include user.username
             expect(response.body).to include good_review.title
             expect(response.body).to include good_review.link
             expect(response.body).to include good_review.content
