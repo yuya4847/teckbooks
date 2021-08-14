@@ -47,22 +47,37 @@
 </div>
 <div class="index">
   <div>
-    <% @recommend_users.each do |recommend_user| %>
-      <div>
-        <% @user = recommend_user %>
-        <% if @user.avatar.url %>
-          <img src="<%= @review.user.avatar.url %>" class="follow-logo">
-        <% else %>
-          <img src="/uploads/user/avatar/default.png" class="follow-default-logo">
-        <% end %>
-        <span><%= @user.username %></span>
-        <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
-          <%= render 'shared/follow_form' %>
-        </span>
-      </div>
+    <% if @recommend_users %>
+      <% @recommend_users.each do |recommend_user| %>
+        <div>
+          <% @user = recommend_user %>
+          <% if @user.avatar.url %>
+            <img src="<%= @review.user.avatar.url %>" class="follow-logo">
+          <% else %>
+            <img src="/uploads/user/avatar/default.png" class="follow-default-logo">
+          <% end %>
+          <span><%= @user.username %></span>
+          <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
+            <%= render 'shared/follow_form' %>
+          </span>
+        </div>
+      <% end %>
+    <% else %>
+      <div>フォローしていないユーザーはいません。</div>
     <% end %>
   </div>
 </div>
 <div class="index">
-
+  <% @ranking_reviews.each_with_index do |ranking_review, i| %>
+    <div id="ranking_<%= i + 1 %>">
+      <div>
+        <span><%= i + 1 %>位</span>
+        <span>いいね数:<%= ranking_review.likes.count %></span>
+      </div>
+      <div>
+        <span><%= ranking_review.title %></span>
+        <span>(<%= ranking_review.user.username %>)</span>
+      </div>
+    </div>
+  <% end %>
 </div>

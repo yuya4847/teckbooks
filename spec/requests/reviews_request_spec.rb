@@ -85,34 +85,60 @@ RSpec.describe "Reviews", type: :request do
     end
 
     describe "#index" do
-      let!(:unfollow_user) { create(:unfollow_user) }
       context "ログインしている場合" do
-        before do
-          login_as(user)
-          get reviews_path
+        context "いいねされている投稿がない場合" do
+          let!(:unfollow_user) { create(:unfollow_user) }
+          before do
+            login_as(user)
+            get reviews_path
+          end
+
+          it '正常なレスポンスが返ってくること' do
+            expect(response).to be_successful
+          end
+
+          it '200レスポンスが返ってくること' do
+            expect(response).to have_http_status(200)
+          end
+
+          it '正しいレビューが全て投稿されている' do
+            expect(response.body).to include good_review.title
+            expect(response.body).to include good_review.link
+            expect(response.body).to include good_review.content
+            expect(response.body).to include good_review.rate.to_s
+            expect(response.body).to include normal_review.title
+            expect(response.body).to include normal_review.link
+            expect(response.body).to include normal_review.content
+            expect(response.body).to include normal_review.rate.to_s
+          end
+
+          it 'フォローできるユーザーが正しく表示されること' do
+            expect(response.body).to include unfollow_user.username
+          end
         end
 
-        it '正常なレスポンスが返ってくること' do
-          expect(response).to be_successful
-        end
+        context "いいねされている投稿がある場合" do
+          let!(:bad_review) { create(:bad_review) }
+          let!(:user_like_1review) { create(:is_like, user_id: user.id, review_id: good_review.id) }
+          let!(:second_user_like_1review) { create(:is_like, user_id: second_user.id, review_id: good_review.id) }
+          let!(:third_user_like_1review) { create(:is_like, user_id: third_user.id, review_id: good_review.id) }
+          let!(:user_like_2review) { create(:is_like, user_id: user.id, review_id: normal_review.id) }
+          let!(:second_user_like_2review) { create(:is_like, user_id: second_user.id, review_id: normal_review.id) }
+          let!(:user_like_3review) { create(:is_like, user_id: user.id, review_id: bad_review.id) }
 
-        it '200レスポンスが返ってくること' do
-          expect(response).to have_http_status(200)
-        end
-
-        it '正しいレビューが全て投稿されている' do
-          expect(response.body).to include good_review.title
-          expect(response.body).to include good_review.link
-          expect(response.body).to include good_review.content
-          expect(response.body).to include good_review.rate.to_s
-          expect(response.body).to include normal_review.title
-          expect(response.body).to include normal_review.link
-          expect(response.body).to include normal_review.content
-          expect(response.body).to include normal_review.rate.to_s
-        end
-
-        it 'フォローできるユーザーが正しく表示されること' do
-          expect(response.body).to include unfollow_user.username
+          it 'いいねランキングが正しく表示されること' do
+            login_as(user)
+            get reviews_path
+            expect(response.body).to include good_review.likes.count.to_s
+            expect(response.body).to include good_review.title
+            expect(response.body).to include good_review.user.username
+            expect(response.body).to include normal_review.likes.count.to_s
+            expect(response.body).to include normal_review.title
+            expect(response.body).to include normal_review.user.username
+            expect(response.body).to include bad_review.likes.count.to_s
+            expect(response.body).to include bad_review.title
+            expect(response.body).to include bad_review.user.username
+          end
         end
       end
 

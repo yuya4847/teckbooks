@@ -34,4 +34,13 @@ FactoryBot.define do
     created_at { 20.minutes.ago }
     user_id { User.second.id }
   end
+
+  factory :bad_review, class: Review do
+    title { "it is bad" }
+    content { "it is very bad" }
+    link { "https://www.yahoo.co.jp/" }
+    rate { 1 }
+    created_at { 20.minutes.ago }
+    user_id { User.third.id }
+  end
 end

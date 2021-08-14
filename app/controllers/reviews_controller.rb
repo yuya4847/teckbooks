@@ -7,6 +7,7 @@ class ReviewsController < ApplicationController
 
   def index
     @reviews = Review.all
+    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(3)
     @recommend_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
     follow_ids: current_user.following.ids,
     current_id: current_user).shuffle.take(REAOMMEND_USERS)
