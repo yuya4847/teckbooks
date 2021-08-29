@@ -1,0 +1,7 @@
+<%= form_with(model: [review, comment], url: review_comments_path(review), remote: true) do |f| %>
+  <div><%= f.text_area :content, :placeholder => "コメントを入力...", :id => "comment_form" %></div>
+  <%= f.submit "コメント" %>
+<% end %>
+<%= form_with(url: cancel_comment_path, remote: true) do |f| %>
+  <%= f.submit "キャンセル" %>
+<% end %>

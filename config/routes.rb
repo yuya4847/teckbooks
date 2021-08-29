@@ -7,7 +7,15 @@ Rails.application.routes.draw do
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
   get 'userpages/:id/following', to: 'userpages#following', as: 'following_user'
   get 'userpages/:id/followers', to: 'userpages#followers', as: 'followers_user'
-  resources :reviews
+  resources :reviews do
+    resources :comments, only: [:create, :destroy]
+  end
+
+  post 'comments/:review_id/:parent_id/response_comments', to: 'comments#response_create', as: 'response_comments'
+  delete 'comments/response_comments/:id', to: 'comments#response_destroy', as: 'response_comment'
+  post 'comments/cancel_response/:id', to: 'comments#cancel_response', as: 'cancel_response'
+  post 'comments/cancel_comment', to: 'comments#cancel_comment', as: 'cancel_comment'
+
   delete 'reviews/:id/:original_page', to: 'reviews#review_destroy', as: 'review_destroy'
   resources :relationships,       only: [:create, :destroy]
   resources :likes, only: [:create, :destroy]

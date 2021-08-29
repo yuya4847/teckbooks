@@ -270,6 +270,10 @@ RSpec.describe "Reviews", type: :system do
           expect(page).to have_link good_review.link
           expect(page).to have_link '編集する'
           expect(page).to have_link '削除する'
+          expect(page).to have_selector 'textarea', id: 'comment_form'
+          expect(page).to have_button 'コメント'
+          expect(page).to have_button 'キャンセル'
+          expect(page).to have_content '0件コメント'
         end
       end
 

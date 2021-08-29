@@ -1,0 +1,54 @@
+<div><%= comments.count %>件コメント</div>
+<% comments.each do |comment| %>
+  <div class="comment_space">
+    <% unless comment.id.nil? %>
+      <div>
+        <% unless comment.parent_id %>
+          <% if comment.user.avatar.url %>
+            <img src="<%= comment.user.avatar.url %>" class="comment-logo">
+          <% else %>
+            <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+          <% end %>
+          <span><%= comment.user.username %></span>
+          <div>
+            <%= comment.content %>
+            <% if comment.user == current_user %>
+              <%= link_to '削除', review_comment_path(comment.review_id, comment.id), method: :delete, remote: true %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div>
+        <% comment.replies.each do |response_comment| %>
+        <div id="response_content<%= response_comment.id %>">
+          <% if response_comment.user.avatar.url %>
+            <img src="<%= response_comment.user.avatar.url %>" class="response-logo">
+          <% else %>
+            <img src="/uploads/user/avatar/default.png" class="response-default-logo">
+          <% end %>
+          <span><%= response_comment.user.username %></span>
+            <div>
+              <%= response_comment.content %>
+              <%= link_to '返信を削除', response_comment_path(response_comment.id), method: :delete, remote: true %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div>
+        <% unless comment.parent_id %>
+          <div id="response_area<%= comment.id %>">
+            <%= form_with(model: [comment.review_id, comment], url: response_comments_path(comment.review_id, comment.id), method: :post, remote: true ) do |f| %>
+              <%= f.text_area :content, value: '', :placeholder => "返信を入力...", :id => "response_form#{comment.id}" %>
+              <div><%= f.submit "返信" %></div>
+            <% end %>
+          </div>
+          <div id="res_cancel_btn">
+            <%= form_with(url: cancel_response_path(comment.id), remote: true) do |f| %>
+                <%= f.submit "キャンセル" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

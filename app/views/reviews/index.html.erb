@@ -52,9 +52,9 @@
         <div>
           <% @user = recommend_user %>
           <% if @user.avatar.url %>
-            <img src="<%= @review.user.avatar.url %>" class="follow-logo">
+            <img src="<%= @review.user.avatar.url %>" class="comment-logo">
           <% else %>
-            <img src="/uploads/user/avatar/default.png" class="follow-default-logo">
+            <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
           <% end %>
           <span><%= @user.username %></span>
           <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
@@ -67,17 +67,6 @@
     <% end %>
   </div>
 </div>
-<div class="index">
-  <% @ranking_reviews.each_with_index do |ranking_review, i| %>
-    <div id="ranking_<%= i + 1 %>">
-      <div>
-        <span><%= i + 1 %>位</span>
-        <span>いいね数:<%= ranking_review.likes.count %></span>
-      </div>
-      <div>
-        <span><%= ranking_review.title %></span>
-        <span>(<%= ranking_review.user.username %>)</span>
-      </div>
-    </div>
-  <% end %>
+<div id="ranking_ajax" class="index">
+  <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
 </div>

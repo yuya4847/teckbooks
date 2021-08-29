@@ -43,3 +43,13 @@
     <% end %>
   </div>
 </div>
+
+<div id="comments_error">
+  <%= render 'layouts/errors', model: @comment %>
+</div>
+<div id="comments_buttons">
+  <%= render partial: 'comments/form', locals: { comment: @comment, review: @review } %>
+</div>
+<div id="comments_area" class="index">
+  <%= render partial: 'comments/index', locals: { comments: @comments } %>
+</div>

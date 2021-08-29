@@ -11,6 +11,7 @@ class User < ApplicationRecord
                                   dependent:   :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :comments, dependent: :destroy
   before_save { self.email = email.downcase }
   validates :username, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }, format: { with: Const::VALID_EMAIL_REGEX }

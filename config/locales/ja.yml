@@ -1,6 +1,10 @@
 ja:
   activerecord:
-    errors:
+    models:
+      comment: コメント
+    attributes:
+      comment:
+        content: コメント内容
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
         restrict_dependent_destroy:

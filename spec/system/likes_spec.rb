@@ -25,12 +25,14 @@ RSpec.describe "Likes", type: :system do
       within(".like_class#{normal_review.id}") do
         click_button 'Like'
       end
+      sleep 0.5
       within(".like_class#{normal_review.id}") do
         expect(page).to have_selector 'form', class: "unlike_class"
       end
       within(".like_class#{normal_review.id}") do
         click_button 'Unlike'
       end
+      sleep 0.5
       within(".like_class#{normal_review.id}") do
         expect(page).to have_selector 'form', class: "like_class"
       end
@@ -44,15 +46,15 @@ RSpec.describe "Likes", type: :system do
       let!(:normal_review) { create(:normal_review) }
       let!(:bad_review) { create(:bad_review) }
 
-      it '投稿一覧ページからのlikeとunlikeがランキングに反映されること', js: true do
+      it '投稿一覧ページからのlikeとunlikeがランキングに反映されること(like機能とランキング機能にajax)', js: true do
         log_in_as(user.email, user.password)
         visit '/reviews'
         within(".like_class#{good_review.id}") do
           click_button 'Like'
         end
-        click_link "全ての投稿"
+        sleep 0.5
         within("#ranking_1") do
-          expect(page).to have_selector 'span', text: "1"
+          expect(page).to have_selector 'span', text: "いいね数:1"
           expect(page).to have_selector 'span', text: "it is good"
           expect(page).to have_selector 'span', text: "yuya"
         end
@@ -65,14 +67,14 @@ RSpec.describe "Likes", type: :system do
         within(".like_class#{normal_review.id}") do
           click_button 'Like'
         end
-        click_link "全ての投稿"
+        sleep 0.5
         within("#ranking_1") do
-          expect(page).to have_selector 'span', text: "2"
+          expect(page).to have_selector 'span', text: "いいね数:2"
           expect(page).to have_selector 'span', text: "it is good"
           expect(page).to have_selector 'span', text: "yuya"
         end
         within("#ranking_2") do
-          expect(page).to have_selector 'span', text: "1"
+          expect(page).to have_selector 'span', text: "いいね数:1"
           expect(page).to have_selector 'span', text: "it is normal"
           expect(page).to have_selector 'span', text: "yuta"
         end
@@ -88,19 +90,19 @@ RSpec.describe "Likes", type: :system do
         within(".like_class#{bad_review.id}") do
           click_button 'Like'
         end
-        click_link "全ての投稿"
+        sleep 0.5
         within("#ranking_1") do
-          expect(page).to have_selector 'span', text: "3"
+          expect(page).to have_selector 'span', text: "いいね数:3"
           expect(page).to have_selector 'span', text: "it is good"
           expect(page).to have_selector 'span', text: "yuya"
         end
         within("#ranking_2") do
-          expect(page).to have_selector 'span', text: "2"
+          expect(page).to have_selector 'span', text: "いいね数:2"
           expect(page).to have_selector 'span', text: "it is normal"
           expect(page).to have_selector 'span', text: "yuta"
         end
         within("#ranking_3") do
-          expect(page).to have_selector 'span', text: "1"
+          expect(page).to have_selector 'span', text: "いいね数:1"
           expect(page).to have_selector 'span', text: "it is bad"
           expect(page).to have_selector 'span', text: "yuki"
         end
@@ -113,14 +115,14 @@ RSpec.describe "Likes", type: :system do
         within(".like_class#{bad_review.id}") do
           click_button 'Unlike'
         end
-        click_link "全ての投稿"
+        sleep 0.5
         within("#ranking_1") do
-          expect(page).to have_selector 'span', text: "2"
+          expect(page).to have_selector 'span', text: "いいね数:2"
           expect(page).to have_selector 'span', text: "it is good"
           expect(page).to have_selector 'span', text: "yuya"
         end
         within("#ranking_2") do
-          expect(page).to have_selector 'span', text: "1"
+          expect(page).to have_selector 'span', text: "いいね数:1"
           expect(page).to have_selector 'span', text: "it is normal"
           expect(page).to have_selector 'span', text: "yuta"
         end
@@ -133,9 +135,9 @@ RSpec.describe "Likes", type: :system do
         within(".like_class#{normal_review.id}") do
           click_button 'Unlike'
         end
-        click_link "全ての投稿"
+        sleep 0.5
         within("#ranking_1") do
-          expect(page).to have_selector 'span', text: "1"
+          expect(page).to have_selector 'span', text: "いいね数:1"
           expect(page).to have_selector 'span', text: "it is good"
           expect(page).to have_selector 'span', text: "yuya"
         end
