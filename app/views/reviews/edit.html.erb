@@ -44,5 +44,10 @@
     <%= f.text_area :content, placeholder: "テキストを入力してください...", class: "content_edit_form" %>
   </div>
 
+  <div class="field">
+    <%= f.label :タグ %><br/>
+    <%= f.text_field :tag_ids, value: @tag_list, placeholder: "タグをつける。複数つけるには','で区切ってください。" %>
+  </div>
+
   <%= f.submit "編集完了" %>
 <% end %>

@@ -4,12 +4,29 @@ class Review < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
   has_many :comments, dependent: :destroy
+  has_many  :tag_relationships, dependent: :destroy
+  has_many  :tags, through: :tag_relationships
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
   validates :title, presence: true, length: { maximum: 50 }
   validate :rate_custom_error
   validates :content, presence: true, length: { maximum: 250 }
   validate  :picture_size
+
+    def save_tags(save_review_tags)
+      current_tags = self.tags.pluck(:name) unless self.tags.nil?
+      old_tags = current_tags - save_review_tags
+      new_tags = save_review_tags - current_tags
+
+      old_tags.uniq.each do |old_name|
+        self.tags.delete Tag.find_by(name: old_name)
+      end
+
+      new_tags.uniq.each do |new_name|
+        review_tag = Tag.find_or_create_by(name: new_name)
+        self.tags << review_tag
+      end
+    end
 
     def like_by(user)
      likes.create(user_id: user.id)

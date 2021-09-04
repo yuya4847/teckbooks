@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :like, class: Like do
-    user_id { User.first.id }
+  factory :tag_relationship do
     review_id { Review.first.id }
+    tag_id { Tag.first.id }
   end
 end

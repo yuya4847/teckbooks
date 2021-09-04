@@ -16,6 +16,8 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+global.$ = require('jquery')
 require("jquery")
 import '../stylesheets/hello_webpacker'
-global.$ = require('jquery')
+require('bootstrap/dist/js/bootstrap.min.js')
+require('bootstrap/dist/css/bootstrap.min.css')

@@ -39,5 +39,10 @@
     <%= f.text_area :content, placeholder: "テキストを入力してください...", class: "content_form" %>
   </div>
 
+  <div class="field">
+    <%= f.label :タグ %><br/>
+    <%= f.text_area :tag_ids, placeholder: "タグをつける。複数つけるには','で区切ってください。", value: "" %>
+  </div>
+
   <%= f.submit "レビューを投稿する" %>
 <% end %>

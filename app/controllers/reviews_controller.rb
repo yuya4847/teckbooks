@@ -19,7 +19,9 @@ class ReviewsController < ApplicationController
 
   def create
     @review = current_user.reviews.build(review_params)
+    tag_list = params[:review][:tag_ids].split(',') if params[:review][:tag_ids]
     if @review.save
+      @review.save_tags(tag_list) if tag_list
       flash[:notice] = "レビューを投稿しました"
       redirect_to userpage_path(current_user.id)
     else
@@ -36,11 +38,18 @@ class ReviewsController < ApplicationController
 
   def edit
     @review = Review.find(params[:id])
+    @tag_list = @review.tags.pluck(:name).join(",")
   end
 
   def update
     @review = Review.find(params[:id])
+    if params[:review][:tag_ids]
+      tag_list = params[:review][:tag_ids].split(',')
+    end
     if @review.update(review_params)
+      if tag_list
+        @review.save_tags(tag_list)
+      end
       flash[:notice] = "投稿を編集しました。"
       redirect_to userpage_path(@review.user)
     else

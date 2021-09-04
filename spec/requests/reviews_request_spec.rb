@@ -119,12 +119,12 @@ RSpec.describe "Reviews", type: :request do
 
         context "いいねされている投稿がある場合" do
           let!(:bad_review) { create(:bad_review) }
-          let!(:user_like_1review) { create(:is_like, user_id: user.id, review_id: good_review.id) }
-          let!(:second_user_like_1review) { create(:is_like, user_id: second_user.id, review_id: good_review.id) }
-          let!(:third_user_like_1review) { create(:is_like, user_id: third_user.id, review_id: good_review.id) }
-          let!(:user_like_2review) { create(:is_like, user_id: user.id, review_id: normal_review.id) }
-          let!(:second_user_like_2review) { create(:is_like, user_id: second_user.id, review_id: normal_review.id) }
-          let!(:user_like_3review) { create(:is_like, user_id: user.id, review_id: bad_review.id) }
+          let!(:user_like_1review) { create(:like, user_id: user.id, review_id: good_review.id) }
+          let!(:second_user_like_1review) { create(:like, user_id: second_user.id, review_id: good_review.id) }
+          let!(:third_user_like_1review) { create(:like, user_id: third_user.id, review_id: good_review.id) }
+          let!(:user_like_2review) { create(:like, user_id: user.id, review_id: normal_review.id) }
+          let!(:second_user_like_2review) { create(:like, user_id: second_user.id, review_id: normal_review.id) }
+          let!(:user_like_3review) { create(:like, user_id: user.id, review_id: bad_review.id) }
 
           it 'いいねランキングが正しく表示されること' do
             login_as(user)

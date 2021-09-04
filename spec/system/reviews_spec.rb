@@ -15,10 +15,12 @@ RSpec.describe "Reviews", type: :system do
       expect(page).to have_selector 'label', text: 'リンク'
       expect(page).to have_selector 'label', text: '評価'
       expect(page).to have_selector 'label', text: '内容'
+      expect(page).to have_selector 'label', text: 'タグ'
       expect(page).to have_selector 'input', class: 'file_form'
       expect(page).to have_selector 'input', class: 'title_form'
       expect(page).to have_selector 'input', class: 'link_form'
       expect(page).to have_selector 'input', class: 'rate_form'
+      expect(page).to have_selector 'textarea', id: "review_tag_ids"
       expect(page).to have_selector 'textarea', class: 'content_form'
       expect(page).to have_button 'レビューを投稿する'
     end
@@ -177,7 +179,9 @@ RSpec.describe "Reviews", type: :system do
       expect(page).to have_selector 'label', text: 'リンク'
       expect(page).to have_selector 'label', text: '評価'
       expect(page).to have_selector 'label', text: '内容'
+      expect(page).to have_selector 'label', text: 'タグ'
       expect(page).to have_selector 'input', class: 'file_edit_form'
+      expect(page).to have_selector 'input', id: 'review_tag_ids'
       expect(page).to have_xpath "//input[@class='title_edit_form' and @value='it is good']"
       expect(page).to have_xpath "//input[@class='link_edit_form' and @value='https://qiita.com/']"
       expect(page).to have_xpath "//input[@class='rate_edit_form' and @value='2']"
