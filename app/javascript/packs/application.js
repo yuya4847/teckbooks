@@ -19,5 +19,3 @@ require("channels")
 global.$ = require('jquery')
 require("jquery")
 import '../stylesheets/hello_webpacker'
-require('bootstrap/dist/js/bootstrap.min.js')
-require('bootstrap/dist/css/bootstrap.min.css')
