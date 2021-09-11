@@ -1,0 +1,14 @@
+<% if reviews %>
+  <% reviews.each do |review| %>
+    <div class="index">
+      <div><%= review.title %></div>
+      <% if review.picture.url %>
+        <img class="search_review_img" src="<%= review.picture.url %>">
+      <% else %>
+       <div class="no-image">
+         <div class="picture-file-div">画像はありません</div>
+       </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

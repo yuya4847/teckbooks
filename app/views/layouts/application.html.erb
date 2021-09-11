@@ -15,7 +15,8 @@
       <%= link_to 'プロフィール', userpage_path(current_user.id) %>
       <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
       <%= link_to 'レビューを投稿', new_review_path %>
-      <%= link_to '全ての投稿', reviews_path %>
+      <%= link_to '全ての投稿', all_reviews_path %>
+      <%= link_to '検索', reviews_path %>
     <% else %>
       <%= link_to 'サインアップ', new_user_registration_path %>
       <%= link_to 'ログイン', new_user_session_path %>

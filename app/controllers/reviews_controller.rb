@@ -1,11 +1,44 @@
 class ReviewsController < ApplicationController
   REAOMMEND_USERS = 5
-  before_action :authenticate_user!, only: [:index, :new, :create, :show, :edit, :update, :review_destroy]
+  before_action :authenticate_user!, only: [:index, :all_reviews, :new, :create, :show, :edit, :update, :review_destroy]
   before_action :review_exist?,       only: [:show, :edit]
   before_action :correct_user,       only: [:edit, :update]
   before_action :admin_or_current_user,     only: :review_destroy
 
   def index
+    @q = Review.ransack(params[:q])
+    if params[:q]
+      @reviews = @q.result(distinct: true)
+      render 'reviews/search_result'
+    end
+  end
+
+  def tag_search
+    if params[:id] == "その他"
+      @reviews = Review.includes(:tags)
+      .where.not(tags: { name: "ruby" })
+      .where.not(tags: { name: "rails" })
+      .where.not(tags: { name: "php" })
+      .where.not(tags: { name: "python" })
+      .where.not(tags: { name: "go" })
+      .where.not(tags: { name: "java" })
+      .where.not(tags: { name: "javascript" })
+      .where.not(tags: { name: "typescript" })
+      .where.not(tags: { name: "aws" })
+      .where.not(tags: { name: "docker" })
+      .where.not(tags: { name: "linux" })
+      .where.not(tags: { name: "sql" })
+      .where.not(tags: { name: "vue" })
+      .where.not(tags: { name: "react" })
+      render 'reviews/search_result'
+    else
+      @tag = Tag.find_by(name: params[:id])
+      @reviews = @tag.reviews
+      render 'reviews/search_result'
+    end
+  end
+
+  def all_reviews
     @reviews = Review.all
     @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(3)
     @recommend_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
@@ -19,9 +52,14 @@ class ReviewsController < ApplicationController
 
   def create
     @review = current_user.reviews.build(review_params)
-    tag_list = params[:review][:tag_ids].split(',') if params[:review][:tag_ids]
+    tag_lists = params[:review][:tag_ids].split(',') if params[:review][:tag_ids]
+    if tag_lists
+      tag_lists.each_with_index do |tag_list, i|
+        tag_lists[i] = tag_list.downcase
+      end
+    end
     if @review.save
-      @review.save_tags(tag_list) if tag_list
+      @review.save_tags(tag_lists) if tag_lists
       flash[:notice] = "レビューを投稿しました"
       redirect_to userpage_path(current_user.id)
     else
@@ -44,12 +82,13 @@ class ReviewsController < ApplicationController
   def update
     @review = Review.find(params[:id])
     if params[:review][:tag_ids]
-      tag_list = params[:review][:tag_ids].split(',')
+      tag_lists = params[:review][:tag_ids].split(',')
+      tag_lists.each_with_index do |tag_list, i|
+        tag_lists[i] = tag_list.downcase
+      end
     end
     if @review.update(review_params)
-      if tag_list
-        @review.save_tags(tag_list)
-      end
+      @review.save_tags(tag_lists) if tag_lists
       flash[:notice] = "投稿を編集しました。"
       redirect_to userpage_path(@review.user)
     else

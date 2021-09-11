@@ -14,7 +14,7 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_tag_ids', with: "Ruby"
         click_button 'レビューを投稿する'
         within('#review_tags') do
-          expect(page).to have_content "Ruby"
+          expect(page).to have_content "ruby"
         end
       end
 
@@ -27,9 +27,9 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_tag_ids', with: "Ruby,Python,PHP"
         click_button 'レビューを投稿する'
         within('#review_tags') do
-          expect(page).to have_content "Ruby"
-          expect(page).to have_content "Python"
-          expect(page).to have_content "PHP"
+          expect(page).to have_content "ruby"
+          expect(page).to have_content "python"
+          expect(page).to have_content "php"
         end
       end
 
@@ -42,7 +42,7 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_tag_ids', with: "Ruby,Ruby,Ruby"
         click_button 'レビューを投稿する'
         within('#review_tags') do
-          expect(page).to have_content "Ruby", count: 1
+          expect(page).to have_content "ruby", count: 1
         end
       end
     end
@@ -57,16 +57,16 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_tag_ids', with: "Ruby"
         click_button 'レビューを投稿する'
         within('#review_tags') do
-          expect(page).to have_content "Ruby"
+          expect(page).to have_content "ruby"
         end
         visit '/reviews/1/edit'
         tag_form = find('#review_tag_ids')
-        expect(tag_form.value).to match 'Ruby'
+        expect(tag_form.value).to match 'ruby'
         fill_in 'review_tag_ids', with: "Ruby,Python"
         click_button '編集完了'
         within('#review_tags') do
-          expect(page).to have_content "Ruby"
-          expect(page).to have_content "Python"
+          expect(page).to have_content "ruby"
+          expect(page).to have_content "python"
         end
       end
 
@@ -79,15 +79,15 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_tag_ids', with: "Ruby"
         click_button 'レビューを投稿する'
         within('#review_tags') do
-          expect(page).to have_content "Ruby"
+          expect(page).to have_content "ruby"
         end
         visit '/reviews/1/edit'
         tag_form = find('#review_tag_ids')
-        expect(tag_form.value).to match 'Ruby'
+        expect(tag_form.value).to match 'ruby'
         fill_in 'review_tag_ids', with: "Ruby,Ruby,Ruby"
         click_button '編集完了'
         within('#review_tags') do
-          expect(page).to have_content "Ruby", count: 1
+          expect(page).to have_content "ruby", count: 1
         end
       end
 
@@ -100,15 +100,15 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_tag_ids', with: "Ruby"
         click_button 'レビューを投稿する'
         within('#review_tags') do
-          expect(page).to have_content "Ruby"
+          expect(page).to have_content "ruby"
         end
         visit '/reviews/1/edit'
         tag_form = find('#review_tag_ids')
-        expect(tag_form.value).to match 'Ruby'
+        expect(tag_form.value).to match 'ruby'
         fill_in 'review_tag_ids', with: ""
         click_button '編集完了'
         within('#review_tags') do
-          expect(page).to have_no_content "Ruby"
+          expect(page).to have_no_content "ruby"
         end
       end
     end

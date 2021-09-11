@@ -257,38 +257,6 @@ RSpec.describe "Registrations", type: :system do
     end
   end
 
-  describe 'アバター画像の変更及び削除' do
-    let(:user) { create(:user) }
-
-    it 'パスワード変更画面の要素検証すること' do
-      visit '/users/sign_in'
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'ログイン'
-      within('.notice') do
-        expect(page).to have_content 'ログインしました'
-      end
-      expect(current_path).to eq userpage_path(user)
-      have_link "アバターを変更する"
-      have_link "プロフィール変更"
-      expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
-      click_link "アバターを変更する"
-      attach_file('user[avatar]', "#{Rails.root}/spec/factories/images/test_avatar.jpg")
-      click_button '編集完了'
-      expect(page).to have_content 'アカウント情報を変更しました。'
-      expect(current_path).to eq userpage_path(user)
-      have_no_link "アバターを変更する"
-      have_link "delete"
-      expect(page).not_to have_selector("img[src$='/uploads/user/avatar/default.png']")
-      expect(page).to have_selector("img[src$='/uploads_test/user/avatar/1/test_avatar.jpg']")
-      click_link "delete"
-      expect(page).to have_content 'アバターを取り消しました'
-      have_link "アバターを変更する"
-      expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
-      expect(page).not_to have_selector("img[src$='/uploads_test/user/avatar/1/test_avatar.jpg']")
-    end
-  end
-
   describe 'プロフィールページの表示' do
     let!(:user) { create(:user) }
     let!(:second_user) { create(:second_user) }

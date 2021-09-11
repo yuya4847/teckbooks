@@ -39,36 +39,74 @@ followers = users[3..8]
 following.each { |followed| user.follow(followed) }
 followers.each { |follower| follower.follow(user) }
 
-Review.create!(
-  title: "Railsチュートリアル",
-  content: "もこもこは、Rails 5からプログラミングの勉強をはじめ、
-            何年か前に改定前の本をよんだ。",
-  rate: 3,
-  link: "https://railstutorial.jp/ss",
-  user_id: 1,
-)
+tech_items = [
+  "ruby",
+  "rails",
+  "php",
+  "python",
+  "go",
+  "java",
+  "javascript",
+  "typescript",
+  "aws",
+  "docker",
+  "linux",
+  "sql",
+  "vue",
+  "react"
+]
 
-Review.create!(
-  title: "パーフェクトruby on rails",
-  content: "もこもこは、Rails 5からプログラミングの勉強をはじめ、
-            この本はまだ自分には難しいと思った。",
-  rate: 5,
-  link: "https://www.amazon.co.jp/%E3%83%91E1%AE%E3%82%8A/dp/4774165166",
-  user_id: 1,
-)
+tech_items.each_with_index do |tech_item, i|
+  Tag.create!(
+    name: "#{tech_item}",
+  )
 
-Review.create!(
-  title: "Railsガイド",
-  content: "もこもこは、railsで勉強する楽しさがわかった.",
-  rate: 1,
-  link: "https://railsguides.jp/",
-  user_id: 1,
-)
+  Review.create!(
+    title: "#{tech_item}チュートリアル",
+    content: "#{tech_item}は興味深い内容でした。",
+    rate: 3,
+    link: "https://#{tech_item}tutorial.jp/",
+    user_id: 1,
+  )
 
-Review.create!(
-  title: "Railsガイド",
-  content: "ぐるぐるは、Rails 5からプログラミングの勉強をはじめ、
-            何年か前に改定前の本をよんだ。",
-  rate: 4,
-  user_id: 2,
-)
+  Review.create!(
+    title: "#{tech_item}入門",
+    content: "#{tech_item}は基礎的な内容から詳しく解説されていました。",
+    rate: 3,
+    link: "https://#{tech_item}start.jp/",
+    user_id: 1,
+  )
+
+  Review.create!(
+    title: "基礎からの#{tech_item}",
+    content: "#{tech_item}は基礎的な内容が網羅されていたよかったです。",
+    rate: 3,
+    link: "https://#{tech_item}basic.jp/",
+    user_id: 1,
+  )
+
+  Review.create!(
+    title: "パーフェクト#{tech_item}",
+    content: "#{tech_item}の使い方が一通り網羅されていた。",
+    rate: 3,
+    link: "https://perfect#{tech_item}.jp/",
+    user_id: 1,
+  )
+
+  Review.create!(
+    title: "#{tech_item}実践ガイド",
+    content: "#{tech_item}を仕事で使えるようになりそう！！",
+    rate: 3,
+    link: "https://#{tech_item}guide.jp/",
+    user_id: 1,
+  )
+end
+
+14.times do |i|
+  5.times do |n|
+    TagRelationship.create!(
+      review_id: (n + 1) + (5 * i),
+      tag_id: i + 1,
+    )
+  end
+end

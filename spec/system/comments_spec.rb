@@ -15,6 +15,7 @@ RSpec.describe "Comments", type: :system do
           click_button 'コメント'
           expect(page).to have_content "1件コメント"
           expect(page).to have_content "#{user.username}"
+          expect(page).to have_content "1分前"
           expect(page).to have_content "良いレビューですね！！"
           expect(page).to have_link "削除"
           expect(page).to have_selector 'textarea', id: "response_form1"
@@ -25,6 +26,7 @@ RSpec.describe "Comments", type: :system do
           click_link '削除'
           expect(page).to have_content "1件コメント"
           expect(page).not_to have_content "#{user.username}"
+          expect(page).not_to have_content "1分前"
           expect(page).not_to have_content "良いレビューですね！！"
           expect(page).not_to have_link "削除"
           expect(page).not_to have_selector 'textarea', id: "response_form1"

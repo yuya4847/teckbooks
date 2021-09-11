@@ -84,13 +84,13 @@ RSpec.describe "Reviews", type: :request do
       end
     end
 
-    describe "#index" do
+    describe "#all_reviews" do
       context "ログインしている場合" do
         context "いいねされている投稿がない場合" do
           let!(:unfollow_user) { create(:unfollow_user) }
           before do
             login_as(user)
-            get reviews_path
+            get all_reviews_path
           end
 
           it '正常なレスポンスが返ってくること' do
@@ -106,10 +106,12 @@ RSpec.describe "Reviews", type: :request do
             expect(response.body).to include good_review.link
             expect(response.body).to include good_review.content
             expect(response.body).to include good_review.rate.to_s
+            expect(response.body).to include "10分前"
             expect(response.body).to include normal_review.title
             expect(response.body).to include normal_review.link
             expect(response.body).to include normal_review.content
             expect(response.body).to include normal_review.rate.to_s
+            expect(response.body).to include "20分前"
           end
 
           it 'フォローできるユーザーが正しく表示されること' do
@@ -128,7 +130,7 @@ RSpec.describe "Reviews", type: :request do
 
           it 'いいねランキングが正しく表示されること' do
             login_as(user)
-            get reviews_path
+            get all_reviews_path
             expect(response.body).to include good_review.likes.count.to_s
             expect(response.body).to include good_review.title
             expect(response.body).to include good_review.user.username
@@ -144,7 +146,7 @@ RSpec.describe "Reviews", type: :request do
 
       context "未ログインの場合" do
         it 'ログインページにリダイレクトされること' do
-          get reviews_path
+          get all_reviews_path
           expect(response).to redirect_to new_user_session_path
         end
       end
@@ -172,6 +174,7 @@ RSpec.describe "Reviews", type: :request do
             expect(response.body).to include good_review.link
             expect(response.body).to include good_review.content
             expect(response.body).to include good_review.rate.to_s
+            expect(response.body).to include "10分前"
           end
         end
 

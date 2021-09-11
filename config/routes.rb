@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :reviews do
     resources :comments, only: [:create, :destroy]
   end
+  get 'all_reviews', to: 'reviews#all_reviews', as: 'all_reviews'
+  post 'tag_search_review/:id', to: 'reviews#tag_search', as: 'tag_search_reviews'
 
   post 'comments/:review_id/:parent_id/response_comments', to: 'comments#response_create', as: 'response_comments'
   delete 'comments/response_comments/:id', to: 'comments#response_destroy', as: 'response_comment'

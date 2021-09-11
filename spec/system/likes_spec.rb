@@ -18,7 +18,7 @@ RSpec.describe "Likes", type: :system do
 
     it '投稿一覧ページからlikeとunlikeがAjaxでできること', js: true do
       log_in_as(user.email, user.password)
-      visit '/reviews'
+      visit '/all_reviews'
       within(".like_class#{normal_review.id}") do
         expect(page).to have_selector 'form', class: "like_class"
       end
@@ -48,7 +48,7 @@ RSpec.describe "Likes", type: :system do
 
       it '投稿一覧ページからのlikeとunlikeがランキングに反映されること(like機能とランキング機能にajax)', js: true do
         log_in_as(user.email, user.password)
-        visit '/reviews'
+        visit '/all_reviews'
         within(".like_class#{good_review.id}") do
           click_button 'Like'
         end
@@ -60,7 +60,7 @@ RSpec.describe "Likes", type: :system do
         end
         click_link "ログアウト"
         log_in_as(second_user.email, second_user.password)
-        visit '/reviews'
+        visit '/all_reviews'
         within(".like_class#{good_review.id}") do
           click_button 'Like'
         end
@@ -80,7 +80,7 @@ RSpec.describe "Likes", type: :system do
         end
         click_link "ログアウト"
         log_in_as(third_user.email, third_user.password)
-        visit '/reviews'
+        visit '/all_reviews'
         within(".like_class#{good_review.id}") do
           click_button 'Like'
         end
@@ -128,7 +128,7 @@ RSpec.describe "Likes", type: :system do
         end
         click_link "ログアウト"
         log_in_as(second_user.email, second_user.password)
-        visit '/reviews'
+        visit '/all_reviews'
         within(".like_class#{good_review.id}") do
           click_button 'Unlike'
         end
@@ -147,7 +147,7 @@ RSpec.describe "Likes", type: :system do
         log_in_as(user.email, user.password)
         visit "/reviews/#{good_review.id}"
         click_button 'Like'
-        visit '/reviews'
+        visit '/all_reviews'
         within("#ranking_1") do
           expect(page).to have_selector 'span', text: "1"
           expect(page).to have_selector 'span', text: "it is good"
@@ -159,7 +159,7 @@ RSpec.describe "Likes", type: :system do
         click_button 'Like'
         visit "/reviews/#{normal_review.id}"
         click_button 'Like'
-        visit '/reviews'
+        visit '/all_reviews'
         within("#ranking_1") do
           expect(page).to have_selector 'span', text: "2"
           expect(page).to have_selector 'span', text: "it is good"
@@ -200,7 +200,7 @@ RSpec.describe "Likes", type: :system do
         click_button 'Unlike'
         visit "/reviews/#{bad_review.id}"
         click_button 'Unlike'
-        visit '/reviews'
+        visit '/all_reviews'
         within("#ranking_1") do
           expect(page).to have_selector 'span', text: "2"
           expect(page).to have_selector 'span', text: "it is good"
@@ -217,7 +217,7 @@ RSpec.describe "Likes", type: :system do
         click_button 'Unlike'
         visit "/reviews/#{normal_review.id}"
         click_button 'Unlike'
-        visit '/reviews'
+        visit '/all_reviews'
         within("#ranking_1") do
           expect(page).to have_selector 'span', text: "1"
           expect(page).to have_selector 'span', text: "it is good"

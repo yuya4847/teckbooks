@@ -10,6 +10,7 @@
             <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
           <% end %>
           <span><%= comment.user.username %></span>
+          <span><%= time_ago_in_words(comment.created_at).delete("約").delete("未満") %>前</span>
           <div>
             <%= comment.content %>
             <% if comment.user == current_user %>
@@ -27,6 +28,7 @@
             <img src="/uploads/user/avatar/default.png" class="response-default-logo">
           <% end %>
           <span><%= response_comment.user.username %></span>
+          <span><%= time_ago_in_words(response_comment.created_at).delete("約").delete("未満") %>前</span>
             <div>
               <%= response_comment.content %>
               <%= link_to '返信を削除', response_comment_path(response_comment.id), method: :delete, remote: true %>

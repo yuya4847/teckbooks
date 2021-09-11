@@ -120,7 +120,7 @@ RSpec.describe "Registrations", type: :system do
 
     it '投稿一覧ページからフォローとアンフォローがAjaxでできること', js: true do
       log_in_as(user.email, user.password)
-      visit '/reviews'
+      visit '/all_reviews'
       expect(page).to have_selector 'form', class: "follow_class"
       within(".follow_class#{third_user.id}") do
         click_button 'Follow'
@@ -140,7 +140,7 @@ RSpec.describe "Registrations", type: :system do
       expect(page).to have_link '1 following'
       visit "/userpages/#{third_user.id}"
       expect(page).to have_link '0 followers'
-      visit '/reviews'
+      visit '/all_reviews'
       within(".follow_class#{third_user.id}") do
         click_button 'Follow'
       end

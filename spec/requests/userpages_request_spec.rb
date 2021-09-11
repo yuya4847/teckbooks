@@ -28,6 +28,7 @@ RSpec.describe "Userpage", type: :request do
           expect(response.body).to include great_review.title
           expect(response.body).to include great_review.content
           expect(response.body).to include great_review.rate.to_s
+          expect(response.body).to include "20分前"
         end
       end
 

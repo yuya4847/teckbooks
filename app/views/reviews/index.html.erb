@@ -1,78 +1,29 @@
-<h2>全ての投稿</h2>
+<%= search_form_for @q, remote: true do |f| %>
+  <%= f.label :title, "タイトル" %>
+  <%= f.search_field :title_cont %>
 
+  <%= f.label :content, "内容" %>
+  <%= f.search_field :content_cont %>
+
+  <%= f.submit "検索" %>
+<% end %>
 <div>
-  <% @reviews.each do |review| %>
-  <% @review = review %>
-  <div>
-    <span>
-      <div id="like_form<%= @review.id %>" class="like_class<%= @review.id %>">
-        <%= render 'shared/like_form' %>
-      </div>
-    </span>
-  </div>
-  <div>
-    <%= @review.user.username %>
-    <% if @review.user.avatar.url %>
-      <div>
-        <img src="<%= @review.user.avatar.url %>" class="aaa">
-      </div>
-    <% else %>
-      <div>
-        <img src="/uploads/user/avatar/default.png" class="bbb">
-      </div>
-    <% end %>
-  </div>
-  <div>
-    <% if @review.picture.url %>
-      <img src="<%= @review.picture.url %>">
-    <% else %>
-      <b>画像はありません</b>
-    <% end %>
-  </div>
-    <div><%= @review.title %></div>
-    <div><%= @review.content %></div>
-    <div><%= @review.rate %></div>
-    <div>
-      <span>タグ</span>
-      <% @review.tags.each do |tag| %>
-        <div>#<%= tag.name %></div>
-      <% end %>
-    </div>
-    <div>
-      <%= link_to @review.link, target: :_blank do %>
-        <%= @review.link %>
-      <% end %>
-    </div>
-    <div>
-      <% if current_user.admin? %>
-      <%= link_to "削除する", review_destroy_path(id: @review.id, original_page: "exist"), method: :delete,
-                                  data: { confirm: "本当にこの投稿を削除しますか？" } %>
-      <% end %>
-    </div>
-  <% end %>
+  <%= link_to "Ruby", tag_search_reviews_path("ruby"), method: :POST, remote: true %>
+  <%= link_to "Rails", tag_search_reviews_path("rails"), method: :POST, remote: true %>
+  <%= link_to "PHP", tag_search_reviews_path("php"), method: :POST, remote: true %>
+  <%= link_to "Python", tag_search_reviews_path("python"), method: :POST, remote: true %>
+  <%= link_to "Go", tag_search_reviews_path("go"), method: :POST, remote: true %>
+  <%= link_to "Java", tag_search_reviews_path("java"), method: :POST, remote: true %>
+  <%= link_to "Javascript", tag_search_reviews_path("javascript"), method: :POST, remote: true %>
+  <%= link_to "typescript", tag_search_reviews_path("typescript"), method: :POST, remote: true %>
+  <%= link_to "AWS", tag_search_reviews_path("aws"), method: :POST, remote: true %>
+  <%= link_to "Docker", tag_search_reviews_path("docker"), method: :POST, remote: true %>
+  <%= link_to "Linux", tag_search_reviews_path("linux"), method: :POST, remote: true %>
+  <%= link_to "SQL", tag_search_reviews_path("sql"), method: :POST, remote: true %>
+  <%= link_to "Vue.js", tag_search_reviews_path("vue"), method: :POST, remote: true %>
+  <%= link_to "React.js", tag_search_reviews_path("react"), method: :POST, remote: true %>
+  <%= link_to "その他", tag_search_reviews_path("その他"), method: :POST, remote: true %>
 </div>
-<div class="index">
-  <div>
-    <% if @recommend_users %>
-      <% @recommend_users.each do |recommend_user| %>
-        <div>
-          <% @user = recommend_user %>
-          <% if @user.avatar.url %>
-            <img src="<%= @review.user.avatar.url %>" class="comment-logo">
-          <% else %>
-            <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-          <% end %>
-          <span><%= @user.username %></span>
-          <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
-            <%= render 'shared/follow_form' %>
-          </span>
-        </div>
-      <% end %>
-    <% else %>
-      <div>フォローしていないユーザーはいません。</div>
-    <% end %>
-  </div>
-</div>
-<div id="ranking_ajax" class="index">
-  <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
+<div id="search_result_reviews" class="index">
+  <%= render partial: 'reviews/search_result_reviews', locals: { reviews: @review } %>
 </div>
