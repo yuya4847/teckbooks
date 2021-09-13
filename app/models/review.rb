@@ -24,7 +24,7 @@ class Review < ApplicationRecord
 
       new_tags.uniq.each do |new_name|
         review_tag = Tag.find_or_create_by(name: new_name)
-        self.tags << review_tag
+        TagRelationship.create(review_id: self.id, tag_id: review_tag.id)
       end
     end
 

@@ -9,7 +9,7 @@ class ReviewsController < ApplicationController
     @q = Review.ransack(params[:q])
     if params[:q]
       @reviews = @q.result(distinct: true)
-      render 'reviews/search_result'
+      render :search_result
     end
   end
 

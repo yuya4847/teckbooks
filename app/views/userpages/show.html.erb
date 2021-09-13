@@ -73,7 +73,7 @@
     <div><%= review.content %></div>
     <div><%= review.rate %></div>
     <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
-    <div id="review_tags">
+    <div id="userpage_review_tags">
       <span>タグ</span>
       <% review.tags.each do |tag| %>
         <div>#<%= tag.name %></div>

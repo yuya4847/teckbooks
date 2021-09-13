@@ -8,6 +8,129 @@ RSpec.describe "Reviews", type: :request do
     let!(:normal_review) { create(:normal_review) }
     let!(:recent_review) { build(:recent_review) }
 
+    describe "#index" do
+      context "ログインしている場合" do
+        context "検索をしなかった場合" do
+          before do
+            login_as(user)
+            get reviews_path
+          end
+
+          it '正常なレスポンスが返ってくること' do
+            expect(response).to be_successful
+          end
+
+          it '200レスポンスが返ってくること' do
+            expect(response).to have_http_status(200)
+          end
+        end
+
+        context "検索をした場合" do
+          context "タイトルで検索した場合" do
+            before do
+              login_as(user)
+              get reviews_path, params: { q: { title_cont: "good", content_cont: "" } }, xhr: true
+            end
+
+            it '正常なレスポンスが返ってくること' do
+              expect(response).to be_successful
+            end
+
+            it '200レスポンスが返ってくること' do
+              expect(response).to have_http_status(200)
+            end
+
+            it '検索結果が正しく表示されていること' do
+              expect(response.body).to include good_review.title
+              expect(response.body).to include good_review.content
+              expect(response.body).to include good_review.rate.to_s
+              expect(response.body).to include "10分前"
+            end
+          end
+
+          context "内容で検索した場合" do
+            before do
+              login_as(user)
+              get reviews_path, params: { q: { title_cont: "", content_cont: "good" } }, xhr: true
+            end
+
+            it '正常なレスポンスが返ってくること' do
+              expect(response).to be_successful
+            end
+
+            it '200レスポンスが返ってくること' do
+              expect(response).to have_http_status(200)
+            end
+
+            it '検索結果が正しく表示されていること' do
+              expect(response.body).to include good_review.title
+              expect(response.body).to include good_review.content
+              expect(response.body).to include good_review.rate.to_s
+              expect(response.body).to include "10分前"
+            end
+          end
+        end
+      end
+
+      context "未ログインの場合" do
+        it 'ログインページにリダイレクトされること' do
+          get reviews_path
+          expect(response).to redirect_to new_user_session_path
+        end
+      end
+    end
+
+    describe "#tag_search" do
+      let!(:ruby_tag) { create(:tag, name: "ruby") }
+      let!(:other_tag) { create(:tag, name: "other_tag") }
+      let!(:ruby_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: ruby_tag.id) }
+      let!(:other_tag_relationship) { create(:tag_relationship, review_id: normal_review.id, tag_id: other_tag.id) }
+
+      context "代表的なタグの場合場合" do
+        before do
+          login_as(user)
+          post tag_search_reviews_path("ruby"), xhr: true
+        end
+
+        it '正常なレスポンスが返ってくること' do
+          expect(response).to be_successful
+        end
+
+        it '200レスポンスが返ってくること' do
+          expect(response).to have_http_status(200)
+        end
+
+        it 'タグ検索結果が正しく表示されていること' do
+          expect(response.body).to include good_review.title
+          expect(response.body).to include good_review.content
+          expect(response.body).to include good_review.rate.to_s
+          expect(response.body).to include "10分前"
+        end
+      end
+
+      context "その他のタグの場合" do
+        before do
+          login_as(user)
+          post tag_search_reviews_path("その他"), xhr: true
+        end
+
+        it '正常なレスポンスが返ってくること' do
+          expect(response).to be_successful
+        end
+
+        it '200レスポンスが返ってくること' do
+          expect(response).to have_http_status(200)
+        end
+
+        it 'タグ検索結果が正しく表示されていること' do
+          expect(response.body).to include normal_review.title
+          expect(response.body).to include normal_review.content
+          expect(response.body).to include normal_review.rate.to_s
+          expect(response.body).to include "20分前"
+        end
+      end
+    end
+
     describe "#new" do
       context "ログインしている場合" do
         before do

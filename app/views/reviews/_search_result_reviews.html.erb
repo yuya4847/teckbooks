@@ -2,6 +2,9 @@
   <% reviews.each do |review| %>
     <div class="index">
       <div><%= review.title %></div>
+      <div><%= review.content %></div>
+      <div><%= review.rate %></div>
+      <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
       <% if review.picture.url %>
         <img class="search_review_img" src="<%= review.picture.url %>">
       <% else %>
