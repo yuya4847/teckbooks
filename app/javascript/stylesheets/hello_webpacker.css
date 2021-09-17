@@ -2,6 +2,14 @@ html, body {
    background: yellow; /* 背景色を黄色に */
 }
 
+.currentuser_message_content {
+  color: green;
+}
+
+.user_message_content {
+  color: black;
+}
+
 .index {
   border-top: solid 1px #C0C0C0;
 }

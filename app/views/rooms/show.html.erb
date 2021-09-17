@@ -1,0 +1,26 @@
+<h1>DM</h1>
+
+<div>参加者</div>
+<div>
+  <% @entries.each do |entry| %>
+    <% if entry.user.avatar.url %>
+      <img src="<%= entry.user.avatar.url %>" class="comment-logo">
+    <% else %>
+      <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+    <% end %>
+    <a href="/userpages/<%= entry.user.id %>"><%= entry.user.username %></a>
+  <% end %>
+</div>
+
+<div class="index"></div>
+
+<div id="dm_message">
+  <%= render 'messages/dm_messages', messages: @messages %>
+</div>
+
+<%= form_for @message, remote: true do |f| %>
+  <%= f.text_field :content, placeholder: "メッセージを入力して下さい" , id: "message_form", size: 70 %>
+  <%= f.hidden_field :room_id, value: @room.id %>
+  <br>
+  <%= f.submit "送信" %>
+<% end %>

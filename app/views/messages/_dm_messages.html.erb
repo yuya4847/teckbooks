@@ -1,0 +1,17 @@
+<% if messages.present? %>
+  <% messages.each do |message| %>
+    <% if message.user.avatar.url %>
+      <img src="<%= message.user.avatar.url %>" class="comment-logo">
+    <% else %>
+      <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+    <% end %>
+    <% if message.user == current_user %>
+      <% content_color = "currentuser" %>
+    <% else %>
+      <% content_color = "user" %>
+    <% end %>
+    <div class="<%= content_color %>_message_content"><%= message.content %></div>
+  <% end %>
+<% else %>
+  <div>メッセージはまだありません</div>
+<% end %>
