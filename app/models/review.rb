@@ -1,4 +1,5 @@
 class Review < ApplicationRecord
+  is_impressionable
   mount_uploader :picture, PictureUploader
   belongs_to :user
   has_many :likes, dependent: :destroy

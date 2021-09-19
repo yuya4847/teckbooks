@@ -1,3 +1,15 @@
+<% if @pv_ranking %>
+  <div id="impression_rank">
+    <% @pv_ranking.each.with_index(1) do |rank, i| %>
+      <div id="rank">
+        <%= "#{i}" %>位
+        <%= link_to "#{rank.title}", review_path(rank) %>
+        <%= rank.impressionist_count %>レビュー
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
 <h2>全ての投稿</h2>
 
 <div>

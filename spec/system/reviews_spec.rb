@@ -49,6 +49,73 @@ RSpec.describe "Reviews", type: :system do
       expect(page).to have_link great_review.link
       expect(page).to have_xpath "//a[@href='/reviews/2/exist']"
     end
+
+    describe 'インプレッションを表示する' do
+      let!(:second_user) { create(:second_user) }
+      let!(:normal_review) { build(:normal_review) }
+      let!(:recent_review) { build(:recent_review) }
+
+      it 'インプレッションランキングが動的に表示されること' do
+        good_review.save
+        great_review.save
+        normal_review.save
+        recent_review.save
+        log_in_as(user.email, user.password)
+        visit '/all_reviews'
+        expect(page).not_to have_selector 'div', id: 'rank'
+        visit '/reviews/1'
+        visit '/reviews/1'
+        visit '/reviews/1'
+        visit '/reviews/1'
+        visit '/reviews/2'
+        visit '/reviews/2'
+        visit '/reviews/2'
+        visit '/reviews/3'
+        visit '/reviews/3'
+        visit '/all_reviews'
+        within('#impression_rank') do
+          expect(page).to have_content "1位"
+          expect(page).to have_link "#{good_review.title}"
+          expect(page).to have_content "4レビュー"
+
+          expect(page).to have_content "2位"
+          expect(page).to have_link "#{great_review.title}"
+          expect(page).to have_content "3レビュー"
+
+          expect(page).to have_content "3位"
+          expect(page).to have_link "#{normal_review.title}"
+          expect(page).to have_content "2レビュー"
+        end
+        click_link "ログアウト"
+        log_in_as(second_user.email, second_user.password)
+        visit '/reviews/4'
+        visit '/reviews/4'
+        visit '/reviews/4'
+        visit '/reviews/4'
+        visit '/reviews/4'
+        visit '/reviews/4'
+        visit '/reviews/2'
+        visit '/reviews/2'
+        visit '/all_reviews'
+        within('#impression_rank') do
+          expect(page).to have_content "1位"
+          expect(page).to have_link "#{recent_review.title}"
+          expect(page).to have_content "6レビュー"
+
+          expect(page).to have_content "2位"
+          expect(page).to have_link "#{great_review.title}"
+          expect(page).to have_content "5レビュー"
+
+          expect(page).to have_content "3位"
+          expect(page).to have_link "#{good_review.title}"
+          expect(page).to have_content "4レビュー"
+
+          expect(page).not_to have_link "#{normal_review.title}"
+          expect(page).not_to have_content "2レビュー"
+        end
+      end
+    end
+
   end
 
   describe '#new' do
@@ -320,6 +387,24 @@ RSpec.describe "Reviews", type: :system do
     end
 
     context "レビューが存在する場合" do
+      it 'レビュー数が動的に表示されること' do
+        log_in_as(second_user.email, second_user.password)
+        visit '/reviews/2'
+        within('#impression_count') do
+          expect(page).to have_content '1レビュー'
+        end
+        visit current_path
+        within('#impression_count') do
+          expect(page).to have_content '2レビュー'
+        end
+        click_link "ログアウト"
+        log_in_as(third_user.email, third_user.password)
+        visit '/reviews/2'
+        within('#impression_count') do
+          expect(page).to have_content '3レビュー'
+        end
+      end
+
       context "自分の投稿を閲覧する場合" do
         it '編集・削除へのリンクがあること' do
           log_in_as(second_user.email, second_user.password)

@@ -4,6 +4,7 @@ class ReviewsController < ApplicationController
   before_action :review_exist?,       only: [:show, :edit]
   before_action :correct_user,       only: [:edit, :update]
   before_action :admin_or_current_user,     only: :review_destroy
+  impressionist actions: [:show]
 
   def index
     @q = Review.ransack(params[:q])
@@ -44,6 +45,7 @@ class ReviewsController < ApplicationController
     @recommend_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
     follow_ids: current_user.following.ids,
     current_id: current_user).shuffle.take(REAOMMEND_USERS)
+    @pv_ranking = Review.find(Impression.group(:impressionable_id).pluck(:impressionable_id)).sort {|a,b| b.impressionist_count <=> a.impressionist_count}.first(3)
   end
 
   def new
@@ -69,6 +71,7 @@ class ReviewsController < ApplicationController
 
   def show
     @review = Review.find(params[:id])
+    impressionist(@review, nil, unique: [:session_hash])
     @user = @review.user
     @comment = Comment.new
     @comments = @review.comments
