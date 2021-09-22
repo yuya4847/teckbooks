@@ -63,3 +63,23 @@
 <div id="comments_area" class="index">
   <%= render partial: 'comments/index', locals: { comments: @comments } %>
 </div>
+
+<h1>関連した投稿</h1>
+<div id="related_reviews">
+  <% if @related_reviews.size != 0 %>
+    <% @related_reviews.each do |related_review| %>
+      <div class="related_review">
+        <%= related_review.user.username %>
+        <% if related_review.user.avatar.url %>
+          <img src="<%= related_review.user.avatar.url %>" class="comment-logo">
+        <% else %>
+          <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+        <% end %>
+        <%= link_to "#{related_review.title}", review_path(related_review) %>
+        <div><%= time_ago_in_words(related_review.created_at).delete("約").delete("未満") %>前</div>
+      </div>
+    <% end %>
+  <% else %>
+  関連した投稿はありません
+  <% end %>
+</div>

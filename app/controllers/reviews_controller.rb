@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   REAOMMEND_USERS = 5
+  RELATED_REVIRES_COUNT = 7
   before_action :authenticate_user!, only: [:index, :all_reviews, :new, :create, :show, :edit, :update, :review_destroy]
   before_action :review_exist?,       only: [:show, :edit]
   before_action :correct_user,       only: [:edit, :update]
@@ -75,6 +76,14 @@ class ReviewsController < ApplicationController
     @user = @review.user
     @comment = Comment.new
     @comments = @review.comments
+    @related_reviews = []
+    @review.tags.each do |related_tag|
+      related_tag.reviews.each do |review|
+        @related_reviews.push(review)
+      end
+    end
+    @related_reviews.delete(@review)
+    @related_reviews = @related_reviews.sample(RELATED_REVIRES_COUNT)
   end
 
   def edit

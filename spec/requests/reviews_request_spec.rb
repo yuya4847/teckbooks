@@ -276,28 +276,67 @@ RSpec.describe "Reviews", type: :request do
     end
 
     describe "#show" do
+
       context "ログインしている場合" do
         context "レビューが存在する場合" do
-          before do
-            login_as(user)
-            get review_path good_review.id
+          context "関連した投稿が存在する場合" do
+            let!(:ruby_tag) { create(:tag, name: "ruby") }
+            let!(:php_tag) { create(:tag, name: "php") }
+            let!(:python_tag) { create(:tag, name: "python") }
+
+            let!(:ruby_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: ruby_tag.id) }
+            let!(:php_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: php_tag.id) }
+            let!(:python_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: python_tag.id) }
+
+            let!(:related_first_review) { create(:good_review) }
+            let!(:related_second_review) { create(:good_review) }
+            let!(:related_third_review) { create(:good_review) }
+
+            let!(:related_ruby_tag_relationship) { create(:tag_relationship, review_id: related_first_review.id, tag_id: ruby_tag.id) }
+            let!(:related_php_tag_relationship) { create(:tag_relationship, review_id: related_second_review.id, tag_id: php_tag.id) }
+            let!(:related_python_tag_relationship) { create(:tag_relationship, review_id: related_third_review.id, tag_id: python_tag.id) }
+
+            before do
+              login_as(user)
+              get review_path good_review.id
+            end
+
+            it '正常なレスポンスが返ってくること' do
+              expect(response).to be_successful
+            end
+
+            it '200レスポンスが返ってくること' do
+              expect(response).to have_http_status(200)
+            end
+
+            it 'ユーザーと投稿が正しく表示されていること' do
+              expect(response.body).to include user.username
+              expect(response.body).to include good_review.title
+              expect(response.body).to include good_review.link
+              expect(response.body).to include good_review.content
+              expect(response.body).to include good_review.rate.to_s
+              expect(response.body).to include "10分前"
+            end
+
+            it '関連した投稿が正しく表示されていること' do
+              expect(response.body).to include related_first_review.user.username
+              expect(response.body).to include related_first_review.title
+              expect(response.body).to include related_second_review.user.username
+              expect(response.body).to include related_second_review.title
+              expect(response.body).to include related_third_review.user.username
+              expect(response.body).to include related_third_review.title
+            end
           end
 
-          it '正常なレスポンスが返ってくること' do
-            expect(response).to be_successful
-          end
-
-          it '200レスポンスが返ってくること' do
-            expect(response).to have_http_status(200)
-          end
-
-          it 'ユーザーと投稿が正しく表示されていること' do
-            expect(response.body).to include user.username
-            expect(response.body).to include good_review.title
-            expect(response.body).to include good_review.link
-            expect(response.body).to include good_review.content
-            expect(response.body).to include good_review.rate.to_s
-            expect(response.body).to include "10分前"
+          context "関連した投稿が存在しない場合" do
+            before do
+              login_as(user)
+              get review_path good_review.id
+            end
+            
+            it '関連した投稿が表示されないこと' do
+              expect(response.body).to include "関連した投稿はありません"
+            end
           end
         end
 

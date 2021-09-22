@@ -387,6 +387,7 @@ RSpec.describe "Reviews", type: :system do
     end
 
     context "レビューが存在する場合" do
+
       it 'レビュー数が動的に表示されること' do
         log_in_as(second_user.email, second_user.password)
         visit '/reviews/2'
@@ -406,11 +407,34 @@ RSpec.describe "Reviews", type: :system do
       end
 
       context "自分の投稿を閲覧する場合" do
+        let!(:ruby_tag) { create(:tag, name: "ruby") }
+        let!(:php_tag) { create(:tag, name: "php") }
+        let!(:python_tag) { create(:tag, name: "python") }
+
+        let!(:ruby_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: ruby_tag.id) }
+        let!(:php_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: php_tag.id) }
+        let!(:python_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: python_tag.id) }
+
+        let!(:related_first_review) { create(:good_review, title: "It is first good review", content: "It is first very good review") }
+        let!(:related_second_review) { create(:good_review, title: "It is second good review", content: "It is second very good review") }
+        let!(:related_third_review) { create(:good_review, title: "It is third good review", content: "It is third very good review") }
+        let!(:related_forth_review) { create(:good_review, title: "It is forth good review", content: "It is forth very good review") }
+        let!(:related_fifth_review) { create(:good_review, title: "It is fifth good review", content: "It is fifth very good review") }
+        let!(:related_sixth_review) { create(:good_review, title: "It is sixth good review", content: "It is sixth very good review") }
+        let!(:related_seventh_review) { create(:good_review, title: "It is seventh good review", content: "It is seventh very good review") }
+        let!(:related_eighth_review) { build(:good_review, title: "It is eighth good review", content: "It is eighth very good review") }
+
+        let!(:first_ruby_tag_relationship) { create(:tag_relationship, review_id: related_first_review.id, tag_id: ruby_tag.id) }
+        let!(:second_php_tag_relationship) { create(:tag_relationship, review_id: related_second_review.id, tag_id: php_tag.id) }
+        let!(:third_python_tag_relationship) { create(:tag_relationship, review_id: related_third_review.id, tag_id: python_tag.id) }
+        let!(:forth_ruby_tag_relationship) { create(:tag_relationship, review_id: related_forth_review.id, tag_id: ruby_tag.id) }
+        let!(:fifth_ruby_tag_relationship) { create(:tag_relationship, review_id: related_fifth_review.id, tag_id: php_tag.id) }
+        let!(:sixth_ruby_tag_relationship) { create(:tag_relationship, review_id: related_sixth_review.id, tag_id: python_tag.id) }
+        let!(:seventh_ruby_tag_relationship) { create(:tag_relationship, review_id: related_seventh_review.id, tag_id: ruby_tag.id) }
+        let!(:eighth_ruby_tag_relationship) { build(:tag_relationship, review_id: related_eighth_review.id, tag_id: python_tag.id) }
+
         it '編集・削除へのリンクがあること' do
           log_in_as(second_user.email, second_user.password)
-          within('.notice') do
-            expect(page).to have_content 'ログインしました'
-          end
           visit '/reviews/1'
           expect(page).to have_content second_user.username
           expect(page).to have_content good_review.title
@@ -424,10 +448,65 @@ RSpec.describe "Reviews", type: :system do
           expect(page).to have_button 'コメント'
           expect(page).to have_button 'キャンセル'
           expect(page).to have_content '0件コメント'
+          within('#related_reviews') do
+            expect(page).not_to have_link "#{good_review.title}"
+            expect(page).to have_link "#{related_first_review.title}"
+            expect(page).to have_content related_first_review.user.username
+            expect(page).to have_link "#{related_second_review.title}"
+            expect(page).to have_content related_second_review.user.username
+            expect(page).to have_link "#{related_third_review.title}"
+            expect(page).to have_content related_third_review.user.username
+            expect(page).to have_link "#{related_forth_review.title}"
+            expect(page).to have_content related_forth_review.user.username
+            expect(page).to have_link "#{related_fifth_review.title}"
+            expect(page).to have_content related_fifth_review.user.username
+            expect(page).to have_link "#{related_sixth_review.title}"
+            expect(page).to have_content related_sixth_review.user.username
+            expect(page).to have_link "#{related_seventh_review.title}"
+            expect(page).to have_content related_seventh_review.user.username
+          end
+        end
+
+        it '関連した投稿の表示が7つまでであること' do
+          related_eighth_review.save
+          eighth_ruby_tag_relationship.save
+          log_in_as(second_user.email, second_user.password)
+          visit '/reviews/1'
+          within('#related_reviews') do
+            expect(page).to have_selector 'div', class: 'related_review', count: 7
+          end
         end
       end
 
       context "他人の投稿を閲覧する場合" do
+        let!(:ruby_tag) { create(:tag, name: "ruby") }
+        let!(:php_tag) { create(:tag, name: "php") }
+        let!(:python_tag) { create(:tag, name: "python") }
+
+        let!(:ruby_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: ruby_tag.id) }
+        let!(:php_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: php_tag.id) }
+        let!(:python_tag_relationship) { create(:tag_relationship, review_id: good_review.id, tag_id: python_tag.id) }
+
+        let!(:ruby_tag_other_relationship) { create(:tag_relationship, review_id: normal_review.id, tag_id: ruby_tag.id) }
+        let!(:php_tag_other_relationship) { create(:tag_relationship, review_id: normal_review.id, tag_id: php_tag.id) }
+
+        let!(:related_first_review) { create(:good_review, title: "It is first good review", content: "It is first very good review") }
+        let!(:related_second_review) { create(:good_review, title: "It is second good review", content: "It is second very good review") }
+        let!(:related_third_review) { create(:good_review, title: "It is third good review", content: "It is third very good review") }
+        let!(:related_forth_review) { create(:good_review, title: "It is forth good review", content: "It is forth very good review") }
+        let!(:related_fifth_review) { create(:good_review, title: "It is fifth good review", content: "It is fifth very good review") }
+        let!(:related_sixth_review) { create(:good_review, title: "It is sixth good review", content: "It is sixth very good review") }
+        let!(:related_seventh_review) { create(:good_review, title: "It is seventh good review", content: "It is seventh very good review") }
+        let!(:related_eighth_review) { create(:good_review, title: "It is eighth good review", content: "It is eighth very good review") }
+
+        let!(:first_ruby_tag_relationship) { create(:tag_relationship, review_id: related_first_review.id, tag_id: ruby_tag.id) }
+        let!(:second_php_tag_relationship) { create(:tag_relationship, review_id: related_second_review.id, tag_id: php_tag.id) }
+        let!(:third_python_tag_relationship) { create(:tag_relationship, review_id: related_third_review.id, tag_id: python_tag.id) }
+        let!(:forth_ruby_tag_relationship) { create(:tag_relationship, review_id: related_forth_review.id, tag_id: ruby_tag.id) }
+        let!(:fifth_ruby_tag_relationship) { create(:tag_relationship, review_id: related_fifth_review.id, tag_id: php_tag.id) }
+        let!(:sixth_ruby_tag_relationship) { create(:tag_relationship, review_id: related_sixth_review.id, tag_id: python_tag.id) }
+        let!(:seventh_ruby_tag_relationship) { create(:tag_relationship, review_id: related_seventh_review.id, tag_id: ruby_tag.id) }
+
         it '編集・削除へのリンクがないこと' do
           log_in_as(second_user.email, second_user.password)
           within('.notice') do
@@ -442,6 +521,19 @@ RSpec.describe "Reviews", type: :system do
           expect(page).to have_link normal_review.link
           expect(page).not_to have_link '編集する'
           expect(page).not_to have_link '削除する'
+          within('#related_reviews') do
+            expect(page).not_to have_link "#{normal_review.title}"
+            expect(page).to have_link "#{related_first_review.title}"
+            expect(page).to have_content related_first_review.user.username
+            expect(page).to have_link "#{related_second_review.title}"
+            expect(page).to have_content related_second_review.user.username
+            expect(page).to have_link "#{related_forth_review.title}"
+            expect(page).to have_content related_forth_review.user.username
+            expect(page).to have_link "#{related_fifth_review.title}"
+            expect(page).to have_content related_fifth_review.user.username
+            expect(page).to have_link "#{related_seventh_review.title}"
+            expect(page).to have_content related_seventh_review.user.username
+          end
         end
       end
     end
