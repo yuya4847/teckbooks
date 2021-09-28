@@ -95,19 +95,21 @@
 <div id="recent_reviews">
   <% @browsingHistories.each.with_index(1) do |recent_review, i| %>
     <div id="recent_review<%= i %>" class="recent_review">
+      <% if recent_review.review.picture.url %>
+        <div>
+          <img class="search_review_img" src="<%= recent_review.review.picture.url %>">
+        </div>
+      <% else %>
+        <div class="no-image">
+          <div class="picture-file-div">画像はありません</div>
+        </div>
+      <% end %>
       <%= link_to "#{recent_review.review.title}", review_path(recent_review.review) %>
       <%= recent_review.review.user.username %>
       <% if recent_review.review.user.avatar.url %>
         <img src="<%= recent_review.review.user.avatar.url %>" class="comment-logo">
       <% else %>
         <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-      <% end %>
-      <% if recent_review.review.picture.url %>
-        <img class="search_review_img" src="<%= recent_review.review.picture.url %>">
-      <% else %>
-        <div class="no-image">
-          <div class="picture-file-div">画像はありません</div>
-        </div>
       <% end %>
     </div>
   <% end %>
