@@ -276,10 +276,12 @@ RSpec.describe "Reviews", type: :request do
     end
 
     describe "#show" do
-
       context "ログインしている場合" do
         context "レビューが存在する場合" do
           context "関連した投稿が存在する場合" do
+            let!(:recent_review) { create(:good_review) }
+            let!(:browsing_history) { create(:browsing_history, user_id: user.id, review_id: recent_review.id) }
+
             let!(:ruby_tag) { create(:tag, name: "ruby") }
             let!(:php_tag) { create(:tag, name: "php") }
             let!(:python_tag) { create(:tag, name: "python") }
@@ -326,6 +328,11 @@ RSpec.describe "Reviews", type: :request do
               expect(response.body).to include related_third_review.user.username
               expect(response.body).to include related_third_review.title
             end
+
+            it '最近見た投稿が正しく表示されていること' do
+              expect(response.body).to include recent_review.user.username
+              expect(response.body).to include recent_review.title
+            end
           end
 
           context "関連した投稿が存在しない場合" do
@@ -333,7 +340,7 @@ RSpec.describe "Reviews", type: :request do
               login_as(user)
               get review_path good_review.id
             end
-            
+
             it '関連した投稿が表示されないこと' do
               expect(response.body).to include "関連した投稿はありません"
             end

@@ -433,7 +433,7 @@ RSpec.describe "Reviews", type: :system do
         let!(:seventh_ruby_tag_relationship) { create(:tag_relationship, review_id: related_seventh_review.id, tag_id: ruby_tag.id) }
         let!(:eighth_ruby_tag_relationship) { build(:tag_relationship, review_id: related_eighth_review.id, tag_id: python_tag.id) }
 
-        it '編集・削除へのリンクがあること' do
+        it '編集・削除へのリンク・コンテンツがあること' do
           log_in_as(second_user.email, second_user.password)
           visit '/reviews/1'
           expect(page).to have_content second_user.username
@@ -448,6 +448,11 @@ RSpec.describe "Reviews", type: :system do
           expect(page).to have_button 'コメント'
           expect(page).to have_button 'キャンセル'
           expect(page).to have_content '0件コメント'
+        end
+
+        it '関連した投稿の表示されること' do
+          log_in_as(second_user.email, second_user.password)
+          visit '/reviews/1'
           within('#related_reviews') do
             expect(page).not_to have_link "#{good_review.title}"
             expect(page).to have_link "#{related_first_review.title}"
@@ -474,6 +479,50 @@ RSpec.describe "Reviews", type: :system do
           visit '/reviews/1'
           within('#related_reviews') do
             expect(page).to have_selector 'div', class: 'related_review', count: 7
+          end
+        end
+
+        it '最近見た投稿の表示されること' do
+          log_in_as(second_user.email, second_user.password)
+          visit '/reviews/8'
+          visit '/reviews/7'
+          visit '/reviews/6'
+          visit '/reviews/5'
+          visit '/reviews/4'
+          visit '/reviews/3'
+          visit '/reviews/2'
+          visit '/reviews/1'
+          within('#recent_reviews') do
+            expect(page).to have_link "#{good_review.title}"
+            expect(page).to have_content good_review.user.username
+            expect(page).to have_link "#{normal_review.title}"
+            expect(page).to have_content normal_review.user.username
+            expect(page).to have_link "#{related_first_review.title}"
+            expect(page).to have_content related_first_review.user.username
+            expect(page).to have_link "#{related_second_review.title}"
+            expect(page).to have_content related_second_review.user.username
+            expect(page).to have_link "#{related_third_review.title}"
+            expect(page).to have_content related_third_review.user.username
+            expect(page).to have_link "#{related_forth_review.title}"
+            expect(page).to have_content related_forth_review.user.username
+            expect(page).to have_link "#{related_fifth_review.title}"
+            expect(page).to have_content related_fifth_review.user.username
+            expect(page).not_to have_link "#{related_sixth_review.title}"
+          end
+        end
+
+        it '最近見た投稿が7つまでであること' do
+          log_in_as(second_user.email, second_user.password)
+          visit '/reviews/1'
+          visit '/reviews/2'
+          visit '/reviews/3'
+          visit '/reviews/4'
+          visit '/reviews/5'
+          visit '/reviews/6'
+          visit '/reviews/7'
+          visit '/reviews/8'
+          within('#recent_reviews') do
+            expect(page).to have_selector 'div', class: 'recent_review', count: 7
           end
         end
       end
@@ -507,7 +556,7 @@ RSpec.describe "Reviews", type: :system do
         let!(:sixth_ruby_tag_relationship) { create(:tag_relationship, review_id: related_sixth_review.id, tag_id: python_tag.id) }
         let!(:seventh_ruby_tag_relationship) { create(:tag_relationship, review_id: related_seventh_review.id, tag_id: ruby_tag.id) }
 
-        it '編集・削除へのリンクがないこと' do
+        it '編集・削除へのリンク・コンテンツがあること' do
           log_in_as(second_user.email, second_user.password)
           within('.notice') do
             expect(page).to have_content 'ログインしました'
@@ -521,6 +570,11 @@ RSpec.describe "Reviews", type: :system do
           expect(page).to have_link normal_review.link
           expect(page).not_to have_link '編集する'
           expect(page).not_to have_link '削除する'
+        end
+
+        it '関連した投稿の表示されること' do
+          log_in_as(second_user.email, second_user.password)
+          visit '/reviews/2'
           within('#related_reviews') do
             expect(page).not_to have_link "#{normal_review.title}"
             expect(page).to have_link "#{related_first_review.title}"

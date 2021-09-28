@@ -84,6 +84,22 @@ class ReviewsController < ApplicationController
     end
     @related_reviews.delete(@review)
     @related_reviews = @related_reviews.sample(RELATED_REVIRES_COUNT)
+
+    new_history = @review.browsing_histories.new
+    new_history.user_id = current_user.id
+    if current_user.browsing_histories.exists?(review_id: "#{params[:id]}")
+      old_history = current_user.browsing_histories.find_by(review_id: "#{params[:id]}")
+      old_history.destroy
+    end
+    new_history.save
+
+    histories_stock_limit = 7
+    histories = current_user.browsing_histories.all
+    if histories.count > histories_stock_limit
+      histories[0].destroy
+    end
+
+    @browsingHistories = BrowsingHistory.order(created_at: :desc).where(user_id: current_user.id)
   end
 
   def edit

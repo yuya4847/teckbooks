@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :entries, dependent: :destroy
+  has_many :browsing_histories, dependent: :destroy
+  has_many :recent_reviews, through: :browsing_histories, source: :review
   before_save { self.email = email.downcase }
   validates :username, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }, format: { with: Const::VALID_EMAIL_REGEX }
