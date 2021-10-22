@@ -65,7 +65,7 @@ class HomesController < ApplicationController
         yahoo_books = JSON.parse(yahoo_json)['hits']
       end
 
-      google_url = URI.parse("https://www.googleapis.com/books/v1/volumes?q=#{@search_keyword}&country=JP&maxResults=40")
+      google_url = URI.parse("https://www.googleapis.com/books/v1/volumes?q=#{@search_keyword}&country=JP&maxResults=15")
       google_json = Net::HTTP.get(google_url)
       google_books = JSON.parse(google_json)['items']
 
