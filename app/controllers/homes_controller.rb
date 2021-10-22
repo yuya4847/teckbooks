@@ -6,11 +6,12 @@ require 'open-uri'
 class HomesController < ApplicationController
   def home
 
-    @search_keyword = "Next.js"
+    @search_keyword = "ruby"
 
     if user_signed_in?
       @books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005")
 
+      if Rails.env == 'development'
       url = "http://book.tsuhankensaku.com/hon/index.php?t=booksearch&q=#{@search_keyword}&sort="
       charset = nil
       html = URI.open(url) do |f|
@@ -50,6 +51,8 @@ class HomesController < ApplicationController
         }
         @amazon_books << amazon_book
       end
+
+    end
 
       if Rails.env == 'production'
         yahoo_url = URI.parse("https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=#{ENV['YAHOO_PRO_ID']}&genre_category_id=10002&query=#{@search_keyword}")
@@ -97,11 +100,13 @@ class HomesController < ApplicationController
           end
         end
 
+       if Rails.env == 'development'
         @amazon_books.each do |amazon_book|
           if amazon_book[:isbn] == book.isbn
             @amazon_link = amazon_book[:link]
           end
         end
+      end
 
         book_data = {
           rakuten: {
