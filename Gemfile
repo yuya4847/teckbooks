@@ -31,6 +31,11 @@ gem 'ransack', '2.3.0'
 gem 'font-awesome-sass'
 gem 'google-analytics-rails'
 gem 'impressionist'
+gem 'rakuten_web_service'
+gem "selenium-webdriver"
+
+gem 'nokogiri'
+gem 'open-uri'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

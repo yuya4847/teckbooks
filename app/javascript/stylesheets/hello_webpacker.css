@@ -1,5 +1,5 @@
 html, body {
-   background: yellow; /* 背景色を黄色に */
+  background-color: white;
 }
 
 .currentuser_message_content {
@@ -75,41 +75,29 @@ html, body {
 }
 
 /* 投稿画像 */
-
-.all_review_img {
-  width: 250px;
-  height: 250px;
-  object-fit: contain;
-  border: 1px solid;
-  border-color: black;
-}
-
-.search_review_img {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  border: 1px solid;
-  border-color: black;
-}
-
-.picture-file-div {
-  font-size: 10px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.loader {
+  margin-top: 60px;
   align-items: center;
-  background-color: gray;
-  border: 1px solid gray;
-  height: 560px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+}
+.loader::after {
+  animation: loader 1s linear infinite;
+  border: 2.7px solid #e53e3e;;
+  border-radius: 50%;
+  border-right: 2.7px solid white;
+  content: "";
+  height: 45px;
+  width: 45px;
 }
 
-.no-image {
-  width: 150px;
-  height: 150px;
+@keyframes loader {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -3,5 +3,38 @@
   <h1>ようこそ</h1>
   <p>トップページです。</p>
 <% end %>
-<% if Rails.env.development? %>開発環境です<% end %>
-<% if Rails.env.production? %>本番環境です<% end %>
+
+<div class="index"></div>
+<div class="loader"></div>
+
+<% if @api_books %>
+<div><%= @api_books.count %>件</div>
+  <% @api_books.each do |book| %>
+    <div>
+      <div><%= book[:rakuten][:title] %></div>
+      <div><%= book[:rakuten][:isbn] %></div>
+      <div><%= book[:rakuten][:price] %>円</div>
+      <div><%= book[:rakuten][:sales_date] %></div>
+      <% unless book[:google][:page_count] == "" %>
+        <div><%= book[:google][:page_count] %>ページ</div>
+      <% end %>
+      <div><%= truncate(book[:rakuten][:caption], length: 30) %></div>
+      <img src="<%= book[:rakuten][:rakuten_image_url] %>">
+      <% if book[:rakuten][:rakuten_url] %>
+        <a target="_blank" href="<%= book[:rakuten][:rakuten_url] %>">楽天</a>
+      <% end %>
+      <% unless book[:google][:google_url] == "" %>
+        <a target="_blank" href="<%= book[:google][:google_url] %>">googlebooks</a>
+      <% end %>
+      <% unless book[:yahoo][:yahoo_url] == "" %>
+        <a target="_blank" href="<%= book[:yahoo][:yahoo_url] %>">yahoobooks</a>
+      <% end %>
+      <% unless book[:amazon][:amazon_url] == "" %>
+        <a target="_blank" href="<%= book[:amazon][:amazon_url] %>">Amazon</a>
+      <% end %>
+      <a target="_blank" href="https://calil.jp/book/<%= book[:rakuten][:isbn] %>">全国図書館</a>
+      <a target="_blank" href="https://www.kinokuniya.co.jp/f/dsg-01-<%= book[:rakuten][:isbn] %>">紀伊國屋書店</a>
+      <a target="_blank" href="https://www.miraiyashoten.co.jp/search/neighborhood/<%= book[:rakuten][:isbn] %>/">未来屋書店</a>
+    </div>
+  <% end %>
+<% end %>
