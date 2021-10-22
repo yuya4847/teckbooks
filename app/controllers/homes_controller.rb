@@ -6,7 +6,7 @@ require 'open-uri'
 class HomesController < ApplicationController
   def home
 
-    @search_keyword = "ruby"
+    @search_keyword = "Next.js"
 
     if user_signed_in?
       @books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005")
@@ -19,7 +19,7 @@ class HomesController < ApplicationController
       end
       page = Nokogiri::HTML.parse(html, nil, charset)
       page_count = page.xpath('//div[@id="pagehandle"]/span').count
-      sleep 1
+      sleep 0.3
       @amazon_isbns = []
       @amazon_links = []
 
@@ -39,7 +39,7 @@ class HomesController < ApplicationController
         page_html.xpath('//td[@class="itemdetail"]/div[5]').each do |book|
           @amazon_isbns << book.text[16..28]
         end
-        sleep 0.5
+        sleep 0.3
       end
 
       @amazon_books = []
