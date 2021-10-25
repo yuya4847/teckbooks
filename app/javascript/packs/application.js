@@ -18,4 +18,21 @@ require("channels")
 
 global.$ = require('jquery')
 require("jquery")
+
+import '../stylesheets/bootstrap-grid'
+import '../stylesheets/bootstrap-grid.min'
+import '../stylesheets/bootstrap-grid.rtl'
+import '../stylesheets/bootstrap-grid.rtl.min'
+import '../stylesheets/bootstrap-reboot'
+import '../stylesheets/bootstrap-reboot.min'
+import '../stylesheets/bootstrap-reboot.rtl'
+import '../stylesheets/bootstrap-reboot.rtl.min'
+import '../stylesheets/bootstrap-utilities'
+import '../stylesheets/bootstrap-utilities.min'
+import '../stylesheets/bootstrap-utilities.rtl'
+import '../stylesheets/bootstrap-utilities.rtl.min'
+import '../stylesheets/bootstrap'
+import '../stylesheets/bootstrap.min'
+import '../stylesheets/bootstrap.rtl'
+import '../stylesheets/bootstrap.rtl.min'
 import '../stylesheets/hello_webpacker'

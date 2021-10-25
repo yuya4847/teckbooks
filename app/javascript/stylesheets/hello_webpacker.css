@@ -1,5 +1,30 @@
+*:focus {
+  outline: none !important;
+}
+
+*:focus {
+ box-shadow:none !important;
+}
+
+a {
+    text-decoration:none;
+}
+
+.header-link-color {
+  color: white;
+}
+
+.container {
+  padding: 0;
+}
+
 html, body {
   background-color: white;
+}
+
+.header {
+  background-color: #1F2937;
+  height: 3.5rem;
 }
 
 .currentuser_message_content {
@@ -12,6 +37,10 @@ html, body {
 
 .index {
   border-top: solid 1px #C0C0C0;
+}
+
+.under-line {
+  border-bottom: solid 1px #e5e7eb;
 }
 
 .aaa {
@@ -85,7 +114,7 @@ html, body {
 }
 .loader::after {
   animation: loader 1s linear infinite;
-  border: 2.7px solid #e53e3e;;
+  border: 2.7px solid #e53e3e;
   border-radius: 50%;
   border-right: 2.7px solid white;
   content: "";
@@ -100,4 +129,66 @@ html, body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.search_words {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 1rem;
+}
+
+.search_word {
+  cursor: pointer;
+  border-radius: .25rem;
+  background-color: rgba(229,231,235);
+  list-style: none;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: .75rem;
+  line-height: 1rem;
+  margin-top: .25rem;
+}
+
+.search_word:hover {
+  background-color: #a0aec0;
+}
+
+.search_word_left_mg {
+  margin-left: .25rem;
+}
+
+.api-search-group {
+  margin: 1rem;
+}
+
+.api-search-form {
+  border-radius: 8px 0px 0px 8px;
+  box-shadow: none;
+  transition: unset;
+  font-size: 100%;
+  padding: 8px;
+  width: 83.333333%;
+}
+
+.api-search-form:focus {
+  border: 1px solid blue;
+}
+
+.api-search-btn {
+  background-color: #F87171;
+  border-radius: 0px 8px 8px 0px;
+  box-shadow: none;
+  transition: unset;
+  width: 16.666667%%;
+}
+
+.api-search-btn:hover {
+  background-color: red;
+}
+
+.api-search-btn:focus {
+  border: 1px solid blue;
 }

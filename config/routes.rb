@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     :registrations => 'users/registrations',
   }
   root 'homes#home'
+  get 'homes/search', to: 'homes#search'
+
   resources :userpages,     only: [:show]
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
   get 'userpages/:id/following', to: 'userpages#following', as: 'following_user'

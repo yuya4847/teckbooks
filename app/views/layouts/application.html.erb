@@ -7,20 +7,23 @@
 
     <%= stylesheet_pack_tag 'application' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body>
-    <%= link_to 'ホーム', root_path %>
-    <% if user_signed_in? %>
-      <%= link_to 'プロフィール', userpage_path(current_user.id) %>
-      <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
-      <%= link_to 'レビューを投稿', new_review_path %>
-      <%= link_to '全ての投稿', all_reviews_path %>
-      <%= link_to '検索', reviews_path %>
-    <% else %>
-      <%= link_to 'サインアップ', new_user_registration_path %>
-      <%= link_to 'ログイン', new_user_session_path %>
-    <% end %>
+    <div class="header">
+      <%= link_to 'ホーム', root_path, class: 'header-link-color' %>
+      <% if user_signed_in? %>
+        <%= link_to 'プロフィール', userpage_path(current_user.id), class: 'header-link-color' %>
+        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'header-link-color' %>
+        <%= link_to 'レビューを投稿', new_review_path, class: 'header-link-color' %>
+        <%= link_to '全ての投稿', all_reviews_path, class: 'header-link-color' %>
+        <%= link_to '検索', reviews_path, class: 'header-link-color' %>
+      <% else %>
+        <%= link_to 'サインアップ', new_user_registration_path, class: 'header-link-color' %>
+        <%= link_to 'ログイン', new_user_session_path, class: 'header-link-color' %>
+      <% end %>
+    </div>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
