@@ -4,10 +4,8 @@
     <title>Techbooks</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_pack_tag 'application' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -24,8 +22,8 @@
         <%= link_to 'ログイン', new_user_session_path, class: 'header-link-color' %>
       <% end %>
     </div>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <p id="notice" class="notice"><%= notice %></p>
+    <p id="alert" class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>

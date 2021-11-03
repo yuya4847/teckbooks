@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   delete 'reviews/:id/:original_page', to: 'reviews#review_destroy', as: 'review_destroy'
   resources :relationships,       only: [:create, :destroy]
   resources :likes, only: [:create, :destroy]
+  resources :reports, only: [:create]
   resources :messages, only: [:create]
   resources :rooms, only: [:create, :show, :destroy]
 end

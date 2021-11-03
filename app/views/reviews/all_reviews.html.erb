@@ -1,69 +1,77 @@
-<% if @pv_ranking %>
-  <div id="impression_rank">
-    <% @pv_ranking.each.with_index(1) do |rank, i| %>
-      <div id="rank">
-        <%= "#{i}" %>位
-        <%= link_to "#{rank.title}", review_path(rank) %>
-        <%= rank.impressionist_count %>レビュー
-      </div>
-    <% end %>
-  </div>
-<% end %>
-
-<h2>全ての投稿</h2>
-
 <div>
-  <% @reviews.each do |review| %>
-  <% @review = review %>
-  <div>
-    <span>
-      <div id="like_form<%= @review.id %>" class="like_class<%= @review.id %>">
-        <%= render 'shared/like_form' %>
-      </div>
-    </span>
-  </div>
-  <div>
-    <%= @review.user.username %>
-    <% if @review.user.avatar.url %>
-      <div>
-        <img src="<%= @review.user.avatar.url %>" class="aaa">
-      </div>
-    <% else %>
-      <div>
-        <img src="/uploads/user/avatar/default.png" class="bbb">
-      </div>
-    <% end %>
-  </div>
-  <div>
-    <% if @review.picture.url %>
-      <img class="all_review_img" src="<%= @review.picture.url %>">
-    <% else %>
-      <b>画像はありません</b>
-    <% end %>
-  </div>
-    <div><%= link_to "#{@review.title}", review_path(@review) %></div>
-    <div><%= @review.content %></div>
-    <div><%= @review.rate %></div>
-    <div><%= time_ago_in_words(@review.created_at).delete("約").delete("未満") %>前</div>
-    <div id="all_review_tags">
-      <span>タグ</span>
-      <% @review.tags.each do |tag| %>
-        <div>#<%= tag.name %></div>
-      <% end %>
-    </div>
-    <div>
-      <%= link_to @review.link, target: :_blank do %>
-        <%= @review.link %>
-      <% end %>
-    </div>
-    <div>
-      <% if current_user.admin? %>
-      <%= link_to "削除する", review_destroy_path(id: @review.id, original_page: "exist"), method: :delete,
-                                  data: { confirm: "本当にこの投稿を削除しますか？" } %>
+  <% if @pv_ranking %>
+    <div id="impression_rank">
+      <% @pv_ranking.each.with_index(1) do |rank, i| %>
+        <div id="rank">
+          <%= "#{i}" %>位
+          <%= link_to "#{rank.title}", review_path(rank) %>
+          <%= rank.impressionist_count %>レビュー
+        </div>
       <% end %>
     </div>
   <% end %>
 </div>
+
+<div>
+  <h2>全ての投稿</h2>
+  <input type="hidden" id="review_total" value="<%= @reviews.count %>">
+</div>
+
+    <% @reviews.each do |review| %>
+      <div id="review_<%= review.id %>">
+        <div>
+          <div id="like_form<%= review.id %>" class="like_class<%= review.id %>">
+            <%= render partial: 'shared/like_form', locals: { review: review } %>
+          </div>
+
+          <div id="report_form<%= review.id %>">
+            <%= render partial: 'reviews/all_reviews_display', locals: { review: review } %>
+          </div>
+
+          <div>
+            <%= review.user.username %>
+            <% if review.user.avatar.url %>
+              <div>
+                <img src="<%= review.user.avatar.url %>" class="aaa">
+              </div>
+            <% else %>
+              <div>
+                <img src="/uploads/user/avatar/default.png" class="bbb">
+              </div>
+            <% end %>
+          </div>
+          <div>
+            <% if review.picture.url %>
+              <img class="all_review_img" src="<%= review.picture.url %>">
+            <% else %>
+              <b>画像はありません</b>
+            <% end %>
+          </div>
+            <div><%= link_to "#{review.title}", review_path(review) %></div>
+            <div><%= review.content %></div>
+            <div><%= review.rate %></div>
+            <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
+            <div id="all_review_tags">
+              <span>タグ</span>
+              <% review.tags.each do |tag| %>
+                <div>#<%= tag.name %></div>
+              <% end %>
+            </div>
+            <div>
+              <%= link_to review.link, target: :_blank do %>
+                <%= review.link %>
+              <% end %>
+            </div>
+            <div>
+              <% if current_user.admin? %>
+              <%= link_to "削除する", review_destroy_path(id: review.id, original_page: "exist"), method: :delete,
+                                          data: { confirm: "本当にこの投稿を削除しますか？" } %>
+              <% end %>
+            </div>
+        </div>
+      </div>
+
+    <% end %>
 <div class="index">
   <div>
     <% if @recommend_users %>
@@ -89,3 +97,19 @@
 <div id="ranking_ajax" class="index">
   <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
 </div>
+
+<script type="text/javascript">
+  var review_total = $('#review_total').val();
+  var review_total_number = Number(review_total);
+
+  for (let i = 1; i <= review_total_number; i++) {
+    $(`#open_report_modal_${i}`).on('click',function(){
+      $(`#report_modal_${i}`).fadeIn();
+      return false;
+    });
+    $(`.close_report_modal_${i}`).on('click',function(){
+      $(`#report_modal_${i}`).fadeOut();
+      return false;
+    });
+   }
+</script>

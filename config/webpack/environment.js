@@ -9,4 +9,9 @@ environment.plugins.prepend('Provide',
   })
 )
 
+environment.plugins.append('Provide', new webpack.ProvidePlugin({
+  sweetalert2: 'sweetalert2/dist/sweetalert2.all',
+  Swal: 'sweetalert2/dist/sweetalert2.all'
+}));
+
 module.exports = environment

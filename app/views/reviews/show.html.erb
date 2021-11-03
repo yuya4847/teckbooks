@@ -17,7 +17,7 @@
   <div>
     <span>
       <div id="like_form<%= @review.id %>" class="like_class<%= @review.id %>">
-        <%= render 'shared/like_form' %>
+        <%= render partial: 'shared/like_form', locals: { review: @review } %>
       </div>
     </span>
   </div>

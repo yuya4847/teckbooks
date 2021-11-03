@@ -11,6 +11,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     CFPropertyList (2.3.6)
     actioncable (6.0.3.5)
@@ -409,6 +410,9 @@ GEM
       bundler (>= 1.3.0)
       railties (= 6.0.3.5)
       sprockets-rails (>= 2.0.0)
+    rails-assets-es6-promise (4.2.4)
+    rails-assets-sweetalert2 (5.1.1)
+      rails-assets-es6-promise
     rails-controller-testing (1.0.5)
       actionpack (>= 5.0.1.rc1)
       actionview (>= 5.0.1.rc1)
@@ -532,6 +536,7 @@ GEM
     sqlite3 (1.4.2)
     ssrf_filter (1.0.7)
     stringio (3.0.0)
+    sweet-alert2-rails (0.1.0)
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -602,6 +607,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.2)
+  rails-assets-sweetalert2 (~> 5.1.1)!
   rails-controller-testing
   rails-i18n (>= 1.2.2)
   rakuten_web_service
@@ -613,6 +619,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3 (~> 1.4)
+  sweet-alert2-rails
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)

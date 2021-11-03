@@ -4,6 +4,11 @@
   <p>トップページです。</p>
 <% end %>
 
+<script type="text/javascript">
+  $('#notice').css('display','none');
+  $('#alert').css('display','none');
+</script>
+
 <% if user_signed_in? %>
 
   <ul class="search_words">

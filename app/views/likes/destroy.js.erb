@@ -1,2 +1,2 @@
-$("#like_form<%= @review.id %>").html("<%= escape_javascript(render('shared/like_form')) %>");
+$("#like_form<%= @review.id %>").html("<%= j(render 'shared/like_form', { review: @review }) %>");
 $("#ranking_ajax").html("<%= j(render 'reviews/ranking', { ranking_reviews: @ranking_reviews }) %>");

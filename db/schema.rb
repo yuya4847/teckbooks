@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_101053) do
+ActiveRecord::Schema.define(version: 2021_10_26_034157) do
 
   create_table "browsing_histories", force: :cascade do |t|
     t.integer "user_id"
@@ -79,6 +79,13 @@ ActiveRecord::Schema.define(version: 2021_09_22_101053) do
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "review_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

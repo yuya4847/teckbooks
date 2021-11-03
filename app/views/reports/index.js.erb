@@ -1,0 +1,6 @@
+$("#report-cancel-btn").click();
+<% if @delete_review == "on" %>
+  $("#review_<%= @review.id %>").html("");
+<% else %>
+  $("#report_form<%= @review.id %>").html("<%= j(render 'reviews/all_reviews_display', { review: @review }) %>");
+<% end %>
