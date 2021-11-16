@@ -10,6 +10,7 @@ class Review < ApplicationRecord
   has_many :browsing_histories, dependent: :destroy
   has_many  :recent_users, through: :browsing_histories, source: :user
   has_many :reports, dependent: :destroy
+  has_many :recommends, dependent: :destroy
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
   validates :title, presence: true, length: { maximum: 50 }

@@ -26,4 +26,6 @@ Rails.application.routes.draw do
   resources :reports, only: [:create]
   resources :messages, only: [:create]
   resources :rooms, only: [:create, :show, :destroy]
+  get 'recommends', to: 'recommends#recommend_user_display', as: 'recommend_user_display'
+  get 'recommend/modal', to: 'recommends#recommend_open_modal', as: 'recommend_open'
 end

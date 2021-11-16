@@ -19,7 +19,7 @@ User.create!(
   confirmed_at: Time.now
 )
 
-20.times do |n|
+40.times do |n|
   name  = "加藤純一#{n+3}"
   email = "cccuser#{n+3}@aaaa.com"
   password = "password"
@@ -34,10 +34,12 @@ end
 # リレーションシップ
 users = User.all
 user  = users.first
-following = users[2..6]
-followers = users[3..8]
+third_user  = users.third
+following = users[2..4]
+followers = users[5..7]
+
 following.each { |followed| user.follow(followed) }
-followers.each { |follower| follower.follow(user) }
+followers.each { |followed| third_user.follow(followed) }
 
 tech_items = [
   "ruby",

@@ -1,4 +1,4 @@
-<div><%= comments.count %>件コメント</div>
+<div><%= comments.size %>件コメント</div>
 <% comments.each do |comment| %>
   <div class="comment_space">
     <% unless comment.id.nil? %>

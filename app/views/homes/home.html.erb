@@ -211,13 +211,12 @@ $(function(){
       dispLoading()
       searchingTime = 1;
       $.ajax({
-        url: 'homes/search',
         type: 'GET',
-        dataType: 'json',
-        async: true,
+        url: 'homes/search',
         data: {search_content: search_content},
-      }).done(function(data){
-        $(`#items`).html(data.content);
+        dataType: 'json',
+      }).done(function(apiData){
+        $(`#items`).html(apiData.content);
         $(`#items`).css('display','');
         $("#loader").remove();
         searchingTime = 0;

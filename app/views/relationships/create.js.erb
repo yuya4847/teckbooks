@@ -1,2 +1,3 @@
 $("#follow_form<%= @user.id %>").html("<%= escape_javascript(render('shared/unfollow')) %>");
-$("#followers").html('<%= @user.followers.count %>');
+$("#may_friend_follow_form<%= @user.id %>").html("<%= escape_javascript(render('shared/unfollow')) %>");
+$("#followers").html('<%= @user.followers.size %>');

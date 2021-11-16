@@ -14,11 +14,12 @@
 
 <div>
   <h2>全ての投稿</h2>
-  <input type="hidden" id="review_total" value="<%= @reviews.count %>">
+  <input type="hidden" id="review_total" value="<%= @reviews.size %>">
+  <input type="hidden" id="recommend_user_total" value="<%= @will_recommend_users.size %>">
 </div>
 
     <% @reviews.each do |review| %>
-      <div id="review_<%= review.id %>">
+      <div id="review_<%= review.id %>" class="each_review book_review_<%= review.id %>">
         <div>
           <div id="like_form<%= review.id %>" class="like_class<%= review.id %>">
             <%= render partial: 'shared/like_form', locals: { review: review } %>
@@ -26,6 +27,44 @@
 
           <div id="report_form<%= review.id %>">
             <%= render partial: 'reviews/all_reviews_display', locals: { review: review } %>
+          </div>
+
+          <div id="recommend_messages">
+            <% @recommends.each do |recommend| %>
+              <% if recommend.review_id == review.id && recommend.recommended_user_id == current_user.id %>
+                  <div>この投稿は、<%= recommend.recommend_user.username %>におすすめされています</div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div>
+            <div id="open_recommend_modal_<%= review.id %>" class="recommend_users_display open_modal">リコメンド</div>
+            <div id="recommend_modal_<%= review.id %>" style="display: none;">
+              <div class="modal-back">
+                <div class="modal_close close_recommend_modal_<%= review.id %>">
+                </div>
+                <div class="recommend_modal_body">
+                  <div class="modal_close_btn close_recommend_modal_<%= review.id %>">✖︎</div>
+                  <div id="recommend_users_<%= review.id %>">
+                  </div>
+                  <div class="recommend_users">
+                    <% @will_recommend_users.each do |will_recommend_user| %>
+                      <div class="recommend_user recommend_review_<%= review.id %> recommend_user_<%= will_recommend_user.id %>">
+                        <% if will_recommend_user.avatar.url %>
+                          <img src="<%= will_recommend_user.avatar.url %>" class="comment-logo">
+                        <% else %>
+                          <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+                        <% end %>
+                        <span><%= will_recommend_user.username %></span>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="recommend_cancel" style="cursor: pointer;">キャンセル</div>
+                  <div class="recommend_send" style="cursor: pointer;">リコメンド</div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <div>
@@ -73,13 +112,14 @@
 
     <% end %>
 <div class="index">
-  <div>
-    <% if @recommend_users %>
-      <% @recommend_users.each do |recommend_user| %>
+  <div id="unknown_users">
+    <div>友達を探そう!!</div>
+    <% if @unknown_users %>
+      <% @unknown_users.each do |unknown_user| %>
         <div>
-          <% @user = recommend_user %>
+          <% @user = unknown_user %>
           <% if @user.avatar.url %>
-            <img src="<%= @review.user.avatar.url %>" class="comment-logo">
+            <img src="<%= @user.avatar.url %>" class="comment-logo">
           <% else %>
             <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
           <% end %>
@@ -93,6 +133,29 @@
       <div>フォローしていないユーザーはいません。</div>
     <% end %>
   </div>
+
+  <div id="may_friend_users">
+    <div>知り合いかも？</div>
+    <% if @may_friend_users %>
+      <% @may_friend_users.each do |may_friend_user| %>
+        <div>
+          <% @user = may_friend_user %>
+          <% if @user.avatar.url %>
+            <img src="<%= @user.avatar.url %>" class="comment-logo">
+          <% else %>
+            <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+          <% end %>
+          <span><%= @user.username %></span>
+          <span id="may_friend_follow_form<%= @user.id %>" class="may_friend_follow_class<%= @user.id %>">
+            <%= render 'shared/follow_form' %>
+          </span>
+        </div>
+      <% end %>
+    <% else %>
+      <div>知り合いかもしれないユーザーはいません。</div>
+    <% end %>
+  </div>
+
 </div>
 <div id="ranking_ajax" class="index">
   <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
@@ -101,15 +164,110 @@
 <script type="text/javascript">
   var review_total = $('#review_total').val();
   var review_total_number = Number(review_total);
+  var recommend_user_total = $('#recommend_user_total').val();
+  var recommend_user_total_number = Number(recommend_user_total);
+  var select_user_ids = [];
+  var recommend_datas;
 
-  for (let i = 1; i <= review_total_number; i++) {
-    $(`#open_report_modal_${i}`).on('click',function(){
-      $(`#report_modal_${i}`).fadeIn();
+  $(`.open_modal`).on('click',function(){
+    review_id = $(this).closest('.each_review').attr('class').split(" ")[1].substring(12);
+    review_id = Number(review_id);
+    console.log(review_id);
+    for (let i = 2; i <= recommend_user_total_number + 1; i++) {
+      $(`.recommend_user_${i}`).removeClass('select_user');
+    }
+    select_user_id = "";
+    select_review_id = "";
+    recommend_datas = "";
+    select_user_ids = [];
+    $.ajax({
+      type: 'GET',
+      url: 'recommend/modal',
+      data: {review_id: review_id},
+      dataType: 'json',
+    }).done(function(contents){
+      for (let i = 0; i <= contents.click_user_ids.length - 1; i++) {
+        $(`.recommend_user_${contents.click_user_ids[i]}`).click();
+        select_user_ids.push(Number(contents.click_user_ids[i]));
+      }
+    });
+
+    $(`#recommend_modal_${review_id}`).fadeIn();
       return false;
     });
-    $(`.close_report_modal_${i}`).on('click',function(){
-      $(`#report_modal_${i}`).fadeOut();
+
+    $(`.modal_close`).on('click',function(){
+      review_id = $(this).attr('class').split(" ")[1].substring(22);
+      $(`#recommend_modal_${review_id}`).fadeOut();
       return false;
     });
-   }
+
+    $(`.recommend_user`).on('click',function(){
+      select_review_id = review_id;
+      select_user_id = $(this).attr('class').split(" ")[2].substring(15);
+
+      if (select_user_ids.includes(Number(select_user_id))) {
+        select_user_ids = select_user_ids.filter(item => item != Number(select_user_id));
+      }else{
+        select_user_ids.push(Number(select_user_id));
+      }
+      $(this).toggleClass('select_user');
+      $(this).css('background', '');
+    });
+
+    $('.recommend_user').hover(function() {
+      hover_user_id = $(this).attr('class').split(" ")[2].substring(15);
+      if (select_user_ids.includes(Number(hover_user_id)) == false) {
+        $(this).css('background', '#c00');
+      }
+    }, function() {
+      $(this).css('background', '');
+    });
+
+    $(`.recommend_cancel`).click(function() {
+        $(`.select_user`).click();
+        select_user_ids = [];
+    });
+
+    $(`.recommend_send`).click(function() {
+      recommend_user_datas = select_user_ids.join();
+
+      $.ajax({
+        type: 'GET',
+        url: 'recommends',
+        data: {recommend_user_datas: recommend_user_datas, review_id: review_id},
+        dataType: 'json',
+      }).done(function(contents){
+        $(`#recommend_modal_${contents.review_id}`).fadeOut();
+        Swal.fire(
+          'Good job!',
+          'You clicked the button!',
+          'success'
+        )
+      });
+    });
 </script>
+
+<style>
+
+  .select_user {
+    background-color: #0000FF;
+  }
+
+  .recommend_modal_body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    -webkit- transform: translateY(-50%) translateX(-50%);
+    width: 600px;
+    height: 700px;
+    background-color: white;
+    border-radius: 10px;
+  }
+
+  .recommend_users {
+    height: 500px;
+    overflow-y: scroll;
+  }
+</style>

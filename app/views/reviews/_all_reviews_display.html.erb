@@ -1,12 +1,12 @@
 <% if current_user.already_report?(review) %>
   <span>通報済</span>
 <% else %>
-<div id="open_report_modal_<%= review.id %>" class="open_modal">通報</div>
-<div id="report_modal_<%= review.id %>" style="display: none;">
+<div id="open_report_modal_<%= review.id %>" class="open_report_modal">通報</div>
+<div class="report_modal_content" id="report_modal_<%= review.id %>" style="display: none;">
   <div class="modal-back">
     <div class="modal_close close_report_modal_<%= review.id %>">
     </div>
-    <div class="modal_body">
+    <div class="report_modal_body">
       <div class="modal_close_btn close_report_modal_<%= review.id %>">✖︎</div>
         <%= form_with url: reports_path, local: false do |f| %>
           <%= hidden_field_tag :review_id, review.id %>
@@ -18,9 +18,26 @@
 
 <% end %>
 
+<script type="text/javascript">
+  $(`.open_report_modal`).on('click',function(){
+    $(this).next().fadeIn();
+    return false;
+  });
+
+  $(`.modal_close`).on('click',function(){
+    $(this).closest('.report_modal_content').fadeOut();
+    return false;
+  });
+</script>
+
 <style media="screen">
 
   .open_modal {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .open_report_modal {
     cursor: pointer;
     display: inline-block;
   }
@@ -40,7 +57,7 @@
     height: 100%;
   }
 
-  .modal_body {
+  .report_modal_body {
     position: absolute;
     top: 50%;
     left: 50%;

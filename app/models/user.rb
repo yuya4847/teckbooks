@@ -17,6 +17,12 @@ class User < ApplicationRecord
   has_many :browsing_histories, dependent: :destroy
   has_many :recent_reviews, through: :browsing_histories, source: :review
   has_many :reports, dependent: :destroy
+  has_many :active_recommends, class_name:  "Recommend",
+                                  foreign_key: "recommend_user_id",
+                                  dependent:   :destroy
+  has_many :passive_recommends, class_name:  "Recommend",
+                                  foreign_key: "recommended_user_id",
+                                  dependent:   :destroy
   before_save { self.email = email.downcase }
   validates :username, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }, format: { with: Const::VALID_EMAIL_REGEX }
