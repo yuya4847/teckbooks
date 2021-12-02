@@ -10,17 +10,19 @@
       </div>
     </div>
   </div>
-  <% notifications.each do |notification| %>
-    <div class="notification-<%= notification.id %>">
-      <% user = User.find(notification.visitor_id) %>
-      <% if user.avatar.url %>
-        <img src="<%= user.avatar.url %>" class="comment-logo">
-      <% else %>
-        <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-      <% end %>
-      <%= notification_form(notification) %>
-      <%= link_to '削除', notification_path(notification.id), method: :delete, remote: true %>
-    </div>
+  <% if notifications %>
+    <% notifications.each do |notification| %>
+      <div class="notification-<%= notification.id %>">
+        <% user = User.find(notification.visitor_id) %>
+        <% if user.avatar.url %>
+          <img src="<%= user.avatar.url %>" class="comment-logo">
+        <% else %>
+          <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+        <% end %>
+        <%= notification_form(notification) %>
+        <%= link_to '削除', notification_path(notification.id), method: :delete, remote: true %>
+      </div>
+    <% end %>
   <% end %>
 <% else %>
     <p>通知はありません</p>
