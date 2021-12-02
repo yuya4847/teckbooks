@@ -32,8 +32,10 @@
   </ul>
 
 <div class="form-group row api-search-group">
-  <input id="search_content" class="col-9 pr-0 form-control api-search-form" type="text" name="keyword" />
+  <input autocomplete="off" list="suggest_books" id="search_content" class="col-9 pr-0 form-control api-search-form" type="text" name="keyword" />
   <input type="submit" name="commit" value="検索" id="keyword" class="col-2 pt-2 pb-2 btn api-search-btn" data-disable-with="検索" />
+  <datalist id="suggest_books">
+  </datalist>
 </div>
 <div id="loader-div">
 </div>
@@ -45,6 +47,24 @@
 <script>
 
 $(function(){
+
+  $('#search_content').keyup(function() {
+    var keyword = $("#search_content").val();
+    $("#suggest_books").empty();
+    if (keyword.length >= 2 && keyword.length <= 10) {
+      $.ajax({
+        type: 'GET',
+        url: 'homes/suggest',
+        data: {suggest_content: keyword},
+        dataType: 'json',
+      }).done(function(result){
+        for (let step = 0; step <= result.suggest_books.length; step++) {
+          $('#suggest_books').append(`<option value=${result.suggest_books[step]}>`);
+        }
+      });
+    }
+  });
+
   var searchingTime = 0;
     $('#keyword').click(function() {
       if (searchingTime == 0) {

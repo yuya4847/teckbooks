@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
   def create
     Report.create(user_id: current_user.id, review_id: params[:review_id])
     @review = Review.find(params[:review_id])
+    @review.create_notification_report!(current_user)
     @report_reviews = Review.find_by_sql('
       SELECT *
       FROM reviews

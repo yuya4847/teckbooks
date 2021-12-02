@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   }
   root 'homes#home'
   get 'homes/search', to: 'homes#search'
+  get 'homes/suggest', to: 'homes#suggest'
 
   resources :userpages,     only: [:show]
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
@@ -26,6 +27,8 @@ Rails.application.routes.draw do
   resources :reports, only: [:create]
   resources :messages, only: [:create]
   resources :rooms, only: [:create, :show, :destroy]
+  resources :notifications, only: [:index, :destroy]
+  delete 'notification_all_destory', to: 'notifications#all_destroy', as: 'notifications_destory'
   get 'recommends', to: 'recommends#recommend_user_display', as: 'recommend_user_display'
   get 'recommend/modal', to: 'recommends#recommend_open_modal', as: 'recommend_open'
 end

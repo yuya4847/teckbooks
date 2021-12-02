@@ -23,6 +23,8 @@ class User < ApplicationRecord
   has_many :passive_recommends, class_name:  "Recommend",
                                   foreign_key: "recommended_user_id",
                                   dependent:   :destroy
+  has_many :active_notifications, foreign_key: "visitor_id", class_name: "Notification", dependent: :destroy
+  has_many :passive_notifications, foreign_key: "visited_id", class_name: "Notification", dependent: :destroy
   before_save { self.email = email.downcase }
   validates :username, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }, format: { with: Const::VALID_EMAIL_REGEX }
@@ -37,6 +39,24 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :confirmable,
          :timeoutable, :trackable
   validate  :avatar_size
+
+  def create_notification_follow!(visitor_user, visited_user)
+    previous_notification = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ", visitor_user.id, self.id, 'follow'])
+
+    if previous_notification.blank?
+      new_notification = visitor_user.active_notifications.new(
+        visited_id: visited_user.id,
+        action: 'follow'
+      )
+      new_notification.save
+      unless visitor_user == visited_user
+        visited_notification_count = Notification.where(["visited_id = ? and checked = ?", visited_user.id, false]).size
+        if visited_notification_count % 5 == 0
+          NotificationMailer.notification_new_storage(visited_user).deliver_now
+        end
+      end
+    end
+  end
 
   # allow users to update their accounts without passwords
   def update_without_current_password(params, *options)

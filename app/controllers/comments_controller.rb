@@ -4,7 +4,9 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.user_id = current_user.id
     @comment.review_id = params[:review_id]
+    @review = Review.find(params[:review_id])
     if @comment.save
+      @review.create_notification_comment!(current_user, @comment)
       render :index
     else
       render :comment_error
@@ -23,7 +25,9 @@ class CommentsController < ApplicationController
     @comment.user_id = current_user.id
     @comment.review_id = params[:review_id]
     @comment.parent_id = params[:parent_id]
+    @review = Review.find(params[:review_id])
     if @comment.save
+      @review.create_notification_response_comment!(current_user, @comment)
       render :index
     end
   end

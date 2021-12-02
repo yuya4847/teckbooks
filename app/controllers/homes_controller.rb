@@ -7,6 +7,17 @@ class HomesController < ApplicationController
   def home
   end
 
+  def suggest
+    @search_keyword = "#{params[:suggest_content]}"
+    @suggest_books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005")
+    suggest_titles = []
+    @suggest_books.each do |suggest_book|
+      suggest_titles << suggest_book.title
+    end
+    contents = { suggest_books: suggest_titles }
+    render json: contents
+  end
+
   def search
     if user_signed_in?
 
@@ -14,7 +25,7 @@ class HomesController < ApplicationController
         @books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005")
 
         if Rails.env == 'development'
-          url = "http://book.tsuhankensaku.com/hon/index.php?t=booksearch&q=#{@search_keyword}&sort="
+          url =URI.encode "http://book.tsuhankensaku.com/hon/index.php?t=booksearch&q=#{@search_keyword}&sort="
           charset = nil
           html = URI.open(url) do |f|
             charset = f.charset
@@ -27,7 +38,7 @@ class HomesController < ApplicationController
           @amazon_links = []
 
          page_count.times do |page_number|
-           url = "http://book.tsuhankensaku.com/hon/index.php?t=booksearch&q=#{@search_keyword}&sort=&page=#{page_number + 1}"
+           url = URI.encode "http://book.tsuhankensaku.com/hon/index.php?t=booksearch&q=#{@search_keyword}&sort=&page=#{page_number + 1}"
            charset = nil
            html = URI.open(url) do |f|
              charset = f.charset
@@ -56,17 +67,17 @@ class HomesController < ApplicationController
         end
 
         if Rails.env == 'production'
-          yahoo_url = URI.parse("https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=#{ENV['YAHOO_PRO_ID']}&genre_category_id=10002&query=#{@search_keyword}")
+          yahoo_url = URI.parse(URI.encode "https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=#{ENV['YAHOO_PRO_ID']}&genre_category_id=10002&query=#{@search_keyword}")
           yahoo_json = Net::HTTP.get(yahoo_url)
           yahoo_books = JSON.parse(yahoo_json)['hits']
         end
         if Rails.env == 'development'
-          yahoo_url = URI.parse("https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=#{ENV['YAHOO_DEV_ID']}&genre_category_id=10002&query=#{@search_keyword}")
+          yahoo_url = URI.parse(URI.encode "https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=#{ENV['YAHOO_DEV_ID']}&genre_category_id=10002&query=#{@search_keyword}")
           yahoo_json = Net::HTTP.get(yahoo_url)
           yahoo_books = JSON.parse(yahoo_json)['hits']
         end
 
-        google_url = URI.parse("https://www.googleapis.com/books/v1/volumes?q=#{@search_keyword}&country=JP&maxResults=15")
+        google_url = URI.parse(URI.encode "https://www.googleapis.com/books/v1/volumes?q=#{@search_keyword}&country=JP&maxResults=15")
         google_json = Net::HTTP.get(google_url)
         google_books = JSON.parse(google_json)['items']
 

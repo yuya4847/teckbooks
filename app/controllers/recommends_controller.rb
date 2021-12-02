@@ -24,6 +24,7 @@ class RecommendsController < ApplicationController
 
     new_recommends.each do |new_recommend|
       Recommend.create(recommend_user_id: current_user.id, recommended_user_id: new_recommend, review_id: @review.id)
+      @review.create_notification_recommend!(current_user, User.find(new_recommend))
     end
 
     contents = { review_id: @review.id}

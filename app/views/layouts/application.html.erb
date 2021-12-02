@@ -5,6 +5,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_pack_tag 'application' %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
@@ -16,6 +17,12 @@
         <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'header-link-color' %>
         <%= link_to 'レビューを投稿', new_review_path, class: 'header-link-color' %>
         <%= link_to '全ての投稿', all_reviews_path, class: 'header-link-color' %>
+        <%= link_to notifications_path, class: 'header-link-color notification-link' do %>
+          <span class="header-link-color">通知</span>
+          <% if unchecked_notifications.any? %>
+            <span class="notify-red-icon"><%= unchecked_notifications.size %></span>
+           <% end %>
+        <% end %>
         <%= link_to '検索', reviews_path, class: 'header-link-color' %>
       <% else %>
         <%= link_to 'サインアップ', new_user_registration_path, class: 'header-link-color' %>

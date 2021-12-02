@@ -1,3 +1,7 @@
+input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -195,4 +199,22 @@ html, body {
 
 .api-search-btn:focus {
   border: 1px solid blue;
+}
+
+.notify-red-icon {
+    display: inline-block;
+    position: absolute;
+    top: -5px;
+    left: 15px;
+    border-radius: 50%;
+    background-color: red;
+    height: 20px;
+    width: 20px;
+    color: white;
+    text-align: center;
+}
+
+.notification-link {
+  display: inline-block;
+  position: relative;
 }

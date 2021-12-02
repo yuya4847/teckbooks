@@ -6,6 +6,8 @@ class MessagesController < ApplicationController
       @message = Message.create(message_params)
       @room = Room.find(params[:message][:room_id])
       @messages = @room.messages
+      visited_user = User.find(Entry.where.not(user_id: current_user.id).where(room_id: @room.id).pluck(:user_id))
+      @message.create_notification_dm!(current_user, visited_user)
       render :message_create
     else
       redirect_back(fallback_location: root_path)

@@ -1,0 +1,92 @@
+<% unless @notifications.blank? %>
+  <div class="open_report_modal">全て削除</div>
+  <div class="report_modal_content" style="display: none;">
+    <div class="modal-back">
+      <div class="modal_close">
+      </div>
+      <div class="report_modal_body">
+        <div class="modal_close_btn">✖︎</div>
+        <%= link_to '本当に全て削除する', notifications_destory_path(), method: :delete, remote: true %>
+      </div>
+    </div>
+  </div>
+  <% notifications.each do |notification| %>
+    <div class="notification-<%= notification.id %>">
+      <% user = User.find(notification.visitor_id) %>
+      <% if user.avatar.url %>
+        <img src="<%= user.avatar.url %>" class="comment-logo">
+      <% else %>
+        <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+      <% end %>
+      <%= notification_form(notification) %>
+      <%= link_to '削除', notification_path(notification.id), method: :delete, remote: true %>
+    </div>
+  <% end %>
+<% else %>
+    <p>通知はありません</p>
+<% end %>
+
+<script type="text/javascript">
+  $(`.open_report_modal`).on('click',function(){
+    $(this).next().fadeIn();
+    return false;
+  });
+
+  $(`.modal_close`).on('click',function(){
+    $(this).closest('.report_modal_content').fadeOut();
+    return false;
+  });
+
+  $(`.modal_close_btn`).on('click',function(){
+    $(this).closest('.report_modal_content').fadeOut();
+    return false;
+  });
+</script>
+
+<style media="screen">
+  .open_modal {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .open_report_modal {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .modal-back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .8);
+  }
+
+  .modal_close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .report_modal_body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    -webkit- transform: translateY(-50%) translateX(-50%);
+    width: 400px;
+    height: 400px;
+    background-color: white;
+    border-radius: 10px;
+  }
+
+  .modal_close_btn {
+    font-size: 30px;
+    line-height: 25px;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+  }
+</style>

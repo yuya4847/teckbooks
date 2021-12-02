@@ -87,9 +87,11 @@
 </div>
 
 <% if current_user != @user %>
+<div>
   <div id="follow_form<%= @user.id %>">
     <%= render 'shared/follow_form' %>
   </div>
+</div>
 <% end %>
 
 <% if @reviews %>
