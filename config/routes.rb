@@ -2,12 +2,18 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
   }
+  devise_scope :user do
+    get '/users', to: 'users/registrations#new'
+  end
   root 'homes#home'
   get 'homes/search', to: 'homes#search'
+  get 'homes/terms', to: 'homes#terms', as: 'show_terms'
+  get 'homes/privacy_policy', to: 'homes#privacy_policy', as: 'show_privacy_policy'
   get 'homes/suggest', to: 'homes#suggest'
 
   resources :userpages,     only: [:show]
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
+  get 'userpages/profile_reviews/:id', to: 'userpages#profile_reviews', as: 'profile_reviews'
   get 'userpages/:id/following', to: 'userpages#following', as: 'following_user'
   get 'userpages/:id/followers', to: 'userpages#followers', as: 'followers_user'
   resources :reviews do
@@ -31,4 +37,6 @@ Rails.application.routes.draw do
   delete 'notification_all_destory', to: 'notifications#all_destroy', as: 'notifications_destory'
   get 'recommends', to: 'recommends#recommend_user_display', as: 'recommend_user_display'
   get 'recommend/modal', to: 'recommends#recommend_open_modal', as: 'recommend_open'
+
+  get 'dms', to: 'dms#show', as: 'dm_show'
 end

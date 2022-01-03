@@ -65,7 +65,9 @@ tech_items.each_with_index do |tech_item, i|
 
   Review.create!(
     title: "#{tech_item}チュートリアル",
-    content: "#{tech_item}は興味深い内容でした。",
+    content: "ほかの方も書かれていますがまず無料プログラミング学習サイトで一通りRuby on Rails をやったうえでさらに、チュートリアルもやり一連の流れを知っておいてからでないと難しすぎると思います。
+私も実際一冊目として読み始めたのですが理解が追い付かず先にチュートリアルをやりました。
+内容はとても細かく知らないといけないことを説明してくれていますが、0からスタートした人にはちょっとイメージがわかず眠気が襲ってくる可能性が高いです。",
     rate: 3,
     link: "https://#{tech_item}tutorial.jp/",
     user_id: 1,
@@ -73,7 +75,12 @@ tech_items.each_with_index do |tech_item, i|
 
   Review.create!(
     title: "#{tech_item}入門",
-    content: "#{tech_item}は基礎的な内容から詳しく解説されていました。",
+    content: "この著者の本を何冊か購入してますが、やはりブレないですね、素晴らしいです。
+まったくのRails初心者にはかなりハードル高く、導入編ですでにつまづきそうになるレベルです。
+私がその初心者でした（笑）
+まずは「ドットインストール」や「プロゲート」、「Ruby on Rails チュートリアル」などに取り組んでみて、
+Ruby on Railsの概要と簡単なアプリをとりあえず一通り完成させてから、
+基礎知識の補強にこの本を読むととてもためになると思います。",
     rate: 3,
     link: "https://#{tech_item}start.jp/",
     user_id: 1,
@@ -81,7 +88,9 @@ tech_items.each_with_index do |tech_item, i|
 
   Review.create!(
     title: "基礎からの#{tech_item}",
-    content: "#{tech_item}は基礎的な内容が網羅されていたよかったです。",
+    content: "Railsやっている人でこの本持っていない人は、いないともいます。
+初学者でも持っておくべき、バイブル的な本です。
+説明も大変わかりやすいです。",
     rate: 3,
     link: "https://#{tech_item}basic.jp/",
     user_id: 1,

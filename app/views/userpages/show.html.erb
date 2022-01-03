@@ -1,135 +1,139 @@
-<div>
-  <% if @user.id == current_user.id %>
-    <% @currentUserEntries.each do |currentUserEntry| %>
+<% provide(:title, @user.username) %>
+
+<div class="container mypage-size">
+  <div class="mypage-frame row">
+    <div class="col-md-9 col-12 mypage-profile-left">
       <div>
-        <% currentUserEntry.room.entries.each do |entry| %>
-          <% unless entry.user_id == current_user.id %>
-            <% if entry.user.avatar.url %>
-              <img src="<%= entry.user.avatar.url %>" class="comment-logo">
+      <div class="mypage-profile-title">
+        <div class="mypage-profile-icon">
+          <% if @user.avatar.url %>
+            <img src="<%= @user.avatar.url %>" class="icon-image-class" style="height: 60px; width: 60px;">
+          <% else %>
+            <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 60px; width: 60px;">
+          <% end %>
+        </div>
+        <div class="mypage-profile-names">
+          <div class="mypage-profile-username">
+            <span class="mypage-profile-username-span"><%= @user.username %></span>
+            <% if @user.sex == "woman" %>
+            <svg class="sex-select-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 15px; height: 15px; opacity: 1;" xml:space="preserve">
+              <g>
+                <path class="st0" d="M375.846,289.327c30.62-30.577,49.655-73.137,49.641-119.843c0.014-46.706-19.021-89.266-49.641-119.843   C345.262,19.022,302.702-0.014,255.996,0c-46.706-0.014-89.266,19.022-119.843,49.641c-30.619,30.577-49.655,73.137-49.64,119.843   c-0.015,46.706,19.021,89.266,49.64,119.843c25.533,25.568,59.416,43.009,97.088,48.074v52.818h-78.55v45.502h78.55V512h45.509   v-76.279h78.551v-45.502h-78.551v-52.818C316.423,332.336,350.306,314.895,375.846,289.327z M255.996,279.816   c-15.317-0.007-29.75-3.085-42.944-8.656c-19.763-8.349-36.661-22.384-48.559-40.009c-11.912-17.64-18.822-38.713-18.836-61.667   c0.014-15.317,3.092-29.758,8.663-42.937c8.349-19.762,22.384-36.668,40.01-48.565c17.639-11.905,38.712-18.822,61.666-18.83   c15.317,0.007,29.75,3.085,42.93,8.656c19.762,8.35,36.676,22.385,48.572,40.01c11.898,17.64,18.808,38.712,18.822,61.667   c0,15.317-3.077,29.751-8.648,42.938c-8.35,19.763-22.384,36.668-40.01,48.566C300.023,272.891,278.951,279.802,255.996,279.816z" style="fill: #666666;"/>
+              </g>
+            </svg>
             <% else %>
-              <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+            <svg class="sex-select-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 13px; height: 13px; opacity: 1;" xml:space="preserve">
+              <g>
+                <path class="st0" d="M337.578,0.001v53.934l82.329,0.008l-97.296,97.296c-35.826-27.331-78.85-41.114-121.686-41.089   c-51.299-0.025-102.937,19.687-142.074,58.858C19.679,208.138-0.034,259.783,0,311.075c-0.034,51.299,19.679,102.92,58.85,142.075   c39.138,39.171,90.775,58.884,142.074,58.85c51.3,0.034,102.938-19.686,142.076-58.85c39.154-39.129,58.883-90.776,58.849-142.075   c0.034-42.837-13.767-85.859-41.097-121.686l97.295-97.295v82.329L512,174.405V0.001H337.578z M329.335,336.091   c-4.815,24.763-16.689,48.226-35.928,67.473c-12.838,12.838-27.517,22.356-43.242,28.741c-23.564,9.561-49.509,11.968-74.256,7.17   c-24.762-4.806-48.225-16.68-67.482-35.92c-12.82-12.838-22.348-27.517-28.733-43.242c-9.56-23.564-11.976-49.509-7.178-74.256   c4.814-24.763,16.689-48.225,35.911-67.482c12.854-12.82,27.533-22.348,43.26-28.724c23.564-9.569,49.509-11.976,74.238-7.179   c24.78,4.806,48.243,16.68,67.499,35.903c12.822,12.854,22.348,27.533,28.733,43.259   C331.716,285.4,334.132,311.345,329.335,336.091z" style="fill: #666666;"/>
+              </g>
+            </svg>
             <% end %>
-            <%= entry.user.username %>
-            <a href="/rooms/<%= currentUserEntry.room.id %>">チャットへ</a>
-            <%= link_to "削除", room_path(currentUserEntry.room.id), method: :delete,
-                                      data: { confirm: "You sure?" } %>
+          </div>
+          <div>
+            <a class="mypage-profile-follow mypage-profile-following" href="<%= following_user_path(@user) %>">
+              <span id="following">
+                <%= @user.following.count %>
+              </span>
+              following
+            </a>
+            <a class="mypage-profile-follow" href="<%= followers_user_path(@user) %>">
+              <span id="followers">
+                <%= @user.followers.count %>
+              </span>
+              followers
+            </a>
+          </div>
+          <% if @user.avatar.url %>
+            <%# link_to "アバター削除", userpage_path(current_user), method: :delete, data: { confirm: "You sure?" } %>
+          <% else %>
+            <%# link_to 'アバターを変更する', edit_user_registration_path %>
+          <% end %>
+        </div>
+      </div>
+      <div class="mypage-profile-profile"><%= @user.profile %></div>
+
+    <div class="mypage_profile_edit_blue_btns">
+
+      <% if @user == current_user %>
+        <%= button_to dm_show_path, class: "mypage-profile-dm-btn", method: :get do %>
+          <%= render partial: 'mypage_profile_dm_svg' %>
+          <div class="mypage_profile_edit_word">DM</div>
+        <% end %>
+      <% end %>
+
+      <div>
+        <% unless @user == current_user %>
+          <% if @isRoom == true %>
+            <a class="to-dm" href="/rooms/<%= @roomId %>">
+              <%= render partial: 'mypage_profile_dm_svg' %>
+              <div class="">DMへ</div>
+            </a>
+          <% else %>
+            <%= form_for @room do |f| %>
+              <%= fields_for @entry do |e| %>
+                <%= e.hidden_field :user_id, value: @user.id %>
+              <% end %>
+              <%= button_tag :type => "submit", :class =>"start-dm" do %>
+                <%= render partial: 'mypage_profile_dm_svg' %>
+                <span>DMを送る</span>
+              <% end %>
+            <% end %>
           <% end %>
         <% end %>
       </div>
-    <% end %>
-  <% else %>
-    <% if @isRoom == true %>
-      <p><a href="/rooms/<%= @roomId %>">チャットへ</a>
-    <% else %>
-      <%= form_for @room do |f| %>
-        <%= fields_for @entry do |e| %>
-          <%= e.hidden_field :user_id, value: @user.id %>
-        <% end %>
-        <%= f.submit "チャットを始める" %>
-      <% end %>
-    <% end %>
-  <% end %>
-</div>
 
-<div class="index">
-  <div class="abc"></div>
-  <div>
-    <%= @user.username %>
+      <%= button_to profile_reviews_path(@user.id), class: "profile-reviews", method: :get do %>
+          <div class="">投稿したレビューを見る</div>
+      <% end %>
+    </div>
   </div>
-  <div>
-    <%= @user.profile %>
-  </div>
-  <div>
-    <%= @user.email %>
-  </div>
-  <div>
-    <% if @user.sex == "woman" %>
-      女
-    <% else %>
-      男
-    <% end %>
-    <% if @user.avatar.url %>
-      <div>
-        <img src="<%= @user.avatar.url %>" class="aaa">
+    </div>
+    <div class="col-md-3 col-12 mypage-profile-right">
+      <div class="mypage-profile-statuses">
+        <div class="mypage-profile-status-status">STATUS</div>
+        <div class="mypage-profile-status-release">
+          <div class="mypage_profile_status-globe"><%= render partial: 'mypage_profile_status-globe' %></div>
+          <div class="mypage_profile_status-globe-word">公開</div>
+        </div>
+        <div class="mypage-profile-status-user">
+          <div class="mypage_profile_status-general"><%= render partial: 'mypage_profile_status-general' %></div>
+          <div class="mypage_profile_status-general-word">一般ユーザー</div>
+        </div>
+
+        <% unless @user == current_user %>
+          <div class="follow-div" id="follow_form<%= @user.id %>">
+            <%= render 'shared/follow_form' %>
+          </div>
+        <% end %>
+
         <% if @user == current_user %>
-        <%= link_to "delete", userpage_path(current_user), method: :delete,
-                                  data: { confirm: "You sure?" } %>
+          <%= button_to edit_user_registration_path, class: "mypage-profile-edit-btn", method: :get do %>
+            <%= render partial: 'mypage_profile_edit_svg' %>
+            <div class="mypage_profile_edit_word">編集</div>
+          <% end %>
         <% end %>
       </div>
-    <% else %>
-      <div>
-        <img src="/uploads/user/avatar/default.png" class="bbb">
-        <% if @user == current_user %>
-          <%= link_to 'アバターを変更する', edit_user_registration_path %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-<% if @user == current_user %>
-  <div>
-    <%= link_to 'プロフィール変更', edit_user_registration_path %>
-  </div>
-<% end %>
-
-<div>
-  <a href="<%= following_user_path(@user) %>">
-    <span id="following">
-      <%= @user.following.count %>
-    </span>
-    following
-  </a>
-  <a href="<%= followers_user_path(@user) %>">
-    <span id="followers">
-      <%= @user.followers.count %>
-    </span>
-    followers
-  </a>
-</div>
-
-<% if current_user != @user %>
-<div>
-  <div id="follow_form<%= @user.id %>">
-    <%= render 'shared/follow_form' %>
+    </div>
   </div>
 </div>
+
+<% unless @user == current_user %>
+<style media="screen">
+  .footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+</style>
 <% end %>
 
-<% if @reviews %>
-<div>
-  <% @reviews.each do |review| %>
-    <div>
-      <% if review.picture.url %>
-        <img class="all_review_img" src="<%= review.picture.url %>">
-      <% else %>
-        <b>画像はありません</b>
-      <% end %>
-    </div>
-    <div><%= link_to "#{review.title}", review_path(review) %></div>
-    <div><%= review.content %></div>
-    <div><%= review.rate %></div>
-    <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
-    <div id="userpage_review_tags">
-      <span>タグ</span>
-      <% review.tags.each do |tag| %>
-        <div>#<%= tag.name %></div>
-      <% end %>
-    </div>
-    <div>
-      <% if review.user == current_user %>
-        <%= link_to '編集する', edit_review_path(review) %>
-      <% end %>
-    </div>
-    <div>
-      <%= link_to review.link, target: :_blank do %>
-        <%= review.link %>
-      <% end %>
-    </div>
-    <div>
-      <% if review.user == current_user %>
-        <%= link_to "削除する", review_destroy_path(id: review.id, original_page: "exist"), method: :delete,
-                                  data: { confirm: "本当にこの投稿を削除しますか？" } %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-<% end %>
+<style media="screen">
+  body {
+    background-color: #e9f1f5;
+  }
+
+  .mypage-not-exist {
+    margin: 50px;
+  }
+</style>

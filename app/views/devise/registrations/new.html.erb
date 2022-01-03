@@ -1,45 +1,123 @@
-<h2>サインアップ</h2>
+<script type="text/javascript">
+  $('#notice').css('display','none');
+  $('#alert').css('display','none');
+</script>
+<% provide(:title, "サインアップ") %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { multipart: true }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="sign-up-size">
+  <div class="sign-up-frame container">
+    <div class="signup-title">
+      <%= render partial: 'homes/title_svg_image' %>
+    </div>
 
-  <div class="field">
-    <%= f.label :username %><span>※必須</span><br/>
-    <%= f.text_field :username, class: "username_form", autofocus: true %>
+    <div class="google-login">
+      <%= link_to '#', class: "google-login-link" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="38px" height="38px" viewBox="0 0 38 38" version="1.1">        <title>Artboard</title>    <desc>Created with Sketch.</desc>    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">        <g id="btn_google_dark_normal_ios">            <g id="button-bg-copy">                <rect id="path-3" x="0" y="0" width="38" height="38" rx="1"/>            </g>            <g id="logo_googleg_48dp" transform="translate(10.000000, 10.000000)">                <path d="M17.64,9.20454545 C17.64,8.56636364 17.5827273,7.95272727 17.4763636,7.36363636 L9,7.36363636 L9,10.845 L13.8436364,10.845 C13.635,11.97 13.0009091,12.9231818 12.0477273,13.5613636 L12.0477273,15.8195455 L14.9563636,15.8195455 C16.6581818,14.2527273 17.64,11.9454545 17.64,9.20454545 Z" id="Shape" fill="#4285F4"/>                <path d="M9,18 C11.43,18 13.4672727,17.1940909 14.9563636,15.8195455 L12.0477273,13.5613636 C11.2418182,14.1013636 10.2109091,14.4204545 9,14.4204545 C6.65590909,14.4204545 4.67181818,12.8372727 3.96409091,10.71 L0.957272727,10.71 L0.957272727,13.0418182 C2.43818182,15.9831818 5.48181818,18 9,18 Z" id="Shape" fill="#34A853"/>                <path d="M3.96409091,10.71 C3.78409091,10.17 3.68181818,9.59318182 3.68181818,9 C3.68181818,8.40681818 3.78409091,7.83 3.96409091,7.29 L3.96409091,4.95818182 L0.957272727,4.95818182 C0.347727273,6.17318182 0,7.54772727 0,9 C0,10.4522727 0.347727273,11.8268182 0.957272727,13.0418182 L3.96409091,10.71 Z" id="Shape" fill="#FBBC05"/>                <path d="M9,3.57954545 C10.3213636,3.57954545 11.5077273,4.03363636 12.4404545,4.92545455 L15.0218182,2.34409091 C13.4631818,0.891818182 11.4259091,0 9,0 C5.48181818,0 2.43818182,2.01681818 0.957272727,4.95818182 L3.96409091,7.29 C4.67181818,5.16272727 6.65590909,3.57954545 9,3.57954545 Z" id="Shape" fill="#EA4335"/>                <polygon id="Shape" points="0 0 18 0 18 18 0 18"/></g></g></g></svg>
+        <span class="google-login-sentence">Googleでユーザー登録</span>
+      <% end %>
+    </div>
+
+    <div class="signup-or">または</div>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { multipart: true }) do |f| %>
+      <% if resource.errors.any? %>
+        <% resource.errors.full_messages.each do |message| %>
+          <div class="signup-validation">・ <%= message %></div>
+        <% end %>
+      <% end %>
+
+      <div class="row signup-row">
+        <div class="col-2 signup-field-icon">
+          <svg role="img" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" aria-labelledby="personIconTitle" stroke="#888888" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#888888"> <title id="personIconTitle">Person</title> <path d="M4,20 C4,17 8,17 10,15 C11,14 8,14 8,9 C8,5.667 9.333,4 12,4 C14.667,4 16,5.667 16,9 C16,14 13,14 14,15 C16,17 20,17 20,20"></path> </svg>
+        </div>
+        <div class="col-10 signup-field-form">
+          <%= f.text_field :username, class: "signup-form", autofocus: true, placeholder: "ユーザー名（後で変えられます）" %>
+        </div>
+      </div>
+
+      <div class="row signup-row">
+        <div class="col-2 signup-field-icon">
+          <svg aria-hidden="true" focusable="false" width="14px" height="13px" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" class="auth0-lock-icon auth0-lock-icon-box"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"><g id="32px" sketch:type="MSLayerGroup" transform="translate(-2155.000000, -2317.000000)" fill="#888888"><g id="Group-856" transform="translate(1.000000, 1.000000)" sketch:type="MSShapeGroup"><path id="Fill-419" d="M2184,2339 C2184,2339.55 2183.55,2340 2183,2340 L2157,2340 C2156.45,2340 2156,2339.55 2156,2339 L2156,2319 C2156,2318.45 2156.45,2318 2157,2318 L2183,2318 C2183.55,2318 2184,2318.45 2184,2319 L2184,2339 L2184,2339 Z M2184,2316 L2156,2316 C2154.89,2316 2154,2316.89 2154,2318 L2154,2340 C2154,2341.1 2154.89,2342 2156,2342 L2184,2342 C2185.1,2342 2186,2341.1 2186,2340 L2186,2318 C2186,2316.89 2185.1,2316 2184,2316 L2184,2316 Z M2176,2322 L2180,2322 L2180,2326 L2176,2326 L2176,2322 Z M2174,2328 L2182,2328 L2182,2320 L2174,2320 L2174,2328 Z M2158,2332 L2172,2332 L2172,2330 L2158,2330 L2158,2332 Z M2158,2336 L2172,2336 L2172,2334 L2158,2334 L2158,2336 Z"></path></g></g></g></svg>
+        </div>
+        <div class="col-10 signup-field-form">
+          <%= f.text_field :email, class: "signup-form", autofocus: true, autocomplete: "email", placeholder: "yours@example.com" %>
+        </div>
+      </div>
+
+      <div class="row signup-row signup-profile-row">
+        <div class="col-2 signup-field-icon">
+          <svg role="img" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" aria-labelledby="editIconTitle" stroke="#888888" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#888888"> <title id="editIconTitle">Edit</title> <path d="M18.4142136 4.41421356L19.5857864 5.58578644C20.366835 6.36683502 20.366835 7.63316498 19.5857864 8.41421356L8 20 4 20 4 16 15.5857864 4.41421356C16.366835 3.63316498 17.633165 3.63316498 18.4142136 4.41421356zM14 6L18 10"></path></svg>
+        </div>
+        <div class="col-10 signup-field-form">
+          <%= f.text_area :profile, class: "signup-form signup-introduce-text", placeholder: "例) よろしくお願いします!!  (任意)" %>
+        </div>
+      </div>
+
+      <div class="row signup-row">
+        <div class="col-2 signup-field-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 420 512" style="width: 18px; height: 18px; opacity: 1;" xml:space="preserve">
+            <g>
+	            <path class="st0" d="M130.624,96.437c26.628,0,48.218-21.6,48.218-48.2C178.842,21.572,157.252,0,130.624,0   c-26.646,0-48.217,21.572-48.217,48.237C82.407,74.837,103.979,96.437,130.624,96.437z M130.624,15.63   c17.972,0,32.58,14.625,32.58,32.607c0,17.962-14.608,32.561-32.58,32.561c-17.962,0-32.588-14.599-32.588-32.561   C98.036,30.255,112.662,15.63,130.624,15.63z" style="fill: #888888;"/>
+	            <path class="st0" d="M172.393,119.275h-42.266H87.851c-23.353,0-48.779,25.425-48.779,48.796v162.056   c0,11.686,9.47,21.147,21.156,21.147c5.744,0,0,0,14.752,0l8.05,138.205c0,12.445,10.076,22.521,22.513,22.521   c5.246,0,14.924,0,24.584,0c9.668,0,19.355,0,24.593,0c12.436,0,22.512-10.076,22.512-22.521l8.041-138.205   c14.761,0,9.009,0,14.761,0c11.677,0,21.147-9.461,21.147-21.147V168.071C221.181,144.7,195.765,119.275,172.393,119.275z    M205.551,330.127c0,3.039-2.469,5.517-5.517,5.517h-14.761H170.53l-0.868,14.724l-8.032,138.205l-0.027,0.452v0.453   c0,3.798-3.084,6.892-6.883,6.892h-24.593h-24.584c-3.79,0-6.883-3.093-6.883-6.892v-0.453l-0.027-0.452l-8.049-138.205   l-0.85-14.724H74.981H60.228c-3.048,0-5.526-2.478-5.526-5.517V168.071c0-14.878,18.28-33.158,33.149-33.158h42.276h42.266   c14.879,0,33.158,18.28,33.158,33.158V330.127z" style="fill: #888888;"/>
+	            <path class="st0" d="M356.709,96.437c26.636,0,48.217-21.6,48.217-48.2C404.926,21.572,383.345,0,356.709,0   c-26.646,0-48.218,21.572-48.218,48.237C308.491,74.837,330.063,96.437,356.709,96.437z M356.709,15.63   c17.972,0,32.578,14.625,32.578,32.607c0,17.962-14.607,32.561-32.578,32.561c-17.972,0-32.589-14.599-32.589-32.561   C324.12,30.255,338.737,15.63,356.709,15.63z" style="fill: #888888;"/>
+	            <path class="st0" d="M471.568,376.934L421.605,259.45l16.624-83.862c1.719-31.838-22.223-55.708-45.586-55.708h-71.878   c-23.363,0-47.305,23.87-45.586,55.708l16.624,83.862l-49.964,117.484c-2.243,5.264-1.682,11.315,1.474,16.09   c3.156,4.776,8.511,7.652,14.236,7.652h52.668l13.622,92.474c0,9.054,7.344,16.406,16.416,16.406c3.293,0,29.613,0,32.905,0   c9.063,0,16.408-7.353,16.408-16.406l13.622-92.474h52.677c5.726,0,11.071-2.877,14.228-7.652   C473.251,388.249,473.811,382.198,471.568,376.934z M457.061,384.396c-0.262,0.407-0.714,0.651-1.194,0.651H403.19h-13.495   l-1.962,13.35l-13.631,92.474l-0.172,1.122v1.158c0,0.425-0.344,0.777-0.769,0.777h-32.905c-0.434,0-0.778-0.352-0.778-0.777   v-1.158l-0.172-1.122l-13.621-92.474l-1.972-13.35h-13.495H257.55c-0.488,0-0.932-0.244-1.203-0.651   c-0.262-0.398-0.308-0.905-0.118-1.348l49.963-117.483l1.882-4.432l-0.932-4.731l-16.398-82.696   c-0.47-14.734,6.395-24.276,10.582-28.708c5.626-5.933,12.889-9.478,19.438-9.478h71.878c6.549,0,13.812,3.545,19.438,9.478   c4.196,4.432,11.052,13.974,10.583,28.708l-16.39,82.696l-0.94,4.731l1.881,4.432l49.972,117.483   C457.368,383.491,457.323,383.998,457.061,384.396z" style="fill: #888888;"/>
+            </g>
+          </svg>
+        </div>
+        <div class="col-10 signup-field-form">
+          <div class="signup-form sex-form">
+            <div class="signup-sex-form">
+              <svg class="sex-select-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 13px; height: 13px; opacity: 1;" xml:space="preserve">
+                <g>
+  	              <path class="st0" d="M337.578,0.001v53.934l82.329,0.008l-97.296,97.296c-35.826-27.331-78.85-41.114-121.686-41.089   c-51.299-0.025-102.937,19.687-142.074,58.858C19.679,208.138-0.034,259.783,0,311.075c-0.034,51.299,19.679,102.92,58.85,142.075   c39.138,39.171,90.775,58.884,142.074,58.85c51.3,0.034,102.938-19.686,142.076-58.85c39.154-39.129,58.883-90.776,58.849-142.075   c0.034-42.837-13.767-85.859-41.097-121.686l97.295-97.295v82.329L512,174.405V0.001H337.578z M329.335,336.091   c-4.815,24.763-16.689,48.226-35.928,67.473c-12.838,12.838-27.517,22.356-43.242,28.741c-23.564,9.561-49.509,11.968-74.256,7.17   c-24.762-4.806-48.225-16.68-67.482-35.92c-12.82-12.838-22.348-27.517-28.733-43.242c-9.56-23.564-11.976-49.509-7.178-74.256   c4.814-24.763,16.689-48.225,35.911-67.482c12.854-12.82,27.533-22.348,43.26-28.724c23.564-9.569,49.509-11.976,74.238-7.179   c24.78,4.806,48.243,16.68,67.499,35.903c12.822,12.854,22.348,27.533,28.733,43.259   C331.716,285.4,334.132,311.345,329.335,336.091z" style="fill: #888888;"/>
+                </g>
+              </svg>
+              <%= f.radio_button :sex, :man, class: "sex_man_form sex-select-mark" %>
+              <svg class="sex-select-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 15px; height: 15px; opacity: 1;" xml:space="preserve">
+                <g>
+  	              <path class="st0" d="M375.846,289.327c30.62-30.577,49.655-73.137,49.641-119.843c0.014-46.706-19.021-89.266-49.641-119.843   C345.262,19.022,302.702-0.014,255.996,0c-46.706-0.014-89.266,19.022-119.843,49.641c-30.619,30.577-49.655,73.137-49.64,119.843   c-0.015,46.706,19.021,89.266,49.64,119.843c25.533,25.568,59.416,43.009,97.088,48.074v52.818h-78.55v45.502h78.55V512h45.509   v-76.279h78.551v-45.502h-78.551v-52.818C316.423,332.336,350.306,314.895,375.846,289.327z M255.996,279.816   c-15.317-0.007-29.75-3.085-42.944-8.656c-19.763-8.349-36.661-22.384-48.559-40.009c-11.912-17.64-18.822-38.713-18.836-61.667   c0.014-15.317,3.092-29.758,8.663-42.937c8.349-19.762,22.384-36.668,40.01-48.565c17.639-11.905,38.712-18.822,61.666-18.83   c15.317,0.007,29.75,3.085,42.93,8.656c19.762,8.35,36.676,22.385,48.572,40.01c11.898,17.64,18.808,38.712,18.822,61.667   c0,15.317-3.077,29.751-8.648,42.938c-8.35,19.763-22.384,36.668-40.01,48.566C300.023,272.891,278.951,279.802,255.996,279.816z" style="fill: #888888;"/>
+                </g>
+              </svg>
+              <%= f.radio_button :sex, :woman, class: "sex_woman_form sex-select-mark" %>
+              <span class="signup-sex-text">(任意)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row signup-row">
+        <div class="col-2 signup-field-icon">
+          <svg aria-hidden="true" focusable="false" width="11px" height="14px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="auth0-lock-icon auth0-lock-icon-box"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-288.000000, -1508.000000)" fill="#888888"><path d="M299,1523.998 L290,1523.998 C288.896,1523.998 288,1523.102 288,1521.999 L288,1515.999 C288,1514.895 288.896,1513.998 290,1513.998 L290,1513.998 L290,1512.499 C290,1510.015 292.015,1507.999 294.5,1507.999 C296.985,1507.999 299,1510.015 299,1512.499 L299,1513.999 C300.104,1513.999 301,1514.895 301,1515.999 L301,1521.999 C301,1523.103 300.104,1523.998 299,1523.998 L299,1523.998 Z M298,1512.499 C298,1510.566 296.433,1508.999 294.5,1508.999 C292.567,1508.999 291,1510.566 291,1512.499 L291,1513.998 L298,1513.998 L298,1512.499 L298,1512.499 Z M300,1515.999 C300,1515.446 299.552,1514.998 299,1514.998 L290,1514.998 C289.447,1514.998 289,1515.446 289,1515.999 L289,1521.999 C289,1522.551 289.447,1522.998 290,1522.998 L299,1522.998 C299.552,1522.998 300,1522.551 300,1521.999 L300,1515.999 L300,1515.999 Z M294.5,1520.998 C294.224,1520.998 294,1520.774 294,1520.498 L294,1517.498 C294,1517.223 294.224,1516.999 294.5,1516.999 C294.776,1516.999 295,1517.223 295,1517.498 L295,1520.498 C295,1520.774 294.776,1520.998 294.5,1520.998 L294.5,1520.998 Z"></path></g></g></svg>
+        </div>
+        <div class="col-10 signup-field-form">
+          <%= f.password_field :password, class: "signup-form", autocomplete: "current-password", placeholder: "パスワード" %>
+        </div>
+      </div>
+
+      <div class="row signup-row">
+        <div class="col-2 signup-field-icon">
+          <svg aria-hidden="true" focusable="false" width="11px" height="14px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="auth0-lock-icon auth0-lock-icon-box"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-288.000000, -1508.000000)" fill="#888888"><path d="M299,1523.998 L290,1523.998 C288.896,1523.998 288,1523.102 288,1521.999 L288,1515.999 C288,1514.895 288.896,1513.998 290,1513.998 L290,1513.998 L290,1512.499 C290,1510.015 292.015,1507.999 294.5,1507.999 C296.985,1507.999 299,1510.015 299,1512.499 L299,1513.999 C300.104,1513.999 301,1514.895 301,1515.999 L301,1521.999 C301,1523.103 300.104,1523.998 299,1523.998 L299,1523.998 Z M298,1512.499 C298,1510.566 296.433,1508.999 294.5,1508.999 C292.567,1508.999 291,1510.566 291,1512.499 L291,1513.998 L298,1513.998 L298,1512.499 L298,1512.499 Z M300,1515.999 C300,1515.446 299.552,1514.998 299,1514.998 L290,1514.998 C289.447,1514.998 289,1515.446 289,1515.999 L289,1521.999 C289,1522.551 289.447,1522.998 290,1522.998 L299,1522.998 C299.552,1522.998 300,1522.551 300,1521.999 L300,1515.999 L300,1515.999 Z M294.5,1520.998 C294.224,1520.998 294,1520.774 294,1520.498 L294,1517.498 C294,1517.223 294.224,1516.999 294.5,1516.999 C294.776,1516.999 295,1517.223 295,1517.498 L295,1520.498 C295,1520.774 294.776,1520.998 294.5,1520.998 L294.5,1520.998 Z"></path></g></g></svg>
+        </div>
+        <div class="col-10 signup-field-form">
+          <%= f.password_field :password_confirmation, class: "signup-form", autocomplete: "current-password", placeholder: "パスワード (確認) " %>
+        </div>
+      </div>
+
+      <div class="">
+        <%= f.submit "新規登録", class: "is-signup-btn" %>
+      </div>
+    <% end %>
+
   </div>
+</div>
 
-  <div class="field">
-    <%= f.label :email %><span>※必須</span><br/>
-    <%= f.text_field :email, class: "email_form" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :profile %><br/>
-    <%= f.text_area :profile, class: "profile_area" %>
-  </div>
+<style media="screen">
+  body {
+    background-color: #e9f1f5;
+  }
 
-  <%= f.label :性別 %>
-  <%= f.label :男性 %>
-  <%= f.radio_button :sex, :man, class: "sex_man_form" %>
-  <%= f.label :女性 %>
-  <%= f.radio_button :sex, :woman, class: "sex_woman_form" %>
-
-  <div class="field">
-    <%= f.label :password %><span>※必須</span>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br/>
-    <%= f.password_field :password, class: "password_form" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><span>※必須</span><br/>
-    <%= f.password_field :password_confirmation, class: "password_confirmation_form" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  .application-height {
+    height: 100%;
+  }
+</style>

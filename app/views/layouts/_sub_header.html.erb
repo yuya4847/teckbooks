@@ -1,0 +1,21 @@
+<div class="home-page-after-background">
+  <div class="container subheader-btns">
+      <div class="subheader-menus">
+        <%= link_to 'ネットで検索', root_path, class: 'subheader-menu-link' %>
+        <%= link_to 'みんなの投稿', all_reviews_path, class: 'subheader-menu-link' %>
+        <%= link_to notifications_path, class: 'subheader-menu-link' do %>
+        <span class="">通知</span>
+          <% if unchecked_notifications.any? %>
+            <span class=""><%= unchecked_notifications.size %></span>
+          <% end %>
+        <% end %>
+        <%= link_to '検索', reviews_path, class: 'subheader-menu-link' %>
+      </div>
+      <div class="subheader-review-up">
+        <%= link_to 'レビューを投稿', new_review_path, class: 'subheader-review-link' %>
+      </div>
+  </div>
+  <div class="subheader-min-review-up">
+    <%= link_to 'レビューを投稿', new_review_path, class: 'subheader-min-review-link' %>
+  </div>
+</div>

@@ -1,28 +1,28 @@
+<% provide(:title, "全ての投稿") %>
 <div>
-  <% if @pv_ranking %>
-    <div id="impression_rank">
-      <% @pv_ranking.each.with_index(1) do |rank, i| %>
-        <div id="rank">
-          <%= "#{i}" %>位
-          <%= link_to "#{rank.title}", review_path(rank) %>
-          <%= rank.impressionist_count %>レビュー
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-
-<div>
-  <h2>全ての投稿</h2>
-  <input type="hidden" id="review_total" value="<%= @reviews.size %>">
-  <input type="hidden" id="recommend_user_total" value="<%= @will_recommend_users.size %>">
-</div>
-
+  <div>
+    <% if @top_pv_reviews %>
+      <div id="impression_rank">
+        <% @top_pv_reviews.each.with_index(1) do |review, i| %>
+          <div id="rank">
+            <%= "#{i}" %>位
+            <%= link_to "#{review.title}", review_path(review) %>
+            <%= review.impressionist_count %>レビュー
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <h2>全ての投稿</h2>
+    <input type="hidden" id="review_total" value="<%= @reviews.size %>">
+    <input type="hidden" id="recommend_user_total" value="<%= @will_recommend_users.size %>">
+  </div>
+  <div>
     <% @reviews.each do |review| %>
-
       <div>
-      <div id="review_<%= review.id %>" class="each_review book_review_<%= review.id %>">
-      <div>
+        <div id="review_<%= review.id %>" class="each_review book_review_<%= review.id %>">
+          <div>
           <div>
             <div id="like_form<%= review.id %>" class="like_class<%= review.id %>">
               <%= render partial: 'shared/like_form', locals: { review: review } %>
@@ -64,7 +64,6 @@
                 </div>
               </div>
             </div>
-
           </div>
           <div>
             <%= review.user.username %>
@@ -85,81 +84,82 @@
               <b>画像はありません</b>
             <% end %>
           </div>
-            <div><%= link_to "#{review.title}", review_path(review) %></div>
-            <div><%= review.content %></div>
-            <div><%= review.rate %></div>
-            <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
-            <div id="all_review_tags">
-              <span>タグ</span>
-              <% review.tags.each do |tag| %>
-                <div>#<%= tag.name %></div>
-              <% end %>
-            </div>
-            <div>
-              <%= link_to review.link, target: :_blank do %>
-                <%= review.link %>
-              <% end %>
-            </div>
-            <div>
-              <% if current_user.admin? %>
+          <div><%= link_to "#{review.title}", review_path(review) %></div>
+          <div><%= review.content %></div>
+          <div><%= review.rate %></div>
+          <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
+          <div id="all_review_tags">
+            <span>タグ</span>
+            <% review.tags.each do |tag| %>
+              <div>#<%= tag.name %></div>
+            <% end %>
+          </div>
+          <div>
+            <%= link_to review.link, target: :_blank do %>
+              <%= review.link %>
+            <% end %>
+          </div>
+          <div>
+            <% if current_user.admin? %>
               <%= link_to "削除する", review_destroy_path(id: review.id, original_page: "exist"), method: :delete,
                                           data: { confirm: "本当にこの投稿を削除しますか？" } %>
               <% end %>
-            </div>
+          </div>
       </div>
       </div>
       </div>
-
-    <% end %>
-<div class="index">
-  <div id="unknown_users">
-    <div>友達を探そう!!</div>
-    <% if @unknown_users %>
-      <% @unknown_users.each do |unknown_user| %>
-        <div>
-          <% @user = unknown_user %>
-          <% if @user.avatar.url %>
-            <img src="<%= @user.avatar.url %>" class="comment-logo">
-          <% else %>
-            <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-          <% end %>
-          <span><%= @user.username %></span>
-          <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
-            <%= render 'shared/follow_form' %>
-          </span>
-        </div>
-      <% end %>
-    <% else %>
-      <div>フォローしていないユーザーはいません。</div>
     <% end %>
   </div>
-
-  <div id="may_friend_users">
-    <div>知り合いかも？</div>
-    <% if @may_friend_users %>
-      <% @may_friend_users.each do |may_friend_user| %>
-        <div>
-          <% @user = may_friend_user %>
-          <% if @user.avatar.url %>
-            <img src="<%= @user.avatar.url %>" class="comment-logo">
-          <% else %>
-            <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-          <% end %>
-          <span><%= @user.username %></span>
-          <span id="may_friend_follow_form<%= @user.id %>" class="may_friend_follow_class<%= @user.id %>">
-            <%= render 'shared/follow_form' %>
-          </span>
-        </div>
+  <div class="index">
+    <div id="unknown_users">
+      <div>友達を探そう!!</div>
+      <% if @unknown_users %>
+        <% @unknown_users.each do |unknown_user| %>
+          <div>
+            <% @user = unknown_user %>
+            <% if @user.avatar.url %>
+              <img src="<%= @user.avatar.url %>" class="comment-logo">
+            <% else %>
+              <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+            <% end %>
+            <span><%= @user.username %></span>
+            <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
+              <%= render 'shared/follow_form' %>
+            </span>
+          </div>
+        <% end %>
+      <% else %>
+        <div>フォローしていないユーザーはいません。</div>
       <% end %>
-    <% else %>
-      <div>知り合いかもしれないユーザーはいません。</div>
-    <% end %>
+    </div>
+    <div id="may_friend_users">
+      <div>知り合いかも？</div>
+      <% if @may_friend_users %>
+        <% @may_friend_users.each do |may_friend_user| %>
+          <div>
+            <% @user = may_friend_user %>
+            <% if @user.avatar.url %>
+              <img src="<%= @user.avatar.url %>" class="comment-logo">
+            <% else %>
+              <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+            <% end %>
+            <span><%= @user.username %></span>
+            <span id="may_friend_follow_form<%= @user.id %>" class="may_friend_follow_class<%= @user.id %>">
+              <%= render 'shared/follow_form' %>
+            </span>
+          </div>
+        <% end %>
+      <% else %>
+        <div>知り合いかもしれないユーザーはいません。</div>
+      <% end %>
+    </div>
   </div>
 
+  <div id="ranking_ajax" class="index">
+    <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
+  </div>
 </div>
-<div id="ranking_ajax" class="index">
-  <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
-</div>
+
 
 <script type="text/javascript">
   var review_total = $('#review_total').val();
@@ -250,6 +250,15 @@
 
 <style>
 
+  body {
+    background-color: #e9f1f5;
+  }
+
+  .footer {
+    padding-top: 0.5px;
+    padding-bottom: 0.5px;
+  }
+
   .select_user {
     background-color: #0000FF;
   }
@@ -269,5 +278,9 @@
   .recommend_users {
     height: 500px;
     overflow-y: scroll;
+  }
+
+  .footerFixed {
+    height: auto;
   }
 </style>

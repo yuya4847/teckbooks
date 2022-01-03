@@ -1,0 +1,53 @@
+.terms-container {
+  padding: 12px;
+  color: #000000;
+  opacity: 87.0%;
+}
+
+.terms-big-title {
+  font-size: 32px;
+  line-height: 48px;
+  letter-spacing: normal;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.terms-title {
+  font-size: 22px;
+  line-height: 36px;
+  letter-spacing: normal;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.terms-subtitle {
+  font-size: 18.72px;
+  line-height: 28.08px;
+  letter-spacing: normal;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.terms-sentences {
+  line-height: 1.7rem;
+  margin-top: 0.3rem;
+  margin-left: 10px;
+  margin-bottom: 0.3rem;
+}
+
+.terms-sentences-dot {
+  font-weight: bold;
+}
+
+.terms-dot-sentences {
+  margin-left: 15px;
+}
+
+.last-sentence {
+  margin-bottom: 20px;
+}
+
+.privacy-link {
+  text-decoration: underline;
+}

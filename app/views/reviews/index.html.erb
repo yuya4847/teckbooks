@@ -1,3 +1,4 @@
+<% provide(:title, "検索") %>
 <%= search_form_for @q, remote: true do |f| %>
   <%= f.label :title, "タイトル" %>
   <%= f.search_field :title_cont %>

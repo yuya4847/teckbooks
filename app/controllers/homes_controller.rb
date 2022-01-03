@@ -7,6 +7,12 @@ class HomesController < ApplicationController
   def home
   end
 
+  def terms
+  end
+
+  def privacy_policy
+  end
+
   def suggest
     @search_keyword = "#{params[:suggest_content]}"
     @suggest_books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005")
@@ -20,10 +26,8 @@ class HomesController < ApplicationController
 
   def search
     if user_signed_in?
-
       @search_keyword = "#{params[:search_content]}"
         @books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005")
-
         if Rails.env == 'development'
           url =URI.encode "http://book.tsuhankensaku.com/hon/index.php?t=booksearch&q=#{@search_keyword}&sort="
           charset = nil

@@ -1,0 +1,310 @@
+.before-home-page-back {
+  background-color: white;
+}
+
+.col-6 {
+  padding: 0;
+}
+
+.home-title-part {
+  margin-bottom: 15px;
+}
+
+.title-logo-size {
+  width: 100%;
+  height: 100%;
+}
+
+.home-btn-logo-div {
+  width: 260px;
+  margin: 12px 12px 7px 12px;
+}
+
+.title-home-logo {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 50px;
+  margin-left: auto;
+}
+
+.main_home_image {
+  max-width: 500px;
+  margin-left: 50px;
+  position: relative;
+}
+
+.main_svg_image {
+  width: 100%;
+  height: 100%;
+}
+
+.image-padding {
+  padding-bottom: 100%;
+}
+
+.image-width {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.title-home-catch {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: .0125em;
+  line-height: 2rem;
+  font-family: Roboto,sans-serif;
+  color: #3b394d;
+  margin-bottom: 16px;
+  margin-top: 32px;
+  text-align: right;
+}
+
+.content-home-catch {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: right;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+.now-start-btn {
+  font-family: Roboto,sans-serif;
+  color: #ffffff;
+  width: 152px;
+  height: 52px;
+  background-color: #0079b5;
+  font-size: 16px;
+  line-height: normal;
+  letter-spacing: 1.42857px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.now-start-btn:hover {
+  color: #ffffff;
+  filter: brightness(1.05);
+  transition-duration: 0.2s;
+}
+
+.signup-btn {
+  width: 120px;
+  height: 36px;
+  font-family: Roboto,sans-serif;
+  color: #ffffff;
+  background-color: #74accc;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 1.25px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  font-weight: 500;
+}
+
+.signup-btn:hover {
+  color: #ffffff;
+  filter: brightness(1.05);
+  transition-duration: 0.2s;
+}
+
+@media screen and (max-width: 580px){
+
+  .home-title-part {
+    width: 80%;
+  }
+
+  .intro-reviews {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+
+}
+
+.intro-reviews-part {
+  background-color: #5f98b9;
+  padding-bottom: 20px;
+}
+
+.intro-reviews-intro {
+  color: #fff;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.intro-reviews {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+}
+
+.intro-review {
+  padding: 0 12px 0 12px;
+}
+
+.intro-content {
+  border-radius: 4px;
+  background-color: #e9f1f5;
+  padding: 12px;
+}
+
+.intro-content-username {
+  font-weight: bold;
+  font-size: 16px;
+  color: #000000;
+  opacity: 87.0%;
+  margin-left: 8px;
+}
+
+.intro-content-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.intro-content-date {
+  font-size: 14px;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.user-logo-home {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.intro-explanation-part {
+  background-color: #e9f1f5;
+  padding: 50px 12px 50px 12px;
+}
+
+.intro-explanation-sheleves {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 80px;
+}
+
+.intro-explanation-info {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 80px;
+}
+
+.intro-explanation-net {
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.intro-explanation-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  line-height: 36px;
+  font-weight: bold;
+  color: #3b394d;
+}
+
+.intro-explanation-content {
+  font-size: 16px;
+  line-height: 24px;
+  color: #3b394d;
+  font-weight: 300;
+}
+
+.info-order {
+  display: flex;
+}
+
+.shelves-image-size {
+  max-width: 600px;
+}
+
+.info-image-size {
+  max-width: 600px;
+}
+
+.net-image-size {
+  max-width: 600px;
+}
+
+@media screen and (max-width: 990px){
+
+  .intro-reviews {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .intro-review {
+    margin-bottom: 30px;
+  }
+
+  .intro-explanation-title {
+    text-align: center;
+  }
+
+  .intro-explanation-content {
+    margin-bottom: 60px;
+  }
+
+  .info-order-sentence {
+    text-align: right;
+  }
+
+  .info-order-image {
+    order: 2;
+  }
+
+  .info-image-size {
+    order: 1;
+    margin-left: auto;
+  }
+
+  .intro-explanation-part {
+    padding: 20px 12px 20px 12px;
+  }
+
+  .intro-explanation-sheleves {
+    margin-bottom: 40px;
+  }
+
+  .intro-explanation-info {
+    margin-bottom: 40px;
+  }
+
+}
+
+@media screen and (max-width: 650px){
+  .home-btn-logo-div {
+    width: 200px;
+  }
+
+  .header-link-color-menus {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 14px;
+    letter-spacing: 1.25px;
+  }
+
+  .header-link-color-menus-mypages {
+    display: none;
+  }
+}

@@ -22,7 +22,7 @@ RSpec.describe "Reviews_users", type: :system do
         click_button 'Follow'
       end
       visit '/userpages/3'
-      expect(page).to have_content '1 followers'
+      expect(page).to have_selector 'a', text: "1 followers"
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe "Reviews_users", type: :system do
         click_button 'Follow'
       end
       visit '/userpages/4'
-      expect(page).to have_content '2 followers'
+      expect(page).to have_selector 'a', text: "2 followers"
     end
   end
 end

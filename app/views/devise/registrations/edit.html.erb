@@ -1,52 +1,63 @@
-<h2>ユーザーを編集する</h2>
+<% provide(:title, "プロフィール編集") %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="user-edit-size">
+  <div class="user-edit-frame container">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, class: "username_form", autofocus: true %>
-  </div>
+      <div class="row">
+        <div class="col-md-3 col-12">
+          <div class="icon-image-flex">
+            <div class="icon-image-selects">
+              <% if current_user.avatar.url %>
+                <img src="<%= current_user.avatar.url %>" class="icon-image-class" style="height: 90px; width: 90px;">
+              <% else %>
+                <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 90px; width: 90px;">
+              <% end %>
+              <%= f.label :アイコン変更, class: "icon-edit-btn", for: "user_avatar" %>
+              <%= f.file_field :avatar, accept: 'image/jpeg,image/gif,image/png', class: "avatar_select" %>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-12">
+          <% if resource.errors.any? %>
+            <% resource.errors.full_messages.each do |message| %>
+              <div class="profile-edit-validation">・ <%= message %></div>
+            <% end %>
+          <% end %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, class: "email_form" %>
-  </div>
+          <div class="profile-edit-field">
+            <%= f.text_field :username, class: "profile-edit-input profile-edit-username", autofocus: true %>
+          </div>
 
-  <div class="field">
-    <%= f.label :profile %><br />
-    <%= f.text_area :profile, class: "profile_area" %>
-  </div>
+          <div class="profile-edit-field">
+            <div class="profile-edit-label">メールアドレス</div>
+            <%= f.email_field :email, class: "profile-edit-input" %>
+          </div>
 
-  <div class="field">
-    <%= f.label :avatar %><br />
-    <%= f.file_field :avatar, accept: 'image/jpeg,image/gif,image/png', class: "avatar_select" %>
-  </div>
+          <div class="profile-edit-field">
+            <div class="profile-edit-label">プロフィール</div>
+            <%= f.text_area :profile, class: "profile-edit-input" %>
+          </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+          <div class="profile-edit-field">
+            <div class="profile-edit-label">パスワード</div>
+            <%= f.password_field :password, class: "profile-edit-input", autocomplete: "new-password" %>
+          </div>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, class: "password_form", autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
+          <div class="profile-edit-field">
+            <div class="profile-edit-label">パスワード(確認)</div>
+            <%= f.password_field :password_confirmation, class: "profile-edit-input", autocomplete: "new-password" %>
+          </div>
+
+          <div class="profile-edit-btn-div">
+            <%= f.submit "編集完了", class: "profile-edit-btn" %>
+          </div>
+
+        </div>
+      </div>
     <% end %>
+    <div class="delete-registration">
+      <%= button_to "退会する", registration_path(resource_name), data: { confirm: "本当に、消去してもよろしいですか？" }, class: "delete-registration-link", method: :delete %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, class: "password_confirmation_form", autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "編集完了" %>
-  </div>
-<% end %>
-
-<h3>ユーザーを削除する</h3>
-<%= button_to "アカウントを削除したい方", registration_path(resource_name), data: { confirm: "本当に、消去してもよろしいですか？" }, method: :delete %>
-
-<%= link_to "戻る", :back %>
+</div>

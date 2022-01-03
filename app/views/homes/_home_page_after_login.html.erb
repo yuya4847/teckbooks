@@ -1,0 +1,384 @@
+<div class="container after-home-page-back">
+  <div class="search-kind">
+    <div class="search_sentence_icon">
+      <span class="search_sentence">よく検索されるワード</span>
+      <svg class="search_word_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
+    </div>
+    <ul class="search_words">
+      <li id="search_word_ruby" class="search_word">Ruby</li>
+      <li id="search_word_rails" class="search_word search_word_left_mg">Rails</li>
+      <li id="search_word_php" class="search_word search_word_left_mg">PHP</li>
+      <li id="search_word_laravel" class="search_word search_word_left_mg">Laravel</li>
+      <li id="search_word_python" class="search_word search_word_left_mg">Python</li>
+      <li id="search_word_django" class="search_word search_word_left_mg">Django</li>
+      <li id="search_word_go" class="search_word search_word_left_mg">Go</li>
+      <li id="search_word_java" class="search_word search_word_left_mg">Java</li>
+      <li id="search_word_typescript" class="search_word search_word_left_mg">TypeScript</li>
+      <li id="search_word_javascript" class="search_word search_word_left_mg">JavaScript</li>
+      <li id="search_word_react" class="search_word search_word_left_mg">React.js</li>
+      <li id="search_word_next" class="search_word search_word_left_mg">Next.js</li>
+      <li id="search_word_vue" class="search_word search_word_left_mg">Vue.js</li>
+      <li id="search_word_nuxt" class="search_word search_word_left_mg">Nuxt.js</li>
+      <li id="search_word_sql" class="search_word search_word_left_mg">SQL</li>
+      <li id="search_word_aws" class="search_word search_word_left_mg">AWS</li>
+      <li id="search_word_docker" class="search_word search_word_left_mg">Docker</li>
+      <li id="search_word_swift" class="search_word search_word_left_mg">Swift</li>
+      <li id="search_word_flutter" class="search_word search_word_left_mg">Flutter</li>
+      <li id="search_word_kubernetes" class="search_word search_word_left_mg">Kubernetes</li>
+      <li id="search_word_linux" class="search_word search_word_left_mg">Linux</li>
+      <li id="search_word_html" class="search_word search_word_left_mg">HTML</li>
+    </ul>
+  </div>
+
+  <div class="form-group row api-search-group">
+  <input placeholder="キーワードを入力" autocomplete="off" list="suggest_books" id="search_content" class="col-9 pr-0 form-control api-search-form" type="text" name="keyword" />
+  <input type="submit" name="commit" value="検索" id="keyword" class="col-2 pt-2 pb-2 btn api-search-btn" data-disable-with="検索" />
+  <datalist id="suggest_books">
+  </datalist>
+  </div>
+  <div id="loader-div" class="loader-loading">
+  </div>
+  <div id="items" class="api_items">
+  </div>
+  <div id="search-intros" class="search-intro">
+  <svg id="search-intro-icon-moves" class="search-intro-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path class="scroll-icon" fill-rule="evenodd" d="M4.293 15.707a1 1 0 010-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414 0zm0-6a1 1 0 010-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 5.414 5.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+  <div class="search-intro-comment">
+    キーワードを入力するか、よく検索されるワードをクリックすると、楽天ブックスとAmazonのレビューが見れます。
+  </div>
+  </div>
+  <div id="scroll-comment" class="scroll-comment" style="display: none;">
+  <div class="scroll-search-comment">
+    <span>検索結果は以上です</span>
+    <svg class="scroll-search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+  </div>
+  <a id="api-scroll" class="api-search-scroll">一番上へ戻る</a>
+  </div>
+</div>
+
+<script>
+
+  $(function () {
+    setTimeout('rect()'); //アニメーションを実行
+  });
+
+  function rect() {
+    $('#search-intro-icon-move').animate({
+        marginTop: '-=10px'
+    }, 800).animate({
+        marginTop: '+=10px'
+    }, 800);
+    setTimeout('rect()', 1600); //アニメーションを繰り返す間隔
+  }
+
+$(function(){
+
+  $('#search_content').keyup(function() {
+    var keyword = $("#search_content").val();
+    $("#suggest_books").empty();
+    if (keyword.length >= 2 && keyword.length <= 10) {
+      $.ajax({
+        type: 'GET',
+        url: 'homes/suggest',
+        data: {suggest_content: keyword},
+        dataType: 'json',
+      }).done(function(result){
+        for (let step = 0; step <= result.suggest_books.length; step++) {
+          $('#suggest_books').append(`<option value=${result.suggest_books[step]}>`);
+        }
+      });
+    }
+  });
+
+  var searchingTime = 0;
+    $('#keyword').click(function() {
+      if (searchingTime == 0) {
+        var search_content = $("#search_content").val();
+        if (search_content != "") {
+          console.log(`${search_content}`);
+          $('#items').css('display','none');
+          search(search_content);
+        }
+      }
+    });
+
+    $('#search_word_ruby').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Ruby');
+        search("ruby");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_rails').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Rails');
+        search("Rails");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_php').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('PHP');
+        search("PHP");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_laravel').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Laravel');
+        search("Laravel");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_python').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Python');
+        search("Python");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_django').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Django');
+        search("Django");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_go').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Go');
+        search("Go");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_java').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Java');
+        search("Java");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_typescript').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Typescript');
+        search("Typescript");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_javascript').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Javascript');
+        search("Javascript");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_react').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('React.js');
+        search("react");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_next').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Next.js');
+        search("next");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_vue').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Vue.js');
+        search("vue");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_nuxt').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Nuxt.js');
+        search("nuxt");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_sql').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('SQL');
+        search("sql");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_aws').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('AWS');
+        search("aws");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_docker').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Docker');
+        search("docker");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_swift').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Swift');
+        search("swift");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_flutter').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Flutter');
+        search("flutter");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_kubernetes').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Kubernetes');
+        search("kubernetes");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_linux').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('Linux');
+        search("linux");
+        searchingTime = 1;
+      }
+    });
+
+    $('#search_word_html').click(function() {
+      if (searchingTime == 0) {
+        $('#items').css('display','none');
+        $("#search_content").val('HTML');
+        search("html");
+        searchingTime = 1;
+      }
+    });
+
+  function search(search_content){
+      $(`#loader-div`).css('margin-top','30px');
+      $("#search-intros").remove();
+      $(`#scroll-comment`).css('display','none');
+      $(`.form-group`).css('margin-bottom','');
+      $(`.after-home-page-back`).css('height','100%');
+      $(`.after-home-page-back`).css('margin-bottom','80px');
+      dispLoading();
+      searchingTime = 1;
+      $.ajax({
+        type: 'GET',
+        url: 'homes/search',
+        data: {search_content: search_content},
+        dataType: 'json',
+      }).done(function(apiData){
+        $(`#items`).html(apiData.content);
+        $(`#items`).css('display','');
+        $("#loader").remove();
+        $("#loading").remove();
+        $(`#loader-div`).css('margin','0');
+        $(`#scroll-comment`).css('display','');
+        $(`.form-group`).css('margin-bottom','0.375rem');
+        $(`.after-home-page-back`).css('height','auto');
+        $(`.after-home-page-back`).css('margin-bottom','0px');
+        if (window.innerWidth >= 650) {
+          console.log("www");
+          $(`.after-home-page-back`).css('margin-bottom','80px');
+        }
+        searchingTime = 0;
+      });
+  }
+
+  function dispLoading(){
+    $("#loader-div").append("<div id='loader' class='loader mt-0'>" + "</div>");
+    $("#loader-div").append("<div id='loading' class='loading'>" + "Loading" + "</div>");
+  }
+
+});
+</script>
+
+<% if current_user && current_page?(root_path) %>
+  <style media="screen">
+    @media screen and (max-width: 700px){
+
+      .subheader-btns {
+        display: none;
+      }
+
+      .footerFixed {
+        background-color: white;
+      }
+
+      .after-home-page-back {
+        border: none;
+      }
+
+      .subheader-min-review-up {
+        display: none;
+      }
+
+    }
+
+    @media screen and (max-height: 700px){
+
+      .subheader-btns {
+        display: none;
+      }
+
+      .footerFixed {
+        background-color: white;
+      }
+
+      .after-home-page-back {
+        border: none;
+      }
+
+      .subheader-min-review-up {
+        display: none;
+      }
+
+    }
+  </style>
+<% end %>

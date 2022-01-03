@@ -12,4 +12,13 @@ module ApplicationHelper
     end
   end
 
+  # ページごとの完全なタイトルを返します。
+  def full_title(page_title = '')
+    base_title = "TechBookHub"
+    if page_title.present?
+      page_title + " / " + base_title
+    else
+      base_title
+    end
+  end
 end

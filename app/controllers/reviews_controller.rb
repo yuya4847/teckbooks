@@ -42,12 +42,12 @@ class ReviewsController < ApplicationController
 
   def all_reviews
     @reviews = Review.all
-    @will_recommend_users = User.where.not(id: current_user.id)
+    @will_recommend_users = User.not_user(current_user)
     @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(3)
     @unknown_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
     follow_ids: current_user.following.ids,
     current_id: current_user).shuffle.take(REAOMMEND_USERS)
-    @pv_ranking = Review.find(Impression.group(:impressionable_id).pluck(:impressionable_id)).sort {|a,b| b.impressionist_count <=> a.impressionist_count}.first(3)
+    @top_pv_reviews = Review.find_top_pv_reviews
     @recommends = Recommend.all
 
     @following_users = Relationship.where("follower_id IN (:follow_user_ids)",
@@ -56,7 +56,7 @@ class ReviewsController < ApplicationController
     @following_users.each do |following_user|
       user_ids << following_user.followed_id
     end
-    @may_friend_users = User.where.not(id: current_user.id)
+    @may_friend_users = User.not_user(current_user)
     .where.not("id IN (:current_following_ids)",
     current_following_ids: current_user.following.ids)
     .where("id IN (:following_user_ids)",

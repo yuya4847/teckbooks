@@ -27,6 +27,11 @@ class UserpagesController < ApplicationController
     end
   end
 
+  def profile_reviews
+    @user = User.find(params[:id])
+    @reviews = @user.reviews
+  end
+
   def avatar_destroy
     @user = User.find(params[:id])
     @user.remove_avatar!

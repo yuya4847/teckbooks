@@ -1,36 +1,62 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Techbooks</title>
+    <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_pack_tag 'application' %>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
   </head>
 
   <body>
-    <div class="header">
-      <%= link_to 'ホーム', root_path, class: 'header-link-color' %>
-      <% if user_signed_in? %>
-        <%= link_to 'プロフィール', userpage_path(current_user.id), class: 'header-link-color' %>
-        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'header-link-color' %>
-        <%= link_to 'レビューを投稿', new_review_path, class: 'header-link-color' %>
-        <%= link_to '全ての投稿', all_reviews_path, class: 'header-link-color' %>
-        <%= link_to notifications_path, class: 'header-link-color notification-link' do %>
-          <span class="header-link-color">通知</span>
-          <% if unchecked_notifications.any? %>
-            <span class="notify-red-icon"><%= unchecked_notifications.size %></span>
-           <% end %>
-        <% end %>
-        <%= link_to '検索', reviews_path, class: 'header-link-color' %>
-      <% else %>
-        <%= link_to 'サインアップ', new_user_registration_path, class: 'header-link-color' %>
-        <%= link_to 'ログイン', new_user_session_path, class: 'header-link-color' %>
-      <% end %>
-    </div>
-    <p id="notice" class="notice"><%= notice %></p>
-    <p id="alert" class="alert"><%= alert %></p>
-    <%= yield %>
+    <div class="footerFixed">
+          <%= render partial: 'layouts/header' %>
+            <div class="application-height">
+                <% if user_signed_in? %>
+                  <%= render partial: 'layouts/sub_header' %>
+                <% end %>
+                <div id="flash-messages" class="flash-messages">
+                  <div id="notice" class="notice flash"><%= notice %></div>
+                  <div id="alert" class="alert flash"><%= alert %></div>
+                </div>
+                <%= yield %>
+            </div>
+            <div class="footer footer-layout-set">
+              <div class="footer-name">
+                <span>作成者</span>
+                <span class="footer-username">@yuya</span>
+                <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+              </div>
+              <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
+            </div>
+      </div>
   </body>
 </html>
+
+<script type="text/javascript">
+  $("#api-scroll").click(function () {
+    $("html,body").animate({scrollTop: 0}, 1);
+  });
+</script>
+
+<script type="text/javascript">
+  $(function(){
+
+    if($('#notice').text().length) {
+      $('#flash-messages').stop().animate({'bottom' : '5px'}, 400);
+      setTimeout(function() {
+        $('#flash-messages').stop().animate({'bottom' : '-105px'}, 400);
+	    }, 3500);
+    }
+
+    if($('#notice').text().length == "") {
+      $('#notice').css("display", "none");
+    }
+
+    if($('#alert').text().length == "") {
+      $('#alert').css("display", "none");
+    }
+  });
+</script>

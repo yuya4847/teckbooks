@@ -1,0 +1,21 @@
+<div>
+  <% if @currentUserEntries %>
+    <% @currentUserEntries.each do |currentUserEntry| %>
+      <div>
+        <% currentUserEntry.room.entries.each do |entry| %>
+          <% unless entry.user_id == current_user.id %>
+            <% if entry.user.avatar.url %>
+              <img src="<%= entry.user.avatar.url %>" class="comment-logo" style="height: 80px; width: 80px;">
+            <% else %>
+              <img src="/uploads/user/avatar/default.png" class="comment-default-logo" style="height: 80px; width: 80px;">
+            <% end %>
+            <%= entry.user.username %>
+            <a href="/rooms/<%= currentUserEntry.room.id %>">チャットへ</a>
+            <%= link_to "削除", room_path(currentUserEntry.room.id), method: :delete,
+                                      data: { confirm: "You sure?" } %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

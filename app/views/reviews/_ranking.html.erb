@@ -1,14 +1,16 @@
-<% if ranking_reviews %>
-  <% ranking_reviews.each_with_index do |ranking_review, i| %>
-    <div id="ranking_<%= i + 1 %>">
-      <div>
-        <span><%= i + 1 %>位</span>
-        <span>いいね数:<%= ranking_review.likes.count %></span>
+<div>
+  <% if ranking_reviews %>
+    <% ranking_reviews.each_with_index do |ranking_review, i| %>
+      <div id="ranking_<%= i + 1 %>">
+        <div>
+          <span><%= i + 1 %>位</span>
+          <span>いいね数:<%= ranking_review.likes.count %></span>
+        </div>
+        <div>
+          <span><%= ranking_review.title %></span>
+          <span>(<%= ranking_review.user.username %>)</span>
+        </div>
       </div>
-      <div>
-        <span><%= ranking_review.title %></span>
-        <span>(<%= ranking_review.user.username %>)</span>
-      </div>
-    </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

@@ -1,29 +1,84 @@
-
-  <% api_books.each do |book| %>
-    <div class="under-line">
-      <div><%= book[:rakuten][:title] %></div>
-      <div><%= book[:rakuten][:isbn] %></div>
-      <div><%= book[:rakuten][:price] %>円</div>
-      <div><%= book[:rakuten][:sales_date] %></div>
-      <% unless book[:google][:page_count] == "" %>
-        <div><%= book[:google][:page_count] %>ページ</div>
-      <% end %>
-      <div><%= truncate(book[:rakuten][:caption], length: 30) %></div>
-      <img src="<%= book[:rakuten][:rakuten_image_url] %>">
-      <% if book[:rakuten][:rakuten_url] %>
-        <a target="_blank" href="<%= book[:rakuten][:rakuten_url] %>">楽天</a>
-      <% end %>
-      <% unless book[:google][:google_url] == "" %>
-        <a target="_blank" href="<%= book[:google][:google_url] %>">googlebooks</a>
-      <% end %>
-      <% unless book[:yahoo][:yahoo_url] == "" %>
-        <a target="_blank" href="<%= book[:yahoo][:yahoo_url] %>">yahoobooks</a>
-      <% end %>
-      <% unless book[:amazon][:amazon_url] == "" %>
-        <a target="_blank" href="<%= book[:amazon][:amazon_url] %>">Amazon</a>
-      <% end %>
-      <a target="_blank" href="https://calil.jp/book/<%= book[:rakuten][:isbn] %>">全国図書館</a>
-      <a target="_blank" href="https://www.kinokuniya.co.jp/f/dsg-01-<%= book[:rakuten][:isbn] %>">紀伊國屋書店</a>
-      <a target="_blank" href="https://www.miraiyashoten.co.jp/search/neighborhood/<%= book[:rakuten][:isbn] %>/">未来屋書店</a>
+<% api_books.each do |book| %>
+  <div class="api-item">
+    <div>
+      <img class="api-item-image" src="<%= book[:rakuten][:rakuten_image_url] %>">
     </div>
-  <% end %>
+    <div class="api-item-sentences">
+      <div class="api-item-title"><%= book[:rakuten][:title] %></div>
+      <div class="api-item-status">
+        <span><%= book[:rakuten][:price] %>円</span>
+        <span><%= book[:rakuten][:sales_date] %></span>
+        <% unless book[:google][:page_count] == "" %>
+          <span><%= book[:google][:page_count] %>ページ</span>
+        <% end %>
+      </div>
+      <div class="api-item-content"><%= truncate(book[:rakuten][:caption], length: 50) %></div>
+      <div class="api-item-links">
+        <% if book[:rakuten][:rakuten_url] %>
+          <a target="_blank" href="<%= book[:rakuten][:rakuten_url] %>">
+            <div class="api-item-rakuten-link api-item-link">
+              <span class="api-item-rakuten-word">
+                楽天ブックス
+                <svg class="api-item-link-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </span>
+            </div>
+          </a>
+        <% end %>
+        <% unless book[:google][:google_url] == "" %>
+          <a target="_blank" href="<%= book[:google][:google_url] %>">
+            <div class="api-item-google-link api-item-link">
+              <span class="api-item-google-word">
+                GoogleBooks
+                <svg class="api-item-link-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </span>
+            </div>
+          </a>
+        <% end %>
+        <% unless book[:yahoo][:yahoo_url] == "" %>
+          <a target="_blank" href="<%= book[:yahoo][:yahoo_url] %>">
+            <div class="api-item-yahoo-link api-item-link">
+              <span class="api-item-yahoo-word">
+                Yahoo!
+                <svg class="api-item-link-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </span>
+            </div>
+          </a>
+        <% end %>
+        <% unless book[:amazon][:amazon_url] == "" %>
+          <a target="_blank" href="<%= book[:amazon][:amazon_url] %>">
+            <div class="api-item-amazon-link api-item-link">
+              <span class="api-item-amazon-word">
+                Amazon
+                <svg class="api-item-link-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </span>
+            </div>
+          </a>
+        <% end %>
+        <a target="_blank" href="https://calil.jp/book/<%= book[:rakuten][:isbn] %>">
+          <div class="api-item-library-link api-item-link">
+            <span class="api-item-library-word">
+              全国図書館
+              <svg class="api-item-link-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </span>
+          </div>
+        </a>
+        <a target="_blank" href="https://www.kinokuniya.co.jp/f/dsg-01-<%= book[:rakuten][:isbn] %>">
+          <div class="api-item-kinokuniya-link api-item-link">
+            <span class="api-item-kinokuniya-word">
+              紀伊國屋書店
+              <svg class="api-item-link-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </span>
+          </div>
+        </a>
+        <a target="_blank" href="https://www.miraiyashoten.co.jp/search/neighborhood/<%= book[:rakuten][:isbn] %>/">
+          <div class="api-item-miraiya-link api-item-link">
+            <span class="api-item-miraiya-word">
+              未来屋書店
+              <svg class="api-item-link-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+<% end %>

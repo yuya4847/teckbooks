@@ -1,0 +1,149 @@
+.user-edit-size {
+  display: flex;
+  flex-direction: center;
+  margin-bottom: 80px;
+}
+
+.user-edit-frame {
+  background-color: white;
+  border-radius: 4px;
+  border: thin solid rgba(0,0,0,.12);
+  color: rgba(0,0,0,.87);
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-flow: column;
+  max-width: 1000px;
+  padding: 70px 100px;
+  margin-top: 12px;
+}
+
+.icon-image-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.icon-image-selects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.icon-edit-btn {
+  display: block;
+  background-color: #0079b5;
+  padding: 5px 4px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 90px;
+}
+
+.icon-edit-btn:hover {
+  color: white;
+  filter: brightness(1.05);
+  transition-duration: 0.2s;
+}
+
+.edit-icon-right-margin {
+  padding: 0px 30px 0px 30px;
+}
+
+.avatar_select {
+  display: none;
+}
+
+.edit-username {
+  width: 100%;
+}
+
+.profile-edit-username {
+  width: 100%;
+}
+
+.profile-edit-label {
+  color: #6A6F70;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.profile-edit-field {
+  width: 100%;
+  border-bottom: 1px solid #f1f1f1;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-edit-btn-div {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-edit-btn {
+  background-color: #0079b5;
+  border: #0079b5;
+  border-radius: 4px;
+  padding: 16px 64px;
+  color: white;
+  font-weight: bold;
+}
+
+.profile-edit-btn:hover {
+  color: white;
+  filter: brightness(1.05);
+  transition-duration: 0.2s;
+}
+
+.profile-edit-input {
+  padding: 14px;
+  border-radius: 6px;
+  border: 5px solid #d3d3d3;
+}
+
+.profile-edit-label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 18.4px;
+  color: #6A6F70;
+}
+
+.delete-registration {
+  padding-top: 16px;
+  text-align: right;
+}
+
+.delete-registration-link {
+  font-size: 14px;
+  color: #999;
+  text-decoration: underline;
+  background-color: white;
+  border: none;
+}
+
+.delete-registration-link:hover {
+  color: #999;
+  background-color: white;
+  border: none;
+}
+
+.profile-edit-validation {
+  font-size: 16px;
+  color: #ff5252;
+  margin-bottom: 15px;
+}
+
+@media screen and (max-width: 720px){
+
+  .user-edit-frame {
+    padding: 20px 10px;
+  }
+
+}

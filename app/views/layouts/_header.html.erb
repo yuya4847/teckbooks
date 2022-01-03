@@ -1,0 +1,19 @@
+<div class="header">
+  <% if user_signed_in? %>
+    <div class="header-btns">
+      <%= link_to userpage_path(current_user.id), class: 'home-btn-logo-div' do %>
+        <%= render partial: 'layouts/home-btn-logo' %>
+      <% end %>
+      <div class="header-menus">
+        <div class="header-link-div header-link-color-menus-mypages">
+          <%= link_to 'マイページ', userpage_path(current_user.id), class: 'header-link-color-menus' %>
+        </div>
+        <div class="header-link-div">
+          <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'header-link-color-menus' %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <%= link_to 'ログイン', new_user_session_path, class: 'header-login header-link-color' %>
+  <% end %>
+</div>

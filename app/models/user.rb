@@ -40,6 +40,8 @@ class User < ApplicationRecord
          :timeoutable, :trackable
   validate  :avatar_size
 
+  scope :not_user, ->(user) { where.not(id: user.id) }
+
   def create_notification_follow!(visitor_user, visited_user)
     previous_notification = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ", visitor_user.id, self.id, 'follow'])
 

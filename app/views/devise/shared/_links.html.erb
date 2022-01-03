@@ -1,21 +1,17 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to "ログインする", new_session_path(resource_name) %><br />
-<% end %>
-
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to "サインアップする", new_registration_path(resource_name) %><br />
+  <%= link_to "ログインする", new_session_path(resource_name), class: 'login-field' %><br />
 <% end %>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to "パスワードを忘れた方", new_password_path(resource_name) %><br />
+  <%= link_to "パスワードを忘れた方", new_password_path(resource_name), class: 'login-field' %><br />
 <% end %>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "アカウント有効化のメールが届いていない方", new_user_confirmation_path(resource_name) %><br />
+  <%= link_to "アカウント有効化のメールが届いていない方", new_user_confirmation_path(resource_name), class: 'login-field' %><br />
 <% end %>
 
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
+    <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: 'login-field' %><br />
   <% end %>
 <% end %>
