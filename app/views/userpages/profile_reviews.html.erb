@@ -51,19 +51,19 @@
     </div>
     <div class="mypage-reviews-title-right col-md-5">
       <div class="myprofile-status">
-        <div class="myprofile-status-title">公開設定</div>
+        <div class="myprofile-status-title" style="opacity: 60%;">公開設定</div>
         <div class="myprofile-status-content">公開</div>
       </div>
       <div class="myprofile-status">
-        <div class="myprofile-status-title">投稿数</div>
+        <div class="myprofile-status-title" style="opacity: 60%;">投稿数</div>
         <div class="myprofile-status-content"><%= @all_reviews.size %>投稿</div>
       </div>
       <div class="myprofile-status">
-        <div class="myprofile-status-title">初めてのレビュー</div>
+        <div class="myprofile-status-title" style="opacity: 60%;">初めてのレビュー</div>
         <div class="myprofile-status-content"><%= l @reviews.last.created_at %></div>
       </div>
       <div class="myprofile-status">
-        <div class="myprofile-status-title">最新のレビュー</div>
+        <div class="myprofile-status-title" style="opacity: 60%;">最新のレビュー</div>
         <div class="myprofile-status-content"><%= l @reviews.first.created_at %></div>
       </div>
     </div>
