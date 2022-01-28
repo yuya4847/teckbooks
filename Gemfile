@@ -14,6 +14,8 @@ gem 'dotenv-rails'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'byebug'
+gem 'i18n_generators'
+gem 'kaminari'
 
 # Use sqlite3 as the database for Active Record
 # Use Puma as the app server

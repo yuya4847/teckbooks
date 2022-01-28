@@ -1,0 +1,124 @@
+.all-reviews-size {
+  margin-top: 12px;
+  max-width: 900px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.each-review {
+  margin-bottom: 12px;
+  margin-right: 0px;
+  background-color: white;
+  border-radius: 4px;
+  border: thin solid rgba(0,0,0,.12);
+}
+
+.like-ranking {
+  background-color: white;
+  border-radius: 4px;
+  padding: 45px 25px 45px 25px;
+  margin-bottom: 12px;
+}
+
+.pv-ranking {
+  background-color: white;
+  border-radius: 4px;
+  padding: 45px 25px 45px 25px;
+}
+
+.all-reviews-post-names {
+  min-height: 77px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.all-reviews-post-name-titles {
+  display: flex;
+}
+
+.follow-div-color {
+  color: #0F79B5;
+  border: solid 1px #0F79B5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  width: 90px;
+  height: 35px;
+}
+
+.all-reviews-post-names-div {
+  padding: 4px 16px 4px 16px;
+}
+
+.all-reviews-title-image {
+  margin: 8px 13px 8px 0px;
+}
+
+.all-reviews-stars {
+  padding-left: 16px;
+  margin-bottom: 15px;
+}
+
+.all-reviews-post-username {
+  line-height: 19.2px;
+  margin-bottom: 2px;
+  font-size: 16px;
+  color: #000000;
+  opacity: 87.0%;
+  font-weight: 300;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.all-review-to-detail:hover {
+  color: rgba(0,0,0,.6);
+}
+
+.all-reviews-content {
+  padding: 0px 16px 16px 16px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.1px;
+}
+
+.all-reviews-icon {
+  cursor: pointer;
+}
+
+.not_follow_btn_ajax {
+  padding: 10px 15px 10px 15px;
+}
+
+.follow_btn_ajax {
+  padding: 10px 15px 10px 15px;
+}
+
+.all-reviews-detail-link {
+  display: flex;
+  justify-content: flex-end;
+  padding: 17px 30px 15px 0px;
+}
+
+.all-review-to-since {
+  color: rgba(0,0,0,.6);
+  font-size: 12px;
+  line-height: 16.8px;
+}
+
+.all-review-to-detail {
+  color: rgba(0,0,0,.6);
+  font-size: 14px;
+  line-height: 16.8px;
+}
+
+.all-review-to-logo {
+  margin-left: -3px;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-bottom: 0px;
+}

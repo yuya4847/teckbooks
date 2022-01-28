@@ -269,3 +269,29 @@
   background-color: rgba(0, 121, 181, 0.07);
   transition-duration: 0.2s;
 }
+
+.mypage-follow-btn {
+  color: #0F79B5;
+  border: solid 1px #0F79B5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  margin-top: 20px;
+  height: 35px;
+  width: 190px;
+}
+
+.mypage_follow_btn_ajax {
+  padding: 5px 65px 5px 65px;
+}
+
+.mypage_not_follow_btn_ajax{
+  padding: 5px 65px 5px 65px;
+}
+
+.profile-reviews-follow-btn-word {
+  color: rgba(0,0,0,.6);
+  font-size: 12px;
+  line-height: 16.8px;
+}

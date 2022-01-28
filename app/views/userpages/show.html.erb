@@ -101,8 +101,17 @@
         </div>
 
         <% unless @user == current_user %>
-          <div class="follow-div" id="follow_form<%= @user.id %>">
-            <%= render 'shared/follow_form' %>
+          <div id="follow-div<%= @user.id %>" class="mypage-follow-btn">
+            <% if current_user.following?(@user) %>
+              <div id="not_follow_btn<%= @user.id %>" class="mypage_not_follow_btn_ajax all-reviews-icon">
+                following
+              </div>
+            <% else %>
+              <div id="follow_btn<%= @user.id %>" class="mypage_follow_btn_ajax all-reviews-icon">
+                <i class="fa-xs fas fa-plus"></i>
+                follow
+              </div>
+            <% end %>
           </div>
         <% end %>
 
@@ -117,16 +126,68 @@
   </div>
 </div>
 
-<% unless @user == current_user %>
-<style media="screen">
-  .footer {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
+<!-- フォロー機能のAjax -->
+<script type="text/javascript">
+  $(document).on('click', '.mypage_follow_btn_ajax', function() {
+    var follow_data = Number($(this).attr('id').substr( 10 ));
+    follow_ajax(follow_data);
+  });
+
+  $(document).on('click', '.mypage_not_follow_btn_ajax', function() {
+    var not_follow_data = Number($(this).attr('id').substr( 14 ));
+    not_follow_ajax(not_follow_data);
+  });
+
+  function follow_ajax(follow_data){
+      console.log(follow_data);
+      $.ajax({
+        type: 'GET',
+        url: 'review_follow/create',
+        data: {user_id: follow_data},
+        dataType: 'json',
+      }).done(function(follow_result){
+        $(`#follow_btn${follow_result.follow_user_id}`).remove();
+        console.log(follow_result.followers_count);
+        var follow_div = document.getElementById(`follow-div${follow_result.follow_user_id}`);
+        var follow_icon = document.createElement('span');
+        follow_icon.innerHTML = `
+          <span id="not_follow_btn${follow_result.follow_user_id}" class="mypage_not_follow_btn_ajax all-reviews-icon">following</span>
+        `;
+        follow_div.appendChild(follow_icon);
+        $(`#not_follow_btn${follow_result.follow_user_id}`).unwrap();
+
+        var followers_span = document.getElementById("followers");
+        followers_span.innerText = follow_result.followers_count;
+      });
   }
-</style>
-<% end %>
+
+  function not_follow_ajax(not_follow_data){
+    console.log(not_follow_data);
+    $.ajax({
+      type: 'GET',
+      url: 'review_follow/destroy',
+      data: {user_id: not_follow_data},
+      dataType: 'json',
+    }).done(function(not_follow_result){
+      console.log(not_follow_result.followers_count);
+      $(`#not_follow_btn${not_follow_result.not_follow_user_id}`).remove();
+      var follow_div = document.getElementById(`follow-div${not_follow_result.not_follow_user_id}`);
+      var follow_icon = document.createElement('span');
+      follow_icon.innerHTML = `
+        <span id="follow_btn${not_follow_result.not_follow_user_id}" class="mypage_follow_btn_ajax all-reviews-icon">
+          <i class="fa-xs fas fa-plus"></i>
+          follow
+        </span>
+      `;
+      follow_div.appendChild(follow_icon);
+      $(`#follow_btn${not_follow_result.not_follow_user_id}`).unwrap();
+
+      var followers_span = document.getElementById("followers");
+      followers_span.innerText = not_follow_result.followers_count;
+    });
+  }
+</script>
+<!-- -->
 
 <style media="screen">
   body {
@@ -137,3 +198,22 @@
     margin: 50px;
   }
 </style>
+
+<script type="text/javascript">
+  if (document.getElementById("footer") == null) {
+    var diva = document.getElementById("footerfixed");
+    var div = document.createElement('div');
+    div.innerHTML = `
+    <div id="footer" class="footer footer-layout-set">
+      <div class="footer-name">
+        <span>作成者</span>
+        <span class="footer-username">@yuya</span>
+        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      </div>
+      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
+    </div>
+    `;
+    diva.appendChild(div);
+    $(`#footer`).unwrap();
+  }
+</script>

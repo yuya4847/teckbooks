@@ -1,54 +1,249 @@
 <% provide(:title, "投稿編集") %>
-<h2>投稿の編集</h2>
+
+<div class="container post-review-area">
+  <%= form_for(@review) do |f| %>
+  <div class="post-review-big row">
+    <div class="post-review-big-title-label col-3">編集</div>
+    <div class="post-review-big-title-form col-9">
+      <div class="post-review-big-title">レビューを編集</div>
+        <% if @review.errors.any? %>
+          <div class="post-review-errors">
+            <% @review.errors.full_messages.each do |msg| %>
+              <div class="post-review-error">・ <%= msg %></div>
+            <% end %>
+          </div>
+        <% end %>
+    </div>
+  </div>
+
+  <div class="post-review-title row">
+    <div class="post-review-title-label col-3">タイトル</div>
+    <div class="post-review-title-form col-9">
+      <%= f.text_field :title, class: "post-review-title-input", placeholder: "例) パーフェクト Ruby on Rails" %>
+    </div>
+  </div>
+
+  <div class="post-review-rate row">
+    <div class="post-review-rate-label col-3">評価</div>
+    <div class="post-review-rate-form col-9">
+      <%= f.number_field :rate, min: 1, max: 5, id: "review_rate", style: "display: none;" %>
+      <div class="stars" data-stars="1" id="rate-star">
+        <svg height="25" width="23" class="star rating" data-rating="1">
+          <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+        </svg>
+        <svg height="25" width="23" class="star rating" data-rating="2">
+          <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+        </svg>
+        <svg height="25" width="23" class="star rating" data-rating="3">
+          <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+        </svg>
+        <svg height="25" width="23" class="star rating" data-rating="4">
+          <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+        </svg>
+        <svg height="25" width="23" class="star rating" data-rating="5">
+          <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-review-content row">
+    <div class="post-review-content-label col-3">レビュー・感想</div>
+    <div class="post-review-content-form col-9">
+      <%= f.text_area :content, placeholder: "レビューや感想を書く", class: "post-review-content-input" %>
+    </div>
+  </div>
+
+  <div class="post-review-link row">
+    <div class="post-review-link-label col-3">リンク</div>
+    <div class="post-review-link-form col-9">
+      <%= f.text_field :link, class: "post-review-link-input", placeholder: "例) https://example.com" %>
+    </div>
+  </div>
+
+  <div class="post-review-tag row">
+    <div class="post-review-tag-label col-3">タグ</div>
+    <div class="post-review-tag-form col-9">
+      <%= f.text_area :tag_ids, class: "post-review-tag-input", placeholder: "複数つけるには','で区切ってください。 例) Ruby,Rails,フレームワーク", value: "" %>
+    </div>
+  </div>
+
+  <div class="post-review-image row">
+    <div class="post-review-image-label col-3">画像</div>
+    <div class="post-review-image-form col-9">
+      <label class="post-review-image-btn-label" for="review_picture">
+        画像を選択
+        <svg class="post-review-image-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 12px; height: 12px;" xml:space="preserve">
+          <style type="text/css">
+            .st5{fill: white;}
+          </style>
+          <g>
+            <path class="st5" d="M378.413,0H208.297h-13.168l-9.314,9.314L57.02,138.102l-9.314,9.314v13.176v265.514   c0,47.36,38.527,85.895,85.895,85.895h244.812c47.353,0,85.881-38.535,85.881-85.895V85.896C464.294,38.528,425.766,0,378.413,0z    M432.497,426.105c0,29.877-24.214,54.091-54.084,54.091H133.601c-29.87,0-54.084-24.214-54.084-54.091V160.591h83.717   c24.884,0,45.063-20.178,45.063-45.07V31.804h170.116c29.87,0,54.084,24.214,54.084,54.092V426.105z" style="fill: white;"/>
+            <path class="st5" d="M162.94,251.968c-5.851,0-10.054,4.21-10.054,10.592v72.804c0,6.388,4.203,10.599,10.054,10.599   c5.698,0,9.915-4.21,9.915-10.599V262.56C172.855,256.178,168.638,251.968,162.94,251.968z" style="fill: white;"/>
+            <path class="st5" d="M265.621,251.968c-5.977,0-9.244,3.261-12.219,10.326l-19.299,44.547h-0.545l-19.69-44.547   c-3.114-7.066-6.382-10.326-12.358-10.326c-6.647,0-11.004,4.622-11.004,11.954v72.398c0,6.109,3.812,9.643,9.245,9.643   c5.153,0,8.965-3.534,8.965-9.643v-44.554h0.67l14.398,33.138c2.848,6.522,5.167,8.428,9.775,8.428   c4.622,0,6.926-1.906,9.789-8.428l14.258-33.138h0.684v44.554c0,6.109,3.658,9.643,9.091,9.643c5.432,0,9.105-3.534,9.105-9.643   v-72.398C276.486,256.59,272.269,251.968,265.621,251.968z" style="fill: white;"/>
+            <path class="st5" d="M356.363,293.806h-19.02c-5.153,0-8.42,3.121-8.42,7.876c0,4.755,3.268,7.876,8.42,7.876h6.256   c0.545,0,0.81,0.272,0.81,0.816c0,3.533-0.266,6.654-1.089,9.098c-1.9,5.844-7.737,9.51-14.803,9.51   c-8.015,0-13.043-3.938-15.068-10.187c-1.089-3.393-1.494-7.876-1.494-19.83c0-11.953,0.406-16.296,1.494-19.696   c2.025-6.382,6.927-10.32,14.802-10.32c5.977,0,10.459,1.899,13.993,6.786c2.709,3.805,5.432,4.895,8.825,4.895   c5.028,0,9.091-3.666,9.091-8.965c0-2.171-0.67-4.078-1.76-5.977c-4.888-8.287-15.207-14.397-30.149-14.397   c-16.436,0-29.199,7.471-33.962,22.412c-2.038,6.515-2.583,11.682-2.583,25.262c0,13.581,0.545,18.74,2.583,25.262   c4.762,14.942,17.526,22.413,33.962,22.413c16.436,0,28.921-8.288,33.683-23.09c1.634-5.16,2.304-12.77,2.304-20.919v-0.95   C364.238,296.654,361.39,293.806,356.363,293.806z" style="fill: white;"/>
+          </g>
+        </svg>
+      </label>
+      <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png', class: "post-review-image-btn" %>
+    </div>
+  </div>
+
+  <div class="post-review-btn-div">
+    <%= f.submit "編集完了", class: "post-review-btn" %>
+  </div>
+  <% end %>
+</div>
+
+<script>
+  var reviewInitFlag = 1;
+  if (reviewInitFlag == 1) {
+    var starCountInit = document.getElementById('review_rate');
+    console.log(starCountInit.value);
+    document.getElementById("rate-star").setAttribute('data-stars', starCountInit.value);
+    reviewInitFlag = 0;
+  }
+
+  const starEls = document.querySelectorAll('.star.rating');
+  var starCount = document.getElementById('review_rate');
+  starEls.forEach(star => {
+    star.addEventListener('click', function(e) {
+      let starEl = e.currentTarget;
+      starEl.parentNode.setAttribute('data-stars', starEl.dataset.rating);
+      starCount.setAttribute('value', starEl.dataset.rating);
+    });
+  })
+
+</script>
+
+<style media="screen">
+  .stars {
+    cursor: pointer;
+    display: flex;
+    width: 120px;
+  }
+
+  .rate_form {
+    display: none;
+  }
+
+.stars:hover .star polygon {
+  fill: #ffd055 !important;
+}
+.stars .star polygon {
+  fill: #d8d8d8;
+}
+.stars .star:hover ~ .star polygon {
+  fill: #d8d8d8 !important;
+}
+.stars[data-stars] .star polygon {
+  fill: #ffd055;
+}
+.stars[data-stars="1"] .star:nth-child(1) ~ .star polygon {
+  fill: #d8d8d8;
+}
+.stars[data-stars="2"] .star:nth-child(2) ~ .star polygon {
+  fill: #d8d8d8;
+}
+.stars[data-stars="3"] .star:nth-child(3) ~ .star polygon {
+  fill: #d8d8d8;
+}
+.stars[data-stars="4"] .star:nth-child(4) ~ .star polygon {
+  fill: #d8d8d8;
+}
+.stars[data-stars="5"] .star:nth-child(5) ~ .star polygon {
+  fill: #d8d8d8;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<% if false %>
 
 <%= form_for(@review) do |f| %>
+
 <% if @review.errors.any? %>
 <div id="error_explanation">
-  <div class="alert alert-danger">
-    The form contains <%= pluralize(@review.errors.count, "error") %>.
-  </div>
-  <ul>
   <% @review.errors.full_messages.each do |msg| %>
-    <li><%= msg %></li>
+    <div><%= msg %></div>
   <% end %>
-  </ul>
 </div>
 <% end %>
 
-  <div class="field">
-    <%= f.label :画像 %><br/>
+  <div class="">
     <% if @review.picture.url %>
       <img src="<%= @review.picture.url %>">
     <% else %>
       <b>画像はありません</b>
     <% end %>
-    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png', class: "file_edit_form" %>
+    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png', class: "" %>
   </div>
 
-  <div class="field">
-    <%= f.label :タイトル %><span>※必須</span><br/>
-    <%= f.text_field :title, class: "title_edit_form" %>
+  <div class="">
+    <%= f.label :タイトル %><br/>
+    <%= f.text_field :title, class: "" %>
   </div>
 
-  <div class="field">
+  <div class="">
     <%= f.label :リンク %><br/>
-    <%= f.text_field :link, class: "link_edit_form" %>
+    <%= f.text_field :link, class: "" %>
   </div>
 
-  <div class="field">
-    <%= f.label :評価 %><span>※必須</span><br/>
-    <%= f.number_field :rate, min: 1, max: 5, class: "rate_edit_form" %>
+  <div class="">
+    <%= f.label :評価 %><br/>
+
   </div>
 
-  <div class="field">
-    <%= f.label :内容 %><span>※必須</span><br/>
-    <%= f.text_area :content, placeholder: "テキストを入力してください...", class: "content_edit_form" %>
+  <div class="">
+    <%= f.label :内容 %><br/>
+    <%= f.text_area :content, placeholder: "", class: "" %>
   </div>
 
-  <div class="field">
+  <div class="">
     <%= f.label :タグ %><br/>
-    <%= f.text_field :tag_ids, value: @tag_list, placeholder: "タグをつける。複数つけるには','で区切ってください。" %>
+    <%= f.text_field :tag_ids, value: @tag_list, placeholder: "複数つけるには','で区切ってください。" %>
   </div>
 
   <%= f.submit "編集完了" %>
 <% end %>
+
+<% end %>
+
+<script type="text/javascript">
+  if (document.getElementById("footer") == null) {
+    var diva = document.getElementById("footerfixed");
+    var div = document.createElement('div');
+    div.innerHTML = `
+    <div id="footer" class="footer footer-layout-set">
+      <div class="footer-name">
+        <span>作成者</span>
+        <span class="footer-username">@yuya</span>
+        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      </div>
+      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
+    </div>
+    `;
+    diva.appendChild(div);
+  }
+</script>

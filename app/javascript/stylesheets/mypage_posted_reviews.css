@@ -1,0 +1,310 @@
+.mypage-reviews-size {
+  margin-top: 12px;
+  max-width: 900px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.mypage-reviews-status {
+  width: 100%;
+  margin: 0px;
+}
+
+.mypage-reviews-post-subinfo {
+  justify-content: center;
+  max-width: 930px;
+}
+
+.mypage-reviews-subinfo {
+  margin-top: 12px;
+  justify-content: center;
+  padding-right: 0px;
+}
+
+.mypage-reviews-title {
+  background-color: white;
+  width: 100%;
+  border-radius: 4px;
+  margin: 0px;
+  padding: 25px;
+}
+
+.mypage-reviews-posts {
+  max-width: 570px;
+  margin-top: 12px;
+  padding-left: 0px;
+}
+
+.mypage-reviews-post {
+  margin-bottom: 12px;
+  margin-right: 0px;
+  background-color: white;
+  border-radius: 4px;
+  border: thin solid rgba(0,0,0,.12);
+  width: 100%;
+  display: block;
+  color: rgb(33,37,41);
+}
+
+.mypage-reviews-post:hover {
+  color: rgb(33,37,41);
+}
+
+.mypage-reviews-subinfo-involved-users {
+  padding: 25px 25px 25px 25px;
+  margin-bottom: 12px;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.mypage-reviews-subinfo-known-users {
+  padding: 25px 25px 25px 25px;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.mypage-reviews-title-left {
+  padding: 20px;
+  background-color: white;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.mypage-reviews-title-right {
+  padding: 35px;
+  background-color: white;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.mypage-reviews-title-icon {
+  padding: 0 16px;
+  align-items: center;
+  display: flex;
+  min-height: 48px;
+}
+
+.mypage-reviews-title-image {
+  margin: 8px 16px 8px 0px;
+}
+
+.mypage-reviews-title-icons {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.mypage-reviews-title-username {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: .0125em;
+  line-height: 1.2;
+  margin-right: 5px;
+}
+
+.mypage-reviews-following-a {
+  margin-right: 4px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.mypage-reviews-followers-a {
+  font-size: 14px;
+  color: #666666;
+}
+
+.mypage-reviews-following-a:hover {
+  color: #666666;
+}
+
+.mypage-reviews-followers-a:hover {
+  color: #666666;
+}
+
+.mypage-reviews-title-profile {
+  padding: 16px;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.375rem;
+  letter-spacing: .0071428571em;
+}
+
+.mypage-reviews-comment-icon {
+  color: #757575;
+  font-size: 21px;
+}
+
+.mypage-reviews-recommend-icon {
+  color: #4CAF50;
+  font-size: 18px;
+  padding: 3px;
+}
+
+.mypage-reviews-like-icon {
+  color: #E91E63;
+  font-size: 21px;
+}
+
+.mypage-reviews-ranking-icon-div {
+  padding: 10px 0px;
+}
+
+.mypage-reviews-rate-icons {
+  display: flex;
+  flex-flow: column;
+}
+
+.mypage-reviews-rate-icon {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mypage-reviews-rate-icon-word {
+  display: flex;
+  align-items: center;
+  margin-right: 60px;
+  font-size: 18px;
+}
+
+.mypage-reviews-rate-icon-word-color {
+  color: 666666;
+}
+
+.mypage-reviews-post-names-div {
+  padding: 4px 16px;
+}
+
+.mypage-reviews-post-names {
+  min-height: 77px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+}
+
+.mypage-reviews-post-username {
+  line-height: 19.2px;
+  margin-bottom: 2px;
+  font-size: 16px;
+  color: #000000;
+  opacity: 87.0%;
+  font-weight: 300;
+}
+
+.myprofile-status {
+  padding: 12px 0;
+}
+
+.myprofile-status-title {
+  margin-bottom: 2px;
+  font-size: 14px;
+  line-height: 16.8px;
+  color: #000000;
+  opacity: 60%;
+}
+
+.myprofile-status-content {
+  font-size: 16px;
+  line-height: 19.2px;
+}
+
+.mypage-reviews-stars {
+  padding-left: 16px;
+  margin-bottom: 3px;
+}
+
+.mypage-review-content {
+  padding: 0px 16px 16px 16px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.1px;
+}
+
+.mypage-review-tag {
+  color: #0079b5;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.mypage-review-created-at {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  font-weight: 300;
+  color: #000000;
+  opacity: 87.0%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mypage-review-bottom {
+  display: flex;
+  padding: 8px;
+  justify-content: space-between;
+  height: 52px;
+}
+
+.mypage-review-bottom-icons {
+  display: flex;
+}
+
+.mypage-review-icon {
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mypage-find-friends {
+  color: #6a6f70;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.mypage-maybe-friends {
+  color: #6a6f70;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.min-follow-username {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 19.2px;
+  margin-bottom: 2px;
+  font-size: 14px;
+  color: #000000;
+  opacity: 87.0%;
+  font-weight: 300;
+  padding: 0px 10px 0px 10px;
+}
+
+.mypage-reviews-min-follows {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.mypage-min-profile {
+  display: flex;
+}
+
+.mypage-min-none-user {
+  font-size: 14px;
+}
+
+.mypage-reviews-follow-btn {
+  color: #0F79B5;
+  border: solid 1px #0F79B5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  height: 35px;
+  width: 80px;
+}

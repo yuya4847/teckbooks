@@ -1,7 +1,9 @@
 class UserpagesController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :avatar_destroy, :following, :followers]
+  before_action :authenticate_user!, only: [:show, :profile_reviews, :avatar_destroy, :following, :followers]
   before_action :user_exist?,       only: [:show, :following, :followers]
   before_action :correct_user,       only: [:avatar_destroy]
+  REAOMMEND_USERS = 5
+  RELATED_REVIRES_COUNT = 7
 
   def show
     @user = User.find(params[:id])
@@ -29,7 +31,25 @@ class UserpagesController < ApplicationController
 
   def profile_reviews
     @user = User.find(params[:id])
-    @reviews = @user.reviews
+    @all_reviews = @user.reviews
+    @reviews = @user.reviews.page(params[:page]).per(7)
+
+    @following_users = Relationship.where("follower_id IN (:follow_user_ids)",
+    follow_user_ids: current_user.following.ids)
+    user_ids = []
+    @following_users.each do |following_user|
+      user_ids << following_user.followed_id
+    end
+    @may_friend_users = User.not_user(current_user)
+    .where.not("id IN (:current_following_ids)",
+    current_following_ids: current_user.following.ids)
+    .where("id IN (:following_user_ids)",
+    following_user_ids: user_ids)
+
+    @unknown_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
+    follow_ids: current_user.following.ids,
+    current_id: current_user).shuffle.take(REAOMMEND_USERS)
+    @unknown_users -= @may_friend_users
   end
 
   def avatar_destroy

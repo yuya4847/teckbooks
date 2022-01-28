@@ -1,164 +1,309 @@
 <% provide(:title, "全ての投稿") %>
-<div>
-  <div>
-    <% if @top_pv_reviews %>
-      <div id="impression_rank">
-        <% @top_pv_reviews.each.with_index(1) do |review, i| %>
-          <div id="rank">
-            <%= "#{i}" %>位
-            <%= link_to "#{review.title}", review_path(review) %>
-            <%= review.impressionist_count %>レビュー
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-  <div>
-    <h2>全ての投稿</h2>
-    <input type="hidden" id="review_total" value="<%= @reviews.size %>">
-    <input type="hidden" id="recommend_user_total" value="<%= @will_recommend_users.size %>">
-  </div>
-  <div>
-    <% @reviews.each do |review| %>
-      <div>
-        <div id="review_<%= review.id %>" class="each_review book_review_<%= review.id %>">
-          <div>
-          <div>
-            <div id="like_form<%= review.id %>" class="like_class<%= review.id %>">
-              <%= render partial: 'shared/like_form', locals: { review: review } %>
-            </div>
-          </div>
-          <div id="report_form<%= review.id %>">
-            <%= render partial: 'reviews/all_reviews_display', locals: { review: review } %>
-          </div>
-          <div id="recommend_messages_<%= review.id %>">
-            <% @recommends.each do |recommend| %>
-              <% if recommend.review_id == review.id && recommend.recommended_user_id == current_user.id %>
-                  <div>この投稿は、<%= recommend.recommend_user.username %>におすすめされています</div>
-              <% end %>
-            <% end %>
-          </div>
-          <div>
-            <div id="open_recommend_modal_<%= review.id %>" class="recommend_users_display open_modal">リコメンド</div>
-            <div id="recommend_modal_<%= review.id %>" style="display: none;">
-              <div class="modal-back">
-                <div class="modal_close close_recommend_modal_<%= review.id %>">
+
+<input type="hidden" id="review_total" value="<%= @reviews.size %>">
+<input type="hidden" id="recommend_user_total" value="<%= @will_recommend_users.size %>">
+
+<div class="all-reviews-size container">
+  <div class="row">
+    <div class="col-8">
+        <% @reviews.each do |review| %>
+          <div id="review_<%= review.id %>" class="each-review book_review_<%= review.id %>">
+            <div class="all-reviews-post-names-div">
+              <div class="all-reviews-post-names">
+                <div class="all-reviews-post-name-titles">
+                  <% if review.user.avatar.url %>
+                    <img src="<%= review.user.avatar.url %>" class="icon-image-class all-reviews-title-image" style="height: 45px; width: 45px;">
+                  <% else %>
+                    <img src="/uploads/user/avatar/default.png" class="icon-image-class all-reviews-title-image" style="height: 45px; width: 45px;">
+                  <% end %>
+                  <div class="all-reviews-post-username">
+                    <%= review.user.username %>
+                    <div class="all-review-to-detail">
+                      <span class="all-review-to-since">Since <%= review.user.created_at.strftime("%Y/%m/%d") %></span>
+                    </div>
+                  </div>
                 </div>
-                <div class="recommend_modal_body">
-                  <div class="modal_close_btn close_recommend_modal_<%= review.id %>">✖︎</div>
-                  <div id="recommend_users_<%= review.id %>"></div>
-                  <div class="recommend_users">
-                    <% @will_recommend_users.each do |will_recommend_user| %>
-                      <div class="recommend_user recommend_review_<%= review.id %> recommend_user_<%= will_recommend_user.id %>">
-                        <% if will_recommend_user.avatar.url %>
-                          <img src="<%= will_recommend_user.avatar.url %>" class="comment-logo">
-                        <% else %>
-                          <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-                        <% end %>
-                        <span><%= will_recommend_user.username %></span>
+                <% if current_user != review.user %>
+                  <div id="follow-div<%= review.id %>" class="follow-div-color">
+                    <% if current_user.following?(review.user) %>
+                      <div id="not_follow_btn<%= review.id %>" class="not_follow_btn_ajax all-reviews-icon follow_user<%= review.user.id %>">
+                        following
+                      </div>
+                    <% else %>
+                      <div id="follow_btn<%= review.id %>" class="follow_btn_ajax all-reviews-icon not_follow_user<%= review.user.id %>">
+                        <i class="fa-xs fas fa-plus"></i>
+                        follow
                       </div>
                     <% end %>
                   </div>
-                  <div class="recommend_cancel" style="cursor: pointer;">キャンセル</div>
-                  <div class="recommend_send" style="cursor: pointer;">リコメンド</div>
-                </div>
+                <% end %>
               </div>
             </div>
-          </div>
-          <div>
-            <%= review.user.username %>
-            <% if review.user.avatar.url %>
-              <div>
-                <img src="<%= review.user.avatar.url %>" class="aaa">
-              </div>
-            <% else %>
-              <div>
-                <img src="/uploads/user/avatar/default.png" class="bbb">
-              </div>
-            <% end %>
-          </div>
-          <div>
-            <% if review.picture.url %>
-              <img class="all_review_img" src="<%= review.picture.url %>">
-            <% else %>
-              <b>画像はありません</b>
-            <% end %>
-          </div>
-          <div><%= link_to "#{review.title}", review_path(review) %></div>
-          <div><%= review.content %></div>
-          <div><%= review.rate %></div>
-          <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
-          <div id="all_review_tags">
-            <span>タグ</span>
-            <% review.tags.each do |tag| %>
-              <div>#<%= tag.name %></div>
-            <% end %>
-          </div>
-          <div>
-            <%= link_to review.link, target: :_blank do %>
-              <%= review.link %>
-            <% end %>
-          </div>
-          <div>
-            <% if current_user.admin? %>
-              <%= link_to "削除する", review_destroy_path(id: review.id, original_page: "exist"), method: :delete,
-                                          data: { confirm: "本当にこの投稿を削除しますか？" } %>
+            <div class="all-reviews-stars">
+              <% review.rate.times do |time| %>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 512 512" style="width: 17px; height: 17px; opacity: 1;" xml:space="preserve">
+                  <g>
+                    <polygon class="st0" points="256,12.531 327.047,183.922 512,198.531 370.938,319.047 414.219,499.469 256,402.563 97.781,499.469    141.063,319.047 0,198.531 184.953,183.922  " style="fill: #ffd055;"/>
+                  </g>
+                </svg>
               <% end %>
-          </div>
-      </div>
-      </div>
-      </div>
-    <% end %>
-  </div>
-  <div class="index">
-    <div id="unknown_users">
-      <div>友達を探そう!!</div>
-      <% if @unknown_users %>
-        <% @unknown_users.each do |unknown_user| %>
-          <div>
-            <% @user = unknown_user %>
-            <% if @user.avatar.url %>
-              <img src="<%= @user.avatar.url %>" class="comment-logo">
-            <% else %>
-              <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-            <% end %>
-            <span><%= @user.username %></span>
-            <span id="follow_form<%= @user.id %>" class="follow_class<%= @user.id %>">
-              <%= render 'shared/follow_form' %>
-            </span>
-          </div>
-        <% end %>
-      <% else %>
-        <div>フォローしていないユーザーはいません。</div>
-      <% end %>
-    </div>
-    <div id="may_friend_users">
-      <div>知り合いかも？</div>
-      <% if @may_friend_users %>
-        <% @may_friend_users.each do |may_friend_user| %>
-          <div>
-            <% @user = may_friend_user %>
-            <% if @user.avatar.url %>
-              <img src="<%= @user.avatar.url %>" class="comment-logo">
-            <% else %>
-              <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-            <% end %>
-            <span><%= @user.username %></span>
-            <span id="may_friend_follow_form<%= @user.id %>" class="may_friend_follow_class<%= @user.id %>">
-              <%= render 'shared/follow_form' %>
-            </span>
-          </div>
-        <% end %>
-      <% else %>
-        <div>知り合いかもしれないユーザーはいません。</div>
-      <% end %>
-    </div>
-  </div>
+            </div>
+            <div class="all-reviews-content">
+              <%= review.content %>
+              <% review.tags.each do |tag| %>
+                <span class="mypage-review-tag">#<%= tag.name %></span>
+              <% end %>
+            </div>
+            <div class="all-reviews-detail-link">
+              <%= link_to review_path(review), class: "all-review-to-detail" do %>
+                <span class="all-review-to-word">投稿詳細へ</span>
+                <svg class="api-item-link-logo all-review-to-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              <% end %>
+            </div>
+            <div class="mypage-review-bottom">
+              <div class="mypage-review-bottom-icons">
 
-  <div id="ranking_ajax" class="index">
-    <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
+                <div id="like-div<%= review.id %>" class="mypage-review-icon">
+                  <% if review.like_by?(current_user) %>
+                    <i id="not_like_btn<%= review.id %>" class="not_like_btn_ajax fas fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+                  <% else %>
+                    <i id="like_btn<%= review.id %>" class="like_btn_ajax far fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+                  <% end %>
+                </div>
+
+
+                <label for="trigger-now" class="fas fa-retweet mypage-reviews-recommend-icon mypage-review-icon all-reviews-icon" style="display: flex;">
+                </label>
+
+                <div class="modal_wrap">
+                  <input id="trigger-now" type="checkbox">
+                  <div class="modal_overlay">
+                    <label for="trigger-now" class="modal_trigger"></label>
+                    <div class="modal_content">
+                      <div class="modal-scroll">
+                          <% @will_recommend_users.each do |will_recommend_user| %>
+                            <div class="recommend_user recommend_review_<%= review.id %> recommend_user_<%= will_recommend_user.id %>">
+                              <% if will_recommend_user.avatar.url %>
+                                <img src="<%= will_recommend_user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
+                              <% else %>
+                                <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
+                              <% end %>
+                              <span><%= will_recommend_user.username %></span>
+                            </div>
+                          <% end %>
+                      </div>
+                      <div class="recommend-modal-btns">
+                        <div class="">リセット</div>
+                        <div class="">レコメンド更新</div>
+                        <% if false %>
+                          <label class="consent-link-resister">リセット</label>
+                          <div class="consent-link-resister-div">
+                            <a class="consent-link-resister">レコメンド更新</a>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="mypage-review-created-at"><%= l review.created_at %></div>
+            </div>
+          </div>
+        <% end %>
+    </div>
+    <div class="col-4">
+      <div id="ranking_ajax" class="like-ranking">
+        <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
+      </div>
+      <div class="pv-ranking">
+        <% if @top_pv_reviews.size != 0 %>
+          <div id="impression_rank">
+            <% @top_pv_reviews.each.with_index(1) do |review, i| %>
+              <div id="rank">
+                <%= "#{i}" %>位
+                <%= link_to "#{review.title}", review_path(review) %>
+                <%= review.impressionist_count %>レビュー
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div>pvランキングはありません</div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%= paginate @reviews %>
+</div>
+
+<!-- いいね機能のAjax -->
+<script type="text/javascript">
+  $(document).on('click', '.like_btn_ajax', function() {
+    console.log("click");
+    var like_data = Number($(this).attr('id').substr( 8 ));
+    like_ajax(like_data);
+  });
+
+  $(document).on('click', '.not_like_btn_ajax', function() {
+    console.log("click");
+    var not_like_data = Number($(this).attr('id').substr( 12 ));
+    not_like_ajax(not_like_data);
+  });
+
+  function like_ajax(like_data){
+      console.log(like_data);
+      $.ajax({
+        type: 'GET',
+        url: 'review_like/create',
+        data: {review_id: like_data},
+        dataType: 'json',
+      }).done(function(like_result){
+        console.log(like_result);
+        $(`#like_btn${like_result.like_review_id}`).remove();
+        var like_div = document.getElementById(`like-div${like_result.like_review_id}`);
+        var like_icon = document.createElement('span');
+        like_icon.innerHTML = `
+          <i id="not_like_btn${like_result.like_review_id}" class="not_like_btn_ajax fas fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+        `;
+        like_div.appendChild(like_icon);
+        $(`#not_like_btn${like_result.like_review_id}`).unwrap();
+      });
+  }
+
+  function not_like_ajax(not_like_data){
+    console.log(not_like_data);
+    $.ajax({
+      type: 'GET',
+      url: 'review_like/destroy',
+      data: {id: not_like_data},
+      dataType: 'json',
+    }).done(function(not_like_result){
+      console.log(not_like_result);
+      $(`#not_like_btn${not_like_result.not_like_review_id}`).remove();
+      var like_div = document.getElementById(`like-div${not_like_result.not_like_review_id}`);
+      var not_like_icon = document.createElement('span');
+      not_like_icon.innerHTML = `
+        <i id="like_btn${not_like_result.not_like_review_id}" class="like_btn_ajax far fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+      `;
+      like_div.appendChild(not_like_icon);
+      $(`#like_btn${not_like_result.not_like_review_id}`).unwrap();
+    });
+  }
+</script>
+
+<!-- フォロー機能のAjax -->
+<script type="text/javascript">
+  $(document).on('click', '.follow_btn_ajax', function() {
+    var follow_data = Number($(this).attr('id').substr( 10 ));
+    var follow_user_data = Number($(this).attr('class').substr( 48 ));
+    follow_ajax(follow_data, follow_user_data);
+  });
+
+  $(document).on('click', '.not_follow_btn_ajax', function() {
+    var not_follow_data = Number($(this).attr('id').substr( 14 ));
+    var not_follow_user_data = Number($(this).attr('class').substr( 48 ));
+    not_follow_ajax(not_follow_data, not_follow_user_data);
+  });
+
+  function follow_ajax(follow_data, follow_user_data){
+      console.log(follow_data);
+      console.log(follow_user_data);
+      $.ajax({
+        type: 'GET',
+        url: 'review_follow/create',
+        data: {review_id: follow_data, user_id: follow_user_data},
+        dataType: 'json',
+
+      }).done(function(follow_result){
+        console.log(follow_result);
+        $(`#follow_btn${follow_result.follow_review_id}`).remove();
+        var follow_div = document.getElementById(`follow-div${follow_result.follow_review_id}`);
+        var follow_icon = document.createElement('span');
+        follow_icon.innerHTML = `
+          <span id="not_follow_btn${follow_result.follow_review_id}" class="not_follow_btn_ajax all-reviews-icon follow_user${follow_result.follow_user_id}">following</span>
+        `;
+        follow_div.appendChild(follow_icon);
+        $(`#not_follow_btn${follow_result.follow_review_id}`).unwrap();
+      });
+  }
+
+  function not_follow_ajax(not_follow_data, not_follow_user_data){
+    console.log(not_follow_data);
+    console.log(not_follow_user_data);
+    $.ajax({
+      type: 'GET',
+      url: 'review_follow/destroy',
+      data: {review_id: not_follow_data, user_id: not_follow_user_data},
+      dataType: 'json',
+
+    }).done(function(not_follow_result){
+      console.log(not_follow_result);
+      $(`#not_follow_btn${not_follow_result.not_follow_review_id}`).remove();
+      var follow_div = document.getElementById(`follow-div${not_follow_result.not_follow_review_id}`);
+      var not_follow_icon = document.createElement('span');
+      not_follow_icon.innerHTML = `
+        <span id="follow_btn${not_follow_result.not_follow_review_id}" class="follow_btn_ajax all-reviews-icon not_follow_user${not_follow_result.not_follow_user_id}">
+          <i class="fa-xs fas fa-plus"></i>
+          follow
+        </span>
+      `;
+      follow_div.appendChild(not_follow_icon);
+      $(`#follow_btn${not_follow_result.not_follow_review_id}`).unwrap();
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<% if false %>
+
+<div>
+  <div id="open_recommend_modal_<%= review.id %>" class="recommend_users_display open_modal">リコメンド</div>
+  <div id="recommend_modal_<%= review.id %>" style="display: none;">
+    <div class="modal-back">
+      <div class="modal_close close_recommend_modal_<%= review.id %>">
+      </div>
+      <div class="recommend_modal_body">
+        <div class="modal_close_btn close_recommend_modal_<%= review.id %>">✖︎</div>
+        <div id="recommend_users_<%= review.id %>"></div>
+        <div class="recommend_users">
+          <% @will_recommend_users.each do |will_recommend_user| %>
+            <div class="recommend_user recommend_review_<%= review.id %> recommend_user_<%= will_recommend_user.id %>">
+              <% if will_recommend_user.avatar.url %>
+                <img src="<%= will_recommend_user.avatar.url %>" class="comment-logo">
+              <% else %>
+                <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+              <% end %>
+              <span><%= will_recommend_user.username %></span>
+            </div>
+          <% end %>
+        </div>
+        <div class="recommend_cancel" style="cursor: pointer;">キャンセル</div>
+        <div class="recommend_send" style="cursor: pointer;">リコメンド</div>
+      </div>
+    </div>
   </div>
 </div>
+
+<div id="recommend_messages_<%= review.id %>">
+  <% @recommends.each do |recommend| %>
+    <% if recommend.review_id == review.id && recommend.recommended_user_id == current_user.id %>
+        <div>この投稿は、<%= recommend.recommend_user.username %>におすすめされています</div>
+    <% end %>
+  <% end %>
+</div>
+
+
+<% end %>
 
 
 <script type="text/javascript">
@@ -218,7 +363,7 @@
     $('.recommend_user').hover(function() {
       hover_user_id = $(this).attr('class').split(" ")[2].substring(15);
       if (select_user_ids.includes(Number(hover_user_id)) == false) {
-        $(this).css('background', '#c00');
+        $(this).css({'background-color': 'rgba(0,121,181,0.1)'});
       }
     }, function() {
       $(this).css('background', '');
@@ -284,3 +429,82 @@
     height: auto;
   }
 </style>
+
+<script type="text/javascript">
+  $(`.open_report_modal`).on('click',function(){
+    $(this).next().fadeIn();
+    return false;
+  });
+
+  $(`.modal_close`).on('click',function(){
+    $(this).closest('.report_modal_content').fadeOut();
+    return false;
+  });
+</script>
+
+<style media="screen">
+
+  .open_modal {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .open_report_modal {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .modal-back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .8);
+  }
+
+  .modal_close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .report_modal_body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    -webkit- transform: translateY(-50%) translateX(-50%);
+    width: 400px;
+    height: 400px;
+    background-color: white;
+    border-radius: 10px;
+  }
+
+  .modal_close_btn {
+    font-size: 30px;
+    line-height: 25px;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+  }
+</style>
+<script type="text/javascript">
+  if (document.getElementById("footer") == null) {
+    var diva = document.getElementById("footerfixed");
+    var div = document.createElement('div');
+    div.innerHTML = `
+    <div id="footer" class="footer footer-layout-set">
+      <div class="footer-name">
+        <span>作成者</span>
+        <span class="footer-username">@yuya</span>
+        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      </div>
+      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
+    </div>
+    `;
+    diva.appendChild(div);
+    $(`#footer`).unwrap();
+  }
+</script>

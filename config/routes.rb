@@ -11,6 +11,15 @@ Rails.application.routes.draw do
   get 'homes/privacy_policy', to: 'homes#privacy_policy', as: 'show_privacy_policy'
   get 'homes/suggest', to: 'homes#suggest'
 
+  get 'review_like/create', to: 'review_like#create'
+  get 'review_like/destroy', to: 'review_like#destroy'
+  get 'review_follow/create', to: 'review_follow#create'
+  get 'review_follow/destroy', to: 'review_follow#destroy'
+  get 'userpages/review_follow/create', to: 'review_follow#create'
+  get 'userpages/review_follow/destroy', to: 'review_follow#destroy'
+  get 'userpages/profile_reviews/review_follow/create', to: 'review_follow#create'
+  get 'userpages/profile_reviews/review_follow/destroy', to: 'review_follow#destroy'
+
   resources :userpages,     only: [:show]
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
   get 'userpages/profile_reviews/:id', to: 'userpages#profile_reviews', as: 'profile_reviews'

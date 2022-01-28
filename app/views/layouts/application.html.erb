@@ -8,10 +8,11 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
   </head>
 
   <body>
-    <div class="footerFixed">
+    <div id="footerfixed" class="footerFixed">
           <%= render partial: 'layouts/header' %>
             <div class="application-height">
                 <% if user_signed_in? %>
@@ -22,14 +23,6 @@
                   <div id="alert" class="alert flash"><%= alert %></div>
                 </div>
                 <%= yield %>
-            </div>
-            <div class="footer footer-layout-set">
-              <div class="footer-name">
-                <span>作成者</span>
-                <span class="footer-username">@yuya</span>
-                <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
-              </div>
-              <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
             </div>
       </div>
   </body>

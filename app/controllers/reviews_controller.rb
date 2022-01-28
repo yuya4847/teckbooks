@@ -41,26 +41,11 @@ class ReviewsController < ApplicationController
   end
 
   def all_reviews
-    @reviews = Review.all
+    @reviews = Review.all.page(params[:page]).per(7)
     @will_recommend_users = User.not_user(current_user)
     @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(3)
-    @unknown_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
-    follow_ids: current_user.following.ids,
-    current_id: current_user).shuffle.take(REAOMMEND_USERS)
     @top_pv_reviews = Review.find_top_pv_reviews
     @recommends = Recommend.all
-
-    @following_users = Relationship.where("follower_id IN (:follow_user_ids)",
-    follow_user_ids: current_user.following.ids)
-    user_ids = []
-    @following_users.each do |following_user|
-      user_ids << following_user.followed_id
-    end
-    @may_friend_users = User.not_user(current_user)
-    .where.not("id IN (:current_following_ids)",
-    current_following_ids: current_user.following.ids)
-    .where("id IN (:following_user_ids)",
-    following_user_ids: user_ids)
   end
 
   def new

@@ -23,7 +23,6 @@ window.Swal = Swal;
 
 global.$ = require('jquery')
 require("jquery")
-
 import '../stylesheets/bootstrap-grid'
 import '../stylesheets/bootstrap-grid.min'
 import '../stylesheets/bootstrap-grid.rtl'
@@ -52,3 +51,9 @@ import '../stylesheets/account_pass_change'
 import '../stylesheets/signup'
 import '../stylesheets/profile_edit'
 import '../stylesheets/mypage_profile'
+import '../stylesheets/post_review'
+import '../stylesheets/mypage_posted_reviews'
+import '../stylesheets/edit_review'
+import '../stylesheets/pagination'
+import '../stylesheets/all_reviews'
+import '../stylesheets/recommend_modal'
