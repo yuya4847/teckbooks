@@ -81,15 +81,6 @@
     vertical-align: middle;
     display: inline-block;
   }
-
-  .mypage-reviews-post-username {
-    opacity: 87.0%;
-  }
-
-  .min-follow-username {
-    opacity: 87.0%;
-  }
-
 </style>
 
 <input type="hidden" id="review_total" value="<%= @reviews.size %>">
@@ -108,7 +99,7 @@
                   <% else %>
                     <img src="/uploads/user/avatar/default.png" class="icon-image-class all-reviews-title-image" style="height: 45px; width: 45px;">
                   <% end %>
-                  <div class="all-reviews-post-username">
+                  <div class="all-reviews-post-username" style="opacity: 87%;">
                     <%= review.user.username %>
                     <div class="all-review-to-detail">
                       <span class="all-review-to-since">Since <%= review.user.created_at.strftime("%Y/%m/%d") %></span>
