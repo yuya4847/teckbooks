@@ -181,8 +181,8 @@
                                   <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
                                 <% end %>
                                 <div class="will_recommend_user-titles">
-                                  <span class="will_recommend_username"><%= will_recommend_user.username %></span>
-                                  <span class="will_recommend_since">Since <%= review.user.created_at.strftime("%Y/%m/%d") %></span>
+                                  <span style="opacity: 87%;" class="will_recommend_username"><%= will_recommend_user.username %></span>
+                                  <span style="opacity: 87%;" class="will_recommend_since">Since <%= review.user.created_at.strftime("%Y/%m/%d") %></span>
                                 </div>
                               </div>
                               <div class="recommend-folloing-div">
@@ -228,7 +228,7 @@
 
 
               </div>
-              <div class="mypage-review-created-at"><%= l review.created_at %></div>
+              <div style="opacity: 87%;" class="mypage-review-created-at"><%= l review.created_at %></div>
             </div>
           </div>
         <% end %>

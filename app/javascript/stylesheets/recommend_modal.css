@@ -36,7 +36,7 @@
 }
 
 .modal-scroll {
-  padding: 0.5px 10px 1.75px 10px;
+  padding: 0.3px 10px 1.75px 10px;
   width: 100%;
   max-height: 75%;
   overflow: scroll;
