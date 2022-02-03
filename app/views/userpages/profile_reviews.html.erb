@@ -69,7 +69,7 @@
     </div>
   </div>
   <div class="mypage-reviews-post-subinfo row">
-    <div class="mypage-reviews-posts col-8">
+    <div class="mypage-reviews-posts col-md-8">
       <% unless @reviews.size == 0 %>
         <% @reviews.each do |review| %>
           <%= link_to review_path(review), class: "mypage-reviews-post" do %>
@@ -115,7 +115,7 @@
         <% end %>
       <% end %>
     </div>
-    <div class="mypage-reviews-subinfo col-4">
+    <div class="mypage-reviews-subinfo col-md-4">
       <div class="mypage-reviews-subinfo-involved-users">
         <div id="unknown_users">
           <div class="mypage-find-friends">友達を見つけよう！</div>
@@ -255,8 +255,9 @@
 
   function follow_ajax(follow_data){
       console.log(follow_data);
+      set_csrftoken();
       $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: 'review_follow/create',
         data: {user_id: follow_data},
         dataType: 'json',
@@ -279,8 +280,9 @@
 
   function not_follow_ajax(not_follow_data){
     console.log(not_follow_data);
+    set_csrftoken();
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: 'review_follow/destroy',
       data: {user_id: not_follow_data},
       dataType: 'json',
@@ -301,6 +303,17 @@
       var followers_span = document.getElementById("followers");
       followers_span.innerText = not_follow_result.followers_count;
       not_follow_flag = 0;
+    });
+  }
+
+  function set_csrftoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        if (!options.crossDomain) {
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (token) {
+                return jqXHR.setRequestHeader('X-CSRF-Token', token);
+            }
+        }
     });
   }
 </script>

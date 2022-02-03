@@ -11,14 +11,14 @@ Rails.application.routes.draw do
   get 'homes/privacy_policy', to: 'homes#privacy_policy', as: 'show_privacy_policy'
   get 'homes/suggest', to: 'homes#suggest'
 
-  get 'review_like/create', to: 'review_like#create'
-  get 'review_like/destroy', to: 'review_like#destroy'
-  get 'review_follow/create', to: 'review_follow#create'
-  get 'review_follow/destroy', to: 'review_follow#destroy'
-  get 'userpages/review_follow/create', to: 'review_follow#create'
-  get 'userpages/review_follow/destroy', to: 'review_follow#destroy'
-  get 'userpages/profile_reviews/review_follow/create', to: 'review_follow#create'
-  get 'userpages/profile_reviews/review_follow/destroy', to: 'review_follow#destroy'
+  post 'review_like/create', to: 'review_like#create'
+  post 'review_like/destroy', to: 'review_like#destroy'
+  post 'review_follow/create', to: 'review_follow#create'
+  post 'review_follow/destroy', to: 'review_follow#destroy'
+  post 'userpages/review_follow/create', to: 'review_follow#create'
+  post 'userpages/review_follow/destroy', to: 'review_follow#destroy'
+  post 'userpages/profile_reviews/review_follow/create', to: 'review_follow#create'
+  post 'userpages/profile_reviews/review_follow/destroy', to: 'review_follow#destroy'
 
   resources :userpages,     only: [:show]
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   resources :rooms, only: [:create, :show, :destroy]
   resources :notifications, only: [:index, :destroy]
   delete 'notification_all_destory', to: 'notifications#all_destroy', as: 'notifications_destory'
-  get 'recommends', to: 'recommends#recommend_user_display', as: 'recommend_user_display'
+  post 'recommends', to: 'recommends#recommend_user_display', as: 'recommend_user_display'
   get 'recommend/modal', to: 'recommends#recommend_open_modal', as: 'recommend_open'
 
   get 'dms', to: 'dms#show', as: 'dm_show'

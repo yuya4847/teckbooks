@@ -11,10 +11,6 @@
     padding-bottom: 0.5px;
   }
 
-  .select_user {
-    background-color: #0000FF;
-  }
-
   .recommend_modal_body {
     position: absolute;
     top: 50%;
@@ -145,7 +141,6 @@
             </div>
             <div class="mypage-review-bottom">
               <div class="mypage-review-bottom-icons">
-
                 <div id="like-div<%= review.id %>" class="mypage-review-icon">
                   <% if review.like_by?(current_user) %>
                     <i id="not_like_btn<%= review.id %>" class="not_like_btn_ajax fas fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
@@ -155,39 +150,82 @@
                 </div>
 
 
-                <label for="trigger-now" class="fas fa-retweet mypage-reviews-recommend-icon mypage-review-icon all-reviews-icon" style="display: flex;">
+                <!-- モーダルクリック -->
+                <label for="trigger-now-<%= review.id %>" class="fas fa-retweet mypage-reviews-recommend-icon mypage-review-icon all-reviews-icon recommend_review_id_<%= review.id %>" style="display: flex;">
                 </label>
 
                 <div class="modal_wrap">
-                  <input id="trigger-now" type="checkbox">
+
+                  <!-- モーダルの表示 -->
+                  <input id="trigger-now-<%= review.id %>" type="checkbox">
+
                   <div class="modal_overlay">
-                    <label for="trigger-now" class="modal_trigger"></label>
+
+                    <!-- モーダルを閉じる  -->
+                    <label for="trigger-now-<%= review.id %>" class="modal_trigger recommend-modal-<%= review.id %>"></label>
+
                     <div class="modal_content">
+                      <div class="recommend-modal-titles">
+                        <div class="recommend-modal-title-name">どのユーザーに薦めますか？</div>
+                        <div class="recommend-modal-title-caution">(複数選択可)</div>
+                      </div>
                       <div class="modal-scroll">
+                        <div class="recommend-modal-title">
+                          </div>
                           <% @will_recommend_users.each do |will_recommend_user| %>
                             <div class="recommend_user recommend_review_<%= review.id %> recommend_user_<%= will_recommend_user.id %>">
-                              <% if will_recommend_user.avatar.url %>
-                                <img src="<%= will_recommend_user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
-                              <% else %>
-                                <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
-                              <% end %>
-                              <span><%= will_recommend_user.username %></span>
+                              <div class="will_recommend_user_profiles">
+                                <% if will_recommend_user.avatar.url %>
+                                  <img src="<%= will_recommend_user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
+                                <% else %>
+                                  <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
+                                <% end %>
+                                <div class="will_recommend_user-titles">
+                                  <span class="will_recommend_username"><%= will_recommend_user.username %></span>
+                                  <span class="will_recommend_since">Since <%= review.user.created_at.strftime("%Y/%m/%d") %></span>
+                                </div>
+                              </div>
+                              <div class="recommend-folloing-div">
+                                <% if current_user.following.include?(will_recommend_user) %>
+                                  <span class="recommend-folloing">(フォロー中)</span>
+                                <% end %>
+                              </div>
                             </div>
                           <% end %>
                       </div>
                       <div class="recommend-modal-btns">
-                        <div class="">リセット</div>
-                        <div class="">レコメンド更新</div>
-                        <% if false %>
-                          <label class="consent-link-resister">リセット</label>
-                          <div class="consent-link-resister-div">
-                            <a class="consent-link-resister">レコメンド更新</a>
+                        <div class="recommend-option-btns">
+                          <div class="recommend-btn-reset">
+                            <svg style="height: 45px;width: 45px;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 64px; height: 64px; opacity: 1;" xml:space="preserve">
+                              <style type="text/css">
+ 	                              .st22{fill:rgba(0,0,0,0.6);}
+                              </style>
+                              <g>
+	                              <path style="height: 22px;width: 22px;" class="st22" d="M255.996,0.005C114.615,0.005,0,114.62,0,256c0,141.38,114.615,255.996,255.996,255.996   C397.39,511.995,512,397.38,512,256C512,114.62,397.39,0.005,255.996,0.005z M308.86,377.124l-87.064,45.899l1.878-35.924   c-23.849-5.799-45.64-18.064-63.186-35.609c-25.489-25.44-39.525-59.346-39.525-95.49c0-18.633,3.746-36.714,11.132-53.741   l1.435-3.299l31.959,13.879l-1.426,3.298c-5.466,12.633-8.238,26.047-8.238,39.863c0,26.766,10.422,51.926,29.344,70.84   c11.374,11.378,25.261,19.835,40.381,24.625l1.487-28.072l90.876,48.916L308.86,377.124z M379.892,309.733l-1.43,3.298   l-31.963-13.879l1.434-3.298c5.461-12.589,8.233-25.994,8.233-39.855c0-26.766-10.422-51.925-29.344-70.848   c-11.427-11.387-25.314-19.844-40.38-24.625l-1.488,28.072l-90.95-48.925l9.194-4.816l17.146-9.08l69.852-36.801l-1.877,35.871   c23.87,5.842,45.662,18.133,63.184,35.652c25.533,25.538,39.569,59.452,39.526,95.499   C391.029,274.668,387.283,292.749,379.892,309.733z" style="fill: rgba(0,0,0,0.6);"/>
+                              </g>
+                            </svg>
+                            <span class="recommend-reset recommend-word-padding-left">リセット</span>
                           </div>
-                        <% end %>
+                          <div class="recommend-btn-update recommend-update-id-<%= review.id %>">
+                            <svg style="height: 45px;width: 45px;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 64px; height: 64px; opacity: 1;" xml:space="preserve">
+                              <style type="text/css">
+	                              .st44{fill: #4CAF50;}
+                              </style>
+                              <g>
+	                              <path class="st44" d="M509.86,267.434c-2.785-4.717-7.858-7.613-13.338-7.613h-43.677v-108.21   c0.014-19.402-7.962-37.293-20.698-49.971c-12.678-12.738-30.57-20.721-49.973-20.699l-194.482-0.007   c-6.088,0-11.731,3.222-14.818,8.472c-3.089,5.243-3.178,11.738-0.222,17.062l17.55,31.65c3.792,6.828,10.99,11.072,18.795,11.072   h173.178c0.786,0.014,1.17,0.214,1.71,0.703c0.49,0.548,0.696,0.933,0.711,1.718v108.21h-43.678c-5.48,0-10.553,2.896-13.338,7.613   c-2.777,4.74-2.858,10.575-0.199,15.374l77.802,140.29c2.726,4.918,7.91,7.969,13.538,7.969s10.812-3.051,13.537-7.969   l77.802-140.29C512.719,278.009,512.637,272.174,509.86,267.434z" style="fill: #4CAF50;"/>
+	                              <path class="st44" d="M321.791,373.873c-3.792-6.835-10.983-11.071-18.796-11.071h-173.17c-0.785-0.014-1.17-0.214-1.711-0.703   c-0.488-0.541-0.696-0.926-0.71-1.71v-108.21h43.678c5.473,0,10.553-2.896,13.337-7.613c2.778-4.74,2.859-10.575,0.201-15.374   l-77.802-140.29c-2.733-4.918-7.91-7.969-13.537-7.969c-5.629,0-10.805,3.051-13.538,7.969L1.94,229.192   c-2.658,4.798-2.577,10.634,0.2,15.374c2.785,4.717,7.865,7.613,13.338,7.613h43.678v108.21   c-0.015,19.402,7.961,37.294,20.698,49.972c12.678,12.737,30.57,20.714,49.972,20.69l194.476,0.008   c6.086,0,11.73-3.222,14.818-8.472c3.087-5.251,3.177-11.738,0.222-17.07L321.791,373.873z" style="fill: #4CAF50;"/>
+                              </g>
+                            </svg>
+                            <span class="recommend-word-padding-left recommend-word-color">更新</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
+
                   </div>
                 </div>
+
+
 
               </div>
               <div class="mypage-review-created-at"><%= l review.created_at %></div>
@@ -219,29 +257,109 @@
   <%= paginate @reviews %>
 </div>
 
+<!-- レコメンド機能のAjax -->
+<script type="text/javascript">
+  var select_user_id;
+  var hover_user_id;
+  var select_user_ids = [];
+  var recommend_user_total_number = Number($('#recommend_user_total').val());
+  var recommend_user_datas;
+  var review_id;
+  var select_review_id;
+
+  $(`.mypage-reviews-recommend-icon`).on('click',function(){
+    select_user_ids = [];
+    select_review_id = Number($(this).attr('class').split(" ")[5].substring(20));
+    for (let i = 2; i <= recommend_user_total_number + 1; i++) {
+      $(`.recommend_user_${i}`).removeClass('select_user');
+    }
+    $.ajax({
+      type: 'GET',
+      url: 'recommend/modal',
+      data: {review_id: select_review_id},
+      dataType: 'json',
+    }).done(function(contents){
+      for (let i = 0; i <= contents.click_user_ids.length - 1; i++) {
+        $(`.recommend_review_${contents.recommend_review.id}` + `.recommend_user_${contents.click_user_ids[i]}`).click();
+        select_user_ids.push(Number(contents.click_user_ids[i]));
+      }
+    });
+  });
+
+  $(`.recommend_user`).on('click',function(){
+    select_user_id = Number($(this).attr('class').split(" ")[2].substring(15));
+    if (select_user_ids.includes(select_user_id) == false) {
+      select_user_ids.push(select_user_id);
+    } else {
+      select_user_ids = select_user_ids.filter(item => item != Number(select_user_id));
+    }
+    $(this).toggleClass('select_user');
+    $(this).css('background', '');
+  });
+
+  $('.recommend_user').hover(function() {
+    hover_user_id = Number($(this).attr('class').split(" ")[2].substring(15));
+    if (select_user_ids.includes(hover_user_id) == false) {
+      $(this).css({'boder-top': 'rgb(224,224,224)'});
+      $(this).css({'background-color': '#E8F2F5'});
+    }
+  }, function() {
+    if (select_user_ids.includes(hover_user_id) == false) {
+      $(this).css('background', '');
+    }
+  });
+
+  $(`.recommend-btn-update`).on('click', function(){
+    recommend_user_datas = select_user_ids.join();
+    review_id = Number($(this).attr('class').split(" ")[1].substring(20));
+    set_csrftoken();
+    $.ajax({
+      type: 'POST',
+      url: 'recommends',
+      data: {recommend_user_datas: recommend_user_datas, review_id: review_id},
+      dataType: 'json',
+    }).done(function(contents){
+      $(`.recommend-modal-${contents.review_id}`).click();
+        Swal.fire(
+          'You Recommended!',
+          'レコメンドが完了しました',
+          'success'
+        )
+    });
+  });
+
+  $(`.recommend-btn-reset`).click(function() {
+    $(`.select_user`).click();
+  });
+
+</script>
+<style media="screen">
+  .select_user {
+    background-color: #c4dee6;
+    border-top: thin solid white;
+  }
+</style>
+
 <!-- いいね機能のAjax -->
 <script type="text/javascript">
   $(document).on('click', '.like_btn_ajax', function() {
-    console.log("click");
     var like_data = Number($(this).attr('id').substr( 8 ));
     like_ajax(like_data);
   });
 
   $(document).on('click', '.not_like_btn_ajax', function() {
-    console.log("click");
     var not_like_data = Number($(this).attr('id').substr( 12 ));
     not_like_ajax(not_like_data);
   });
 
   function like_ajax(like_data){
-      console.log(like_data);
+      set_csrftoken();
       $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: 'review_like/create',
         data: {review_id: like_data},
         dataType: 'json',
       }).done(function(like_result){
-        console.log(like_result);
         $(`#like_btn${like_result.like_review_id}`).remove();
         var like_div = document.getElementById(`like-div${like_result.like_review_id}`);
         var like_icon = document.createElement('span');
@@ -254,9 +372,9 @@
   }
 
   function not_like_ajax(not_like_data){
-    console.log(not_like_data);
+    set_csrftoken();
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: 'review_like/destroy',
       data: {id: not_like_data},
       dataType: 'json',
@@ -276,29 +394,36 @@
 
 <!-- フォロー機能のAjax -->
 <script type="text/javascript">
+  var follow_flag = 0;
+  var not_follow_flag = 0;
+
   $(document).on('click', '.follow_btn_ajax', function() {
-    var follow_data = Number($(this).attr('id').substr( 10 ));
-    var follow_user_data = Number($(this).attr('class').substr( 48 ));
-    follow_ajax(follow_data, follow_user_data);
+    if (follow_flag == 0) {
+      follow_flag = 1;
+      var follow_data = Number($(this).attr('id').substr( 10 ));
+      var follow_user_data = Number($(this).attr('class').substr( 48 ));
+      follow_ajax(follow_data, follow_user_data);
+    }
   });
 
   $(document).on('click', '.not_follow_btn_ajax', function() {
-    var not_follow_data = Number($(this).attr('id').substr( 14 ));
-    var not_follow_user_data = Number($(this).attr('class').substr( 48 ));
-    not_follow_ajax(not_follow_data, not_follow_user_data);
+    if (not_follow_flag == 0) {
+      not_follow_flag = 1;
+      var not_follow_data = Number($(this).attr('id').substr( 14 ));
+      var not_follow_user_data = Number($(this).attr('class').substr( 48 ));
+      not_follow_ajax(not_follow_data, not_follow_user_data);
+    }
   });
 
   function follow_ajax(follow_data, follow_user_data){
-      console.log(follow_data);
-      console.log(follow_user_data);
+      set_csrftoken();
       $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: 'review_follow/create',
         data: {review_id: follow_data, user_id: follow_user_data},
         dataType: 'json',
 
       }).done(function(follow_result){
-        console.log(follow_result);
         $(`#follow_btn${follow_result.follow_review_id}`).remove();
         var follow_div = document.getElementById(`follow-div${follow_result.follow_review_id}`);
         var follow_icon = document.createElement('span');
@@ -307,20 +432,19 @@
         `;
         follow_div.appendChild(follow_icon);
         $(`#not_follow_btn${follow_result.follow_review_id}`).unwrap();
+        follow_flag = 0;
       });
   }
 
   function not_follow_ajax(not_follow_data, not_follow_user_data){
-    console.log(not_follow_data);
-    console.log(not_follow_user_data);
+    set_csrftoken();
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: 'review_follow/destroy',
       data: {review_id: not_follow_data, user_id: not_follow_user_data},
       dataType: 'json',
 
     }).done(function(not_follow_result){
-      console.log(not_follow_result);
       $(`#not_follow_btn${not_follow_result.not_follow_review_id}`).remove();
       var follow_div = document.getElementById(`follow-div${not_follow_result.not_follow_review_id}`);
       var not_follow_icon = document.createElement('span');
@@ -332,160 +456,20 @@
       `;
       follow_div.appendChild(not_follow_icon);
       $(`#follow_btn${not_follow_result.not_follow_review_id}`).unwrap();
+      not_follow_flag = 0;
     });
   }
-</script>
 
-
-
-
-
-
-
-
-
-
-
-
-<% if false %>
-
-<div>
-  <div id="open_recommend_modal_<%= review.id %>" class="recommend_users_display open_modal">リコメンド</div>
-  <div id="recommend_modal_<%= review.id %>" style="display: none;">
-    <div class="modal-back">
-      <div class="modal_close close_recommend_modal_<%= review.id %>">
-      </div>
-      <div class="recommend_modal_body">
-        <div class="modal_close_btn close_recommend_modal_<%= review.id %>">✖︎</div>
-        <div id="recommend_users_<%= review.id %>"></div>
-        <div class="recommend_users">
-          <% @will_recommend_users.each do |will_recommend_user| %>
-            <div class="recommend_user recommend_review_<%= review.id %> recommend_user_<%= will_recommend_user.id %>">
-              <% if will_recommend_user.avatar.url %>
-                <img src="<%= will_recommend_user.avatar.url %>" class="comment-logo">
-              <% else %>
-                <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-              <% end %>
-              <span><%= will_recommend_user.username %></span>
-            </div>
-          <% end %>
-        </div>
-        <div class="recommend_cancel" style="cursor: pointer;">キャンセル</div>
-        <div class="recommend_send" style="cursor: pointer;">リコメンド</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="recommend_messages_<%= review.id %>">
-  <% @recommends.each do |recommend| %>
-    <% if recommend.review_id == review.id && recommend.recommended_user_id == current_user.id %>
-        <div>この投稿は、<%= recommend.recommend_user.username %>におすすめされています</div>
-    <% end %>
-  <% end %>
-</div>
-
-
-<% end %>
-
-
-<script type="text/javascript">
-  var review_total = $('#review_total').val();
-  var review_total_number = Number(review_total);
-  var recommend_user_total = $('#recommend_user_total').val();
-  var recommend_user_total_number = Number(recommend_user_total);
-  var select_user_ids = [];
-  var recommend_datas;
-
-  $(`.open_modal`).on('click',function(){
-    review_id = $(this).closest('.each_review').attr('class').split(" ")[1].substring(12);
-    review_id = Number(review_id);
-    console.log(review_id);
-    for (let i = 2; i <= recommend_user_total_number + 1; i++) {
-      $(`.recommend_user_${i}`).removeClass('select_user');
-    }
-    select_user_id = "";
-    select_review_id = "";
-    recommend_datas = "";
-    select_user_ids = [];
-    $.ajax({
-      type: 'GET',
-      url: 'recommend/modal',
-      data: {review_id: review_id},
-      dataType: 'json',
-    }).done(function(contents){
-      for (let i = 0; i <= contents.click_user_ids.length - 1; i++) {
-        $(`.recommend_user_${contents.click_user_ids[i]}`).click();
-        select_user_ids.push(Number(contents.click_user_ids[i]));
-      }
+  function set_csrftoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        if (!options.crossDomain) {
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (token) {
+                return jqXHR.setRequestHeader('X-CSRF-Token', token);
+            }
+        }
     });
-
-    $(`#recommend_modal_${review_id}`).fadeIn();
-      return false;
-    });
-
-    $(`.modal_close`).on('click',function(){
-      review_id = $(this).attr('class').split(" ")[1].substring(22);
-      $(`#recommend_modal_${review_id}`).fadeOut();
-      return false;
-    });
-
-    $(`.recommend_user`).on('click',function(){
-      select_review_id = review_id;
-      select_user_id = $(this).attr('class').split(" ")[2].substring(15);
-
-      if (select_user_ids.includes(Number(select_user_id))) {
-        select_user_ids = select_user_ids.filter(item => item != Number(select_user_id));
-      }else{
-        select_user_ids.push(Number(select_user_id));
-      }
-      $(this).toggleClass('select_user');
-      $(this).css('background', '');
-    });
-
-    $('.recommend_user').hover(function() {
-      hover_user_id = $(this).attr('class').split(" ")[2].substring(15);
-      if (select_user_ids.includes(Number(hover_user_id)) == false) {
-        $(this).css({'background-color': 'rgba(0,121,181,0.1)'});
-      }
-    }, function() {
-      $(this).css('background', '');
-    });
-
-    $(`.recommend_cancel`).click(function() {
-        $(`.select_user`).click();
-        select_user_ids = [];
-    });
-
-    $(`.recommend_send`).click(function() {
-      recommend_user_datas = select_user_ids.join();
-
-      $.ajax({
-        type: 'GET',
-        url: 'recommends',
-        data: {recommend_user_datas: recommend_user_datas, review_id: review_id},
-        dataType: 'json',
-      }).done(function(contents){
-        $(`#recommend_modal_${contents.review_id}`).fadeOut();
-        Swal.fire(
-          'Good job!',
-          'You clicked the button!',
-          'success'
-        )
-      });
-    });
-</script>
-
-<script type="text/javascript">
-  $(`.open_report_modal`).on('click',function(){
-    $(this).next().fadeIn();
-    return false;
-  });
-
-  $(`.modal_close`).on('click',function(){
-    $(this).closest('.report_modal_content').fadeOut();
-    return false;
-  });
+  }
 </script>
 
 <script type="text/javascript">

@@ -43,7 +43,7 @@ class ReviewsController < ApplicationController
   def all_reviews
     @reviews = Review.all.page(params[:page]).per(7)
     @will_recommend_users = User.not_user(current_user)
-    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(3)
+    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(10)
     @top_pv_reviews = Review.find_top_pv_reviews
     @recommends = Recommend.all
   end

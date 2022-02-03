@@ -128,20 +128,30 @@
 
 <!-- フォロー機能のAjax -->
 <script type="text/javascript">
+  var follow_flag = 0;
+  var not_follow_flag = 0;
+
   $(document).on('click', '.mypage_follow_btn_ajax', function() {
-    var follow_data = Number($(this).attr('id').substr( 10 ));
-    follow_ajax(follow_data);
+    if (follow_flag == 0) {
+      follow_flag = 1;
+      var follow_data = Number($(this).attr('id').substr( 10 ));
+      follow_ajax(follow_data);
+    }
   });
 
   $(document).on('click', '.mypage_not_follow_btn_ajax', function() {
-    var not_follow_data = Number($(this).attr('id').substr( 14 ));
-    not_follow_ajax(not_follow_data);
+    if (not_follow_flag == 0) {
+      not_follow_flag = 1;
+      var not_follow_data = Number($(this).attr('id').substr( 14 ));
+      not_follow_ajax(not_follow_data);
+    }
   });
 
   function follow_ajax(follow_data){
       console.log(follow_data);
+      set_csrftoken();
       $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: 'review_follow/create',
         data: {user_id: follow_data},
         dataType: 'json',
@@ -158,13 +168,15 @@
 
         var followers_span = document.getElementById("followers");
         followers_span.innerText = follow_result.followers_count;
+        follow_flag = 0;
       });
   }
 
   function not_follow_ajax(not_follow_data){
     console.log(not_follow_data);
+    set_csrftoken();
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: 'review_follow/destroy',
       data: {user_id: not_follow_data},
       dataType: 'json',
@@ -184,6 +196,18 @@
 
       var followers_span = document.getElementById("followers");
       followers_span.innerText = not_follow_result.followers_count;
+      not_follow_flag = 0;
+    });
+  }
+
+  function set_csrftoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        if (!options.crossDomain) {
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (token) {
+                return jqXHR.setRequestHeader('X-CSRF-Token', token);
+            }
+        }
     });
   }
 </script>

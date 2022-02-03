@@ -95,8 +95,8 @@
       <% end %>
     </div>
 
-<script>
-  const starEls = document.querySelectorAll('.star.rating');
+<script type="text/javascript">
+  var starEls = document.querySelectorAll('.star.rating');
   var starCount = document.getElementById('review_rate');
   starEls.forEach(star => {
     star.addEventListener('click', function(e) {
@@ -104,7 +104,7 @@
       starEl.parentNode.setAttribute('data-stars', starEl.dataset.rating);
       starCount.setAttribute('value', starEl.dataset.rating);
     });
-  })
+  });
 
 </script>
 
