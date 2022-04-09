@@ -1,5 +1,5 @@
 .all-reviews-size {
-  margin-top: 12px;
+  margin-top: 25px;
   max-width: 900px;
   display: flex;
   flex-flow: column;
@@ -14,17 +14,10 @@
   border: thin solid rgba(0,0,0,.12);
 }
 
-.like-ranking {
-  background-color: white;
-  border-radius: 4px;
-  padding: 45px 25px 45px 25px;
-  margin-bottom: 12px;
-}
-
 .pv-ranking {
   background-color: white;
   border-radius: 4px;
-  padding: 45px 25px 45px 25px;
+  margin-bottom: 12px;
 }
 
 .all-reviews-post-names {
@@ -61,6 +54,7 @@
 .all-reviews-stars {
   padding-left: 16px;
   margin-bottom: 15px;
+  margin-top: 10px;
 }
 
 .all-reviews-post-username {
@@ -84,6 +78,7 @@
   font-size: 14px;
   line-height: 22px;
   letter-spacing: 0.1px;
+  word-wrap: break-word;
 }
 
 .all-reviews-icon {
@@ -121,4 +116,352 @@
   width: 0.7rem;
   height: 0.7rem;
   margin-bottom: 0px;
+}
+
+
+.like-ranking-title {
+  color: #6A6F70;
+  font-size: 20px;
+  padding: 10px 15px;
+  border-bottom: thin solid rgba(0,0,0,.12);
+  font-weight: 600;
+  display: flex;
+}
+
+.like-ranking-title-word {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.like-ranking-title-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.like-ranking {
+  background-color: white;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.ranking-review-individual {
+  display: flex;
+  border-bottom: thin solid rgba(0,0,0,.12);
+}
+
+.ranking-review-individual-last {
+  display: flex;
+}
+
+.ranking-icon-div-left {
+  padding: 0 10px;
+}
+
+.ranking-icon-div {
+  position: relative;
+}
+
+.ranking-icon-svg {
+  position: relative;
+}
+
+.ranking-icon-number {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  color: white;
+}
+
+.ranking-icon-div-right {
+  padding: 15px 15px 15px 5px;
+}
+
+.ranking-review-link {
+  margin-bottom: 5px;
+}
+
+.ranking-review-link-path {
+  font-weight: bold;
+  font-size: 16px;
+  color: #4C95C5;
+}
+
+.ranking-review-link-path:hover {
+  color: #4C95C5;
+}
+
+.ranking-review-rates {
+  display: flex;
+  margin-bottom: 10px;
+}
+.ranking-review-status {
+  display: flex;
+  color: #757A7B;
+  font-size: 12px;
+  line-height: 16.8px;
+}
+
+.like-ranking-comment-icon {
+  color: #757575;
+  font-size: 14px;
+}
+
+.like-ranking-recommend-icon {
+  color: #4CAF50;
+  font-size: 14px;
+}
+
+.like-ranking-like-icon {
+  color: #E91E63;
+  font-size: 14px;
+}
+
+.ranking-review-rate-star {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-ranking-to-logo {
+  margin-left: -2px;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-bottom: 0.5px;
+}
+
+.ranking-review-rate-star-div {
+  display: flex;
+  margin-right: 8px;
+}
+
+.ranking-review-rate-comment {
+  margin-right: 7px;
+  display: flex;
+}
+
+.ranking-review-rate-recommend {
+  margin-right: 7px;
+  display: flex;
+}
+
+.ranking-review-rate-like {
+  margin-right: 7px;
+  display: flex;
+}
+
+.ranking-review-rate-font {
+  color: #FED055;
+  font-size: 13px;
+  margin-left: 1px;
+}
+
+.ranking-review-comment-font {
+  color: #757575;
+  font-size: 13px;
+  margin-left: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ranking-review-recommend-font {
+  color: #4CAF50;
+  font-size: 13px;
+  margin-left: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ranking-review-like-font {
+  color: #E91E63;
+  font-size: 13px;
+  margin-left: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ranking-icon-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.all-reviews-tag {
+  background-color: white;
+  border-radius: 4px;
+}
+
+.tag-ranking-title {
+  color: #6A6F70;
+  font-size: 20px;
+  border-bottom: thin solid rgba(0,0,0,.12);
+  font-weight: 600;
+  display: flex;
+  padding: 10px 10px 5px 15px;
+}
+
+.all-review-tags {
+  padding: 5px 10px 10px 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.all-review-tag-a {
+  margin: 3px;
+}
+
+.tag-ranking-title-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 2px;
+  margin-bottom: 3px;
+}
+
+.all-review-tag-search {
+  cursor: pointer;
+  border-radius: 0.25rem;
+  background-color: rgba(229,231,235);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: .75rem;
+  line-height: 1rem;
+  color: rgba(55,65,81);
+}
+
+.all-review-tag-search:hover {
+  background-color: rgba(229,231,235);
+  filter: brightness(0.9);
+  color: rgba(55,65,81);
+}
+
+.recent-reviews {
+  display: flex;
+  justify-content: center;
+}
+
+.recent-review {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 10px;
+}
+
+.recent-review-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.recent-review-no-image {
+  width: 100px;
+  height: 100px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  background-color: #DDDDDD;
+  border-radius: 4px;
+}
+
+.recent-review-link {
+  color: #4C95C5;
+  text-decoration: underline;
+  line-height: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.recent-review-link-a {
+  max-width: 100px;
+}
+
+.recent-review-link:hover {
+  color: #4C95C5;
+}
+
+@media screen and (max-width: 920px){
+  .all-reviews-left {
+    padding-left: 30px;
+  }
+
+  .all-reviews-right {
+    padding-right: 30px;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .all-reviews-left {
+    padding-left: calc(var(--bs-gutter-x) * .5);
+  }
+
+  .all-reviews-right {
+    padding-right: calc(var(--bs-gutter-x) * .5);
+  }
+
+  .each-review {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .like-ranking {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .pv-ranking {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .wrap-tab {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .all-reviews-tag {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .paginaton-div {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 18px 12px 30px 12px;
+  }
+
+  .prev {
+    margin-left: 0px;
+    margin-top: 12px;
+  }
+
+  .next {
+    margin-right: 0px;
+    margin-top: 12px;
+  }
+
+  .page {
+    margin-top: 12px;
+  }
+}
+
+@media screen and (max-width: 748px){
+  .wrap-tab {
+    display: none;
+  }
 }

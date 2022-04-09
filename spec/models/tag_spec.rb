@@ -41,14 +41,14 @@ RSpec.describe Tag, type: :model do
       expect(tag.save).to be_truthy
     end
 
-    xit "不正なデータでは編集できないこと" do
+    it "不正なデータでは編集できないこと" do
       tag.save
       tag.name = ""
       expect(tag.save).not_to be_truthy
       expect(tag.errors[:name]).to include("を入力してください")
       tag.name = "a" * 11
       expect(tag.save).not_to be_truthy
-      expect(tag.errors[:name]).to include("は10文字以上で入力してください")
+      expect(tag.errors[:name]).to include("は10文字以内で入力してください")
     end
   end
 

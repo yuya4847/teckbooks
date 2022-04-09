@@ -28,7 +28,7 @@
 }
 
 .login_form {
-  border: solid 1px #F1F1F1;
+  border: none;
   background: white !important;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -97,10 +97,20 @@
   border-bottom-left-radius: 3px;
   max-width: 39px;
   color: 888888;
+  border-top: solid 1px #F1F1F1;
+  border-bottom: solid 1px #F1F1F1;
+  border-left: solid 1px #F1F1F1;
+  border-right: none;
 }
 
 .login-field-form {
   padding: 0;
+  border-top: solid 1px #F1F1F1;
+  border-bottom: solid 1px #F1F1F1;
+  border-right: solid 1px #F1F1F1;
+  border-left: none;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 .login-row {

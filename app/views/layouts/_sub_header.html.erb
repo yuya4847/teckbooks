@@ -1,18 +1,41 @@
 <div class="home-page-after-background">
   <div class="container subheader-btns">
       <div class="subheader-menus">
-        <%= link_to 'ネットで検索', root_path, class: 'subheader-menu-link' %>
-        <%= link_to 'みんなの投稿', all_reviews_path, class: 'subheader-menu-link' %>
-        <%= link_to notifications_path, class: 'subheader-menu-link' do %>
-        <span class="">通知</span>
-          <% if unchecked_notifications.any? %>
-            <span class=""><%= unchecked_notifications.size %></span>
-          <% end %>
+        <%= link_to root_path, class: 'subheader-menus-link-height' do %>
+          <div class="subheader-menu-link-net-reviews"></div>
+          <div class="subheader-menu-link subheader-menu-link-net-search">ネット検索</div>
         <% end %>
-        <%= link_to '検索', reviews_path, class: 'subheader-menu-link' %>
+        <%= link_to all_reviews_path, class: 'subheader-menus-link-height' do  %>
+        <div class="subheader-menu-link-all-reviews"></div>
+          <div class="subheader-menu-link subheader-menu-link-all-reviews-word">投稿</div>
+        <% end %>
+        <%= link_to notifications_path, class: 'subheader-menus-link-height' do %>
+          <div class="subheader-menu-link-notify-reviews"></div>
+          <span class="subheader-menu-link subheader-menu-link-notify">
+            <span>通知</span>
+            <% if unchecked_notifications.any? %>
+              <span class="notification-red-mark"><%= unchecked_notifications.size %></span>
+            <% end %>
+          </span>
+        <% end %>
+        <%= link_to reviews_path, class: 'subheader-menus-link-height' do %>
+        <div class="subheader-menu-link-review-search-reviews"></div>
+          <div class="subheader-menu-link subheader-menu-link-review-search">探す</div>
+        <% end %>
       </div>
       <div class="subheader-review-up">
-        <%= link_to 'レビューを投稿', new_review_path, class: 'subheader-review-link' %>
+        <%= link_to new_review_path, class: 'subheader-review-link' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 16px; height: 16px; opacity: 1;" xml:space="preserve">
+          <style type="text/css">
+	          .st0{fill: white;}
+          </style>
+          <g>
+	          <path class="st0" d="M494.56,55.774l-38.344-38.328c-23.253-23.262-60.965-23.253-84.226,0l-35.878,35.878l122.563,122.563   l35.886-35.878C517.814,116.747,517.814,79.044,494.56,55.774z" style="fill: white;"/>
+	          <polygon class="st0" points="0,389.435 0,511.998 122.571,511.998 425.246,209.314 302.691,86.751  " style="fill: white;"/>
+          </g>
+        </svg>
+        <span style="margin-left: 11px;">レビューを投稿</span>
+        <% end %>
       </div>
   </div>
   <div class="subheader-min-review-up">

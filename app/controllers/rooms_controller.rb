@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
   before_action :authenticate_user!
-  before_action :room_exist?,       only: [:show]
+  before_action :room_exist?, only: [:show]
 
   def create
     @room = Room.create
@@ -11,6 +11,7 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
+    @title = "DM(#{@room.entries[1].user.username})"
     if Entry.where(user_id: current_user.id, room_id: @room.id).present?
       @entries = @room.entries
       @message = Message.new

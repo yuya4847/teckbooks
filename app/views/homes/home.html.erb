@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
   <%= render partial: 'home_page_after_login' %>
 <% else %>
-  <%= render partial: 'home_page_before_login' %>
+  <%= render partial: 'home_page_before_login', locals: { knetaki_review: @knetaki_review, azarashi_review: @azarashi_review, kumamon_review: @kumamon_review }%>
 <% end %>

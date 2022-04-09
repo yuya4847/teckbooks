@@ -1,3 +1,4 @@
+include ActionView::Helpers::DateHelper
 class CommentsController < ApplicationController
 
   def create
@@ -26,26 +27,27 @@ class CommentsController < ApplicationController
     @comment.review_id = params[:review_id]
     @comment.parent_id = params[:parent_id]
     @review = Review.find(params[:review_id])
+    @parent_comment = Comment.find(params[:parent_id])
     if @comment.save
       @review.create_notification_response_comment!(current_user, @comment)
-      render :index
+      contents = {
+        parent_comment: @parent_comment,
+        reponse_comment: @comment,
+        response_user: current_user,
+        response_comment_date: "#{time_ago_in_words(@comment.created_at).delete("約").delete("未満") }"
+       }
+      render json: contents
     end
   end
 
   def response_destroy
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:comment_id])
     if @comment.destroy
-      render :index
+      contents = {
+        destroy_comment: @comment
+       }
+      render json: contents
     end
-  end
-
-  def cancel_response
-    @comment = Comment.find(params[:id])
-    render :response_cancel
-  end
-
-  def cancel_comment
-    render :comment_cancel
   end
 
   private

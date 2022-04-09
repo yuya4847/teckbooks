@@ -41,10 +41,9 @@ RSpec.describe "Reviews", type: :request do
             end
 
             it '検索結果が正しく表示されていること' do
-              expect(response.body).to include good_review.title
               expect(response.body).to include good_review.content
               expect(response.body).to include good_review.rate.to_s
-              expect(response.body).to include "10分前"
+              expect(response.body).to include "#{I18n.l(good_review.created_at)}"
             end
           end
 
@@ -63,10 +62,9 @@ RSpec.describe "Reviews", type: :request do
             end
 
             it '検索結果が正しく表示されていること' do
-              expect(response.body).to include good_review.title
               expect(response.body).to include good_review.content
               expect(response.body).to include good_review.rate.to_s
-              expect(response.body).to include "10分前"
+              expect(response.body).to include "#{I18n.l(good_review.created_at)}"
             end
           end
         end
@@ -101,10 +99,9 @@ RSpec.describe "Reviews", type: :request do
         end
 
         it 'タグ検索結果が正しく表示されていること' do
-          expect(response.body).to include good_review.title
           expect(response.body).to include good_review.content
           expect(response.body).to include good_review.rate.to_s
-          expect(response.body).to include "10分前"
+          expect(response.body).to include "#{I18n.l(good_review.created_at)}"
         end
       end
 
@@ -123,10 +120,9 @@ RSpec.describe "Reviews", type: :request do
         end
 
         it 'タグ検索結果が正しく表示されていること' do
-          expect(response.body).to include normal_review.title
           expect(response.body).to include normal_review.content
           expect(response.body).to include normal_review.rate.to_s
-          expect(response.body).to include "20分前"
+          expect(response.body).to include "#{I18n.l(normal_review.created_at)}"
         end
       end
     end
@@ -225,16 +221,12 @@ RSpec.describe "Reviews", type: :request do
           end
 
           it '正しいレビューが全て投稿されている' do
-            expect(response.body).to include good_review.title
-            expect(response.body).to include good_review.link
             expect(response.body).to include good_review.content
             expect(response.body).to include good_review.rate.to_s
-            expect(response.body).to include "10分前"
-            expect(response.body).to include normal_review.title
-            expect(response.body).to include normal_review.link
+            expect(response.body).to include "#{I18n.l(good_review.created_at)}"
             expect(response.body).to include normal_review.content
             expect(response.body).to include normal_review.rate.to_s
-            expect(response.body).to include "20分前"
+            expect(response.body).to include "#{I18n.l(normal_review.created_at)}"
           end
 
           it 'フォローできるユーザーが正しく表示されること' do
@@ -280,7 +272,7 @@ RSpec.describe "Reviews", type: :request do
         context "レビューが存在する場合" do
           context "関連した投稿が存在する場合" do
             let!(:recent_review) { create(:good_review) }
-            let!(:browsing_history) { create(:browsing_history, user_id: user.id, review_id: recent_review.id) }
+            let!(:browsing_history) { build(:browsing_history, user_id: user.id, review_id: recent_review.id) }
 
             let!(:ruby_tag) { create(:tag, name: "ruby") }
             let!(:php_tag) { create(:tag, name: "php") }
@@ -317,7 +309,7 @@ RSpec.describe "Reviews", type: :request do
               expect(response.body).to include good_review.link
               expect(response.body).to include good_review.content
               expect(response.body).to include good_review.rate.to_s
-              expect(response.body).to include "10分前"
+              expect(response.body).to include "#{I18n.l(good_review.created_at)}"
             end
 
             it '関連した投稿が正しく表示されていること' do
@@ -330,6 +322,7 @@ RSpec.describe "Reviews", type: :request do
             end
 
             it '最近見た投稿が正しく表示されていること' do
+              browsing_history.save
               expect(response.body).to include recent_review.user.username
               expect(response.body).to include recent_review.title
             end

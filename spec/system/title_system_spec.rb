@@ -2,60 +2,60 @@ require 'rails_helper'
 RSpec.describe "タイトルが適切に表示されていること", type: :system do
   let!(:user) { create(:user) }
   let!(:second_user) { create(:second_user) }
+  let!(:recent_review) { create(:recent_review) }
   let!(:good_review) { create(:good_review) }
+  let!(:great_review) { create(:great_review) }
   let!(:room) { create(:room) }
   let!(:entry1) { create(:entry, user_id: user.id, room_id: room.id) }
   let!(:entry2) { create(:entry, user_id: second_user.id, room_id: room.id) }
 
-  describe 'ホームページのタイトルが表示される' do
+  describe 'そのページにおける適切なタイトルが表示されること' do
     it 'ホームページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/'
       expect(page).to have_title "TechBookHub"
     end
-  end
 
-  describe '通知ページのタイトルが表示される' do
+    it '利用規約ページのタイトルが表示されること' do
+      visit '/homes/terms'
+      expect(page).to have_title "利用規約 / TechBookHub"
+    end
+
+    it 'プライバシーポリシーページのタイトルが表示されること' do
+      visit '/homes/privacy_policy'
+      expect(page).to have_title "プライバシーポリシー / TechBookHub"
+    end
+
     it '通知ページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/notifications'
       expect(page).to have_title "通知 / TechBookHub"
     end
-  end
 
-  describe '検索ページのタイトルが表示される' do
     it '検索ページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/reviews'
       expect(page).to have_title "検索 / TechBookHub"
     end
-  end
 
-  describe '投稿編集ページのタイトルが表示される' do
     it '投稿編集ページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/reviews/1/edit'
       expect(page).to have_title "投稿編集 / TechBookHub"
     end
-  end
 
-  describe '投稿作成ページのタイトルが表示される' do
     it '投稿作成ページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/reviews/new'
       expect(page).to have_title "投稿作成 / TechBookHub"
     end
-  end
 
-  describe '全ての投稿ページのタイトルが表示される' do
     it '全ての投稿ページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/all_reviews'
       expect(page).to have_title "全ての投稿 / TechBookHub"
     end
-  end
 
-  describe 'プロフィールページのタイトルが動的に表示される' do
     it 'ログインしているユーザーのプロフィールページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/userpages/1'
@@ -67,9 +67,13 @@ RSpec.describe "タイトルが適切に表示されていること", type: :sys
       visit '/userpages/2'
       expect(page).to have_title "#{second_user.username} / TechBookHub"
     end
-  end
 
-  describe 'following・followersページのタイトルが表示される' do
+    it 'ユーザーの投稿一覧ページのタイトルが表示されること' do
+      log_in_as(user.email, user.password)
+      visit '/userpages/profile_reviews/1'
+      expect(page).to have_title "#{user.username}の投稿一覧 / TechBookHub"
+    end
+
     it 'followingページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/userpages/1/following'
@@ -81,54 +85,46 @@ RSpec.describe "タイトルが適切に表示されていること", type: :sys
       visit '/userpages/1/followers'
       expect(page).to have_title "Followers / TechBookHub"
     end
-  end
 
-  describe '投稿詳細ページのタイトルが表示される' do
     it '投稿詳細ページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/reviews/1'
       expect(page).to have_title "投稿詳細 / TechBookHub"
     end
-  end
 
-  describe 'DMページのタイトルが表示される' do
-    it 'DMページのタイトルが表示されること' do
+    it 'DMルーム一覧ページのタイトルが表示されること' do
+      log_in_as(user.email, user.password)
+      visit '/dms'
+      expect(page).to have_title "DM(一覧) / TechBookHub"
+    end
+
+    it 'DMルームページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/rooms/1'
-      expect(page).to have_title "DM / TechBookHub"
+      expect(page).to have_title "DM(#{second_user.username}) / TechBookHub"
     end
-  end
 
-  describe 'サインアップページのタイトルが表示される' do
     it 'サインアップページのタイトルが表示されること' do
       visit '/users/sign_up'
       expect(page).to have_title "サインアップ / TechBookHub"
     end
-  end
 
-  describe 'ログインページのタイトルが表示される' do
     it 'ログインページのタイトルが表示されること' do
       visit '/users/sign_in'
       expect(page).to have_title "ログイン / TechBookHub"
     end
-  end
 
-  describe 'プロフィール編集ページのタイトルが表示される' do
     it 'プロフィール編集ページのタイトルが表示されること' do
       log_in_as(user.email, user.password)
       visit '/users/edit'
       expect(page).to have_title "プロフィール編集 / TechBookHub"
     end
-  end
 
-  describe 'パスワード再設定ページのタイトルが表示される' do
     it 'パスワード再設定ページのタイトルが表示されること' do
       visit '/users/password/new'
       expect(page).to have_title "パスワード再設定 / TechBookHub"
     end
-  end
 
-  describe 'アカウント有効化ページのタイトルが表示される' do
     it 'アカウント有効化ページのタイトルが表示されること' do
       visit '/users/confirmation/new.user'
       expect(page).to have_title "アカウント有効化 / TechBookHub"

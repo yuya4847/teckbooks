@@ -19,14 +19,14 @@
 
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
       <% resource.errors.full_messages.each do |message| %>
-        <div class="password-change-validation"><%= message %></div>
+        <div class="password-change-validation">・<%= message %></div>
       <% end %>
       <div class="row password-change-row">
-        <div class="col-2 password-field-icon">
+        <div id="pass-edit-email-left-keyup" class="col-2 password-field-icon">
           <svg aria-hidden="true" focusable="false" width="14px" height="13px" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" class="auth0-lock-icon auth0-lock-icon-box"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"><g id="32px" sketch:type="MSLayerGroup" transform="translate(-2155.000000, -2317.000000)" fill="#888888"><g id="Group-856" transform="translate(1.000000, 1.000000)" sketch:type="MSShapeGroup"><path id="Fill-419" d="M2184,2339 C2184,2339.55 2183.55,2340 2183,2340 L2157,2340 C2156.45,2340 2156,2339.55 2156,2339 L2156,2319 C2156,2318.45 2156.45,2318 2157,2318 L2183,2318 C2183.55,2318 2184,2318.45 2184,2319 L2184,2339 L2184,2339 Z M2184,2316 L2156,2316 C2154.89,2316 2154,2316.89 2154,2318 L2154,2340 C2154,2341.1 2154.89,2342 2156,2342 L2184,2342 C2185.1,2342 2186,2341.1 2186,2340 L2186,2318 C2186,2316.89 2185.1,2316 2184,2316 L2184,2316 Z M2176,2322 L2180,2322 L2180,2326 L2176,2326 L2176,2322 Z M2174,2328 L2182,2328 L2182,2320 L2174,2320 L2174,2328 Z M2158,2332 L2172,2332 L2172,2330 L2158,2330 L2158,2332 Z M2158,2336 L2172,2336 L2172,2334 L2158,2334 L2158,2336 Z"></path></g></g></g></svg>
         </div>
-        <div class="col-10 change-password-form-div">
-          <%= f.email_field :email, class: "change_password change-password-form", autofocus: true, autocomplete: "email", placeholder: "yours@example.com" %>
+        <div id="pass-edit-email-right-keyup" class="col-10 change-password-form-div">
+          <%= f.email_field :email, class: "change_password change-password-form", autofocus: true, autocomplete: "email", placeholder: "yours@example.com", id: "pass-new-email-right-keyup" %>
         </div>
       </div>
       <div class="password-change-btn-div">
@@ -51,4 +51,59 @@
   .application-height {
     height: 100%;
   }
+
+  .pass-edit-field-icon-keyup {
+    border-top: solid 1px #A8A8A8;
+    border-right: none;
+    border-left: solid 1px #A8A8A8;
+    border-bottom: solid 1px #A8A8A8;
+  }
+
+  .pass-edit-form-keyup {
+    border-top: solid 1px #A8A8A8;
+    border-left: none;
+    border-right: solid 1px #A8A8A8;
+    border-bottom: solid 1px #A8A8A8;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
 </style>
+
+<script type="text/javascript">
+  if (document.getElementById("footer") == null) {
+    var diva = document.getElementById("footerfixed");
+    var div = document.createElement('div');
+    div.innerHTML = `
+    <div id="footer" class="footer footer-layout-set">
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
+      </div>
+    </div>
+    `;
+    diva.appendChild(div);
+    $(`#footer`).unwrap();
+  }
+</script>
+
+<script type="text/javascript">
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#pass-edit-email-right-keyup').length) {
+      $('#pass-edit-email-right-keyup').removeClass("pass-edit-form-keyup");
+      $('#pass-edit-email-left-keyup').removeClass("pass-edit-field-icon-keyup");
+    } else {
+      $('#pass-edit-email-right-keyup').addClass("pass-edit-form-keyup");
+      $('#pass-edit-email-left-keyup').addClass("pass-edit-field-icon-keyup");
+    }
+  });
+</script>

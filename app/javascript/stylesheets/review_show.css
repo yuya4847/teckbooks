@@ -1,0 +1,491 @@
+.review-show-size {
+  margin-top: 12px;
+  max-width: 900px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.review-show-center {
+  margin-bottom: 50px;
+}
+
+.review-show-post {
+  margin-bottom: 12px;
+  margin-right: 0px;
+  background-color: white;
+  border-radius: 4px;
+  border: thin solid rgba(0,0,0,.12);
+}
+
+.review-show-post-header {
+  padding: 4px 16px 4px 16px;
+}
+
+.review-show-post-titles {
+  min-height: 77px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-show-post-names {
+  display: flex;
+}
+
+.review-show-post-follows {
+  display: flex;
+}
+
+.review-show-post-icon {
+  margin: 8px 15px 8px 0px;
+}
+
+.review-show-post-name {
+  line-height: 19.2px;
+  margin-bottom: 2px;
+  font-size: 16px;
+  color: #000000;
+  opacity: 87.0%;
+  font-weight: 300;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.review-show-title-pv {
+  padding-left: 16px;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 700;
+  opacity: 75%;
+  margin-bottom: 15px;
+}
+
+.show-review-deleted-link {
+  margin-left: -1px;
+}
+
+.all-reviews-content {
+  padding: 0px 16px 0px 16px;
+}
+
+.review-show-pv {
+  font-size: 16px;
+  letter-spacing: 0.1px;
+  font-weight: 800;
+  opacity: 80%;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.review-show-link-div {
+  padding-left: 16px;
+  margin: 10px 0px;
+}
+
+.review-show-link {
+  color: #0F79B5;
+  font-size: 15px;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+}
+
+.review-show-post-img {
+  display: flex;
+  justify-content: space-between;
+}
+
+.show-review-image {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.show-review-no-image {
+  width: 150px;
+  height: 150px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  background-color: #DDDDDD;
+  border-radius: 4px;
+  margin: 5px 16px 0px 16px;
+}
+
+.show-review-div {
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+}
+
+.show-review-bottom {
+  display: flex;
+  margin-top: 30px;
+  padding: 8px;
+  justify-content: space-between;
+  height: 52px;
+}
+
+.show-review-border-bottom {
+  border-bottom: thin solid rgba(0,0,0,.12);
+  margin: 0px 8px;
+}
+
+.show-review-comments-count {
+  padding: 8px 16px;
+}
+
+.show-review-related-link {
+  margin-left: -2px;
+  font-size: 12px;
+  text-decoration: underline;
+  color: #000000;
+  opacity: 50%;
+  font-weight: 300;
+}
+
+.show-review-related-link:hover {
+  cursor: pointer;
+  color: #000000;
+  opacity: 50%;
+}
+
+.show-review-related-links {
+  line-height: 17px;
+  padding-left: 4px;
+}
+
+.review-show-new-comment-forms {
+  width: 100%;
+}
+
+.review-show-comment-form {
+  width: 100%;
+}
+
+.review-show-new-comment {
+  padding: 0px 16px 30px 16px;
+  display: flex;
+}
+
+.review-show-new-comment-btns {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.show-review-form_with {
+  padding-top: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 652px;
+}
+
+.review-show-new-btns {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.review-show-new-cancel-bt {
+  color: white;
+  background-color: #DDDDDD;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.review-show-new-comment-bt {
+  margin-left: 7px;
+  border-radius: 4px;
+  border: solid thin #0079b5;
+  color: #0079b5;
+  background-color: white;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+.review-show-new-comment-bt:hover {
+  color: #0079b5;
+  background-color: rgba(0, 121, 181, 0.07);
+  transition-duration: 0.2s;
+}
+
+.show-review-each-comment {
+  display: flex;
+  padding: 0px 16px 25px 16px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.show-review-each-comment-content {
+  padding-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 652px;
+}
+
+.show-review-each-username {
+  font-size: 15px;
+  line-height: 19.2px;
+}
+
+.show-review-each-date {
+  font-size: 12px;
+  line-height: 18px;
+  color: #aaaaaa;
+  margin-left: -2px;
+}
+
+.show-review-each-left {
+  display: flex;
+  justify-content: space-between;
+}
+
+.show-review-each-right {
+  width: 100%;
+}
+
+.show-review-each-delete-div {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+.show-review-each-response-btn {
+  font-size: 13px;
+  cursor: pointer;
+  color: #212529;
+  text-decoration: underline;
+}
+
+.show-review-each-delete-btn {
+  font-size: 13px;
+  color: #212529;
+  text-decoration: underline;
+}
+
+.show-review-each-delete-btn:hover {
+  color: #212529;
+}
+
+.show-review-each-response-btn-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.show-review-each-delete-btn-div {
+  margin-left: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.show-review-responses {
+  max-width: 652px;
+  margin-top: 10px;
+}
+
+.review-show-reponse-btns {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.review-show-reponse-cancel-btn {
+  color: white;
+  background-color: #DDDDDD;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 11px;
+}
+
+.review-show-reponse-response-btn {
+  margin-left: 7px;
+  border-radius: 4px;
+  border: solid thin #0079b5;
+  color: #0079b5;
+  background-color: white;
+  padding: 5px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.review-show-reponse-response-btn:hover {
+  color: #0079b5;
+  background-color: rgba(0, 121, 181, 0.07);
+  transition-duration: 0.2s;
+}
+
+.review-show-response-icon {
+  margin: 5px 13px 5px 0px;
+}
+
+.show-review-each-content-sentences {
+  max-width: 582px;
+}
+
+.show-review-each-content-sentence {
+  font-size: 13px;
+  overflow-wrap: break-word;
+  line-height: 22px;
+}
+
+.response-reviews-response-each-comment {
+  display: flex;
+}
+
+.response-reviews-comment-css {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.response-each-comments-right {
+  display: flex;
+  max-width: 560px;
+}
+
+.response-each-comment-title-username {
+  font-size: 15px;
+  color: #212529;
+  line-height: 19.2px;
+}
+
+.response-each-comment-title-date {
+  font-size: 12px;
+  margin-left: 3px;
+  color: #aaaaaa;
+  line-height: 18px;
+}
+
+.response-each-comment-content {
+  font-size: 13px;
+  overflow-wrap: break-word;
+  line-height: 22px;
+  color: #212529;
+  max-width: 535px;
+}
+
+.response-each-comment-right-in-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.response-each-comment-delete {
+  font-size: 13px;
+  padding-top: 20px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.response-default-commnet-btn {
+  font-size: 14px;
+  line-height: 20px;
+  color: #0F79B5;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.review-show-all-reponse-comments {
+  margin-top: 15px;
+}
+
+.comment_error_alert {
+  font-size: 13px;
+  color: #ff5252;
+  margin-left: 15px;
+}
+
+.response_error_alert {
+  font-size: 13px;
+  color: #ff5252;
+  margin-bottom: 5px;
+}
+
+.recent-reviews-no-exist {
+  padding-top: 62px;
+  padding-bottom: 62px;
+  color: #6A6F70;
+}
+
+.FlexTextarea {
+position: relative;
+font-size: 14px;
+}
+
+.FlexTextarea__dummy {
+overflow: hidden;
+visibility: hidden;
+box-sizing: border-box;
+min-height: 23px;
+white-space: pre-wrap;
+overflow-wrap: break-word;
+border: 1px solid;
+padding: 0px 3px;
+}
+
+.FlexTextarea__textarea {
+position: absolute;
+top: 0;
+left: 0;
+box-sizing: border-box;
+width: 100%;
+height: 100%;
+background-color: transparent;
+border-top: none;
+border-left: none;
+border-right: none;
+border-bottom: 2px solid #b6c3c6;
+color: inherit;
+font: inherit;
+letter-spacing: inherit;
+resize: none;
+padding: 0px 3px;
+max-width: 652px;
+}
+
+
+@media screen and (max-width: 900px){
+
+  .show-review-each-content-sentence {
+    width: 470px;
+  }
+
+  .response-each-comment-content {
+    width: 460px;
+  }
+
+}
+
+@media screen and (max-width: 640px){
+
+  .show-review-each-content-sentence {
+    width: 300px;
+  }
+
+  .response-each-comment-content {
+    width: 300px;
+  }
+
+}

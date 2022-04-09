@@ -1,94 +1,70 @@
-<% unless @notifications.blank? %>
-  <div class="open_report_modal">全て削除</div>
-  <div class="report_modal_content" style="display: none;">
-    <div class="modal-back">
-      <div class="modal_close">
+<div class="container notification-size">
+  <div class="notification-frame">
+    <div class="notifications-header">
+      <div class="notification-title">通知</div>
+      <div class="notification-all-delete">
+        <label class="notification-all-delete-btn" for="trigger-report">全て削除</label>
       </div>
-      <div class="report_modal_body">
-        <div class="modal_close_btn">✖︎</div>
-        <%= link_to '本当に全て削除する', notifications_destory_path(), method: :delete, remote: true %>
+      <div class="modal_wrap">
+        <!-- 通報モーダルの表示 -->
+        <input id="trigger-report" type="checkbox">
+        <div class="modal_overlay">
+          <!-- 通報モーダルを閉じる  -->
+          <label for="trigger-report" class="modal_trigger"></label>
+
+          <div class="report_modal_content">
+            <div class="report_modal_icon">
+              <i class="fas fa-exclamation-triangle fa-trash-alt"></i>
+            </div>
+            <div class="report_modal_question">本当に全て削除しますか？</div>
+            <div class="report_modal_sentence">(※後から戻す事はできません)</div>
+            <div class="report_modal_btns">
+              <label for="trigger-report" class="report-cancel-btn report-cancel">キャンセル</label>
+              <%= link_to '削除', notifications_destory_path(), class: "report-really-btn", method: :delete, remote: true %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <% if notifications %>
-    <% notifications.each do |notification| %>
-      <div class="notification-<%= notification.id %>">
-        <% user = User.find(notification.visitor_id) %>
-        <% if user.avatar.url %>
-          <img src="<%= user.avatar.url %>" class="comment-logo">
-        <% else %>
-          <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
+    <div class="each-notifications">
+      <% unless @notifications.blank? %>
+        <% if notifications %>
+          <% notifications.each do |notification| %>
+            <div class="notification-<%= notification.id %> notification-each-post">
+              <% user = User.find(notification.visitor_id) %>
+              <div class="notification-each-info">
+                <div class="notification-each-left">
+                  <%= link_to userpage_path(user.id) do %>
+                    <% if user.avatar.url %>
+                      <img src="<%= user.avatar.url %>" class="notification-user-icon icon-image-class comment-logo" style="height: 45px; width: 45px;">
+                    <% else %>
+                      <img src="/uploads/user/avatar/default.png" class="notification-user-icon icon-image-class comment-default-logo" style="height: 45px; width: 45px;">
+                    <% end %>
+                  <% end %>
+                  <%= notification_form(notification) %>
+                </div>
+                <div class="notification-each-right notification-right-<%= notification.id %>">
+                  <%= link_to notification_path(notification.id), method: :delete, class: "notification-trash-icon", style: "visibility: hidden;", remote: true do %>
+                    <i class="fas fa-trash-alt fa-lg notification-each-delete"></i>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
         <% end %>
-        <%= notification_form(notification) %>
-        <%= link_to '削除', notification_path(notification.id), method: :delete, remote: true %>
-      </div>
-    <% end %>
-  <% end %>
-<% else %>
-    <p>通知はありません</p>
-<% end %>
+      <% else %>
+          <div class="nothing-notification">通知はありません</div>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
-  $(`.open_report_modal`).on('click',function(){
-    $(this).next().fadeIn();
-    return false;
-  });
-
-  $(`.modal_close`).on('click',function(){
-    $(this).closest('.report_modal_content').fadeOut();
-    return false;
-  });
-
-  $(`.modal_close_btn`).on('click',function(){
-    $(this).closest('.report_modal_content').fadeOut();
-    return false;
+  $(function() {
+    $(".notification-each-post").hover(function() {
+      $(this).find('.notification-trash-icon').css("visibility", "visible");
+    }, function() {
+      $(this).find('.notification-trash-icon').css("visibility", "hidden");
+    });
   });
 </script>
-
-<style media="screen">
-  .open_modal {
-    cursor: pointer;
-    display: inline-block;
-  }
-
-  .open_report_modal {
-    cursor: pointer;
-    display: inline-block;
-  }
-
-  .modal-back {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, .8);
-  }
-
-  .modal_close {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  .report_modal_body {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    -webkit- transform: translateY(-50%) translateX(-50%);
-    width: 400px;
-    height: 400px;
-    background-color: white;
-    border-radius: 10px;
-  }
-
-  .modal_close_btn {
-    font-size: 30px;
-    line-height: 25px;
-    cursor: pointer;
-    text-align: center;
-    vertical-align: middle;
-    display: inline-block;
-  }
-</style>

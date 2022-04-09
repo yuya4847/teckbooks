@@ -1,25 +1,111 @@
-<h2>パスワードを変更する</h2>
+<div class="password-edit-size">
+  <div class="password-edit-frame container">
+    <div class="password-edit-title">
+      <%= render partial: 'homes/title_svg_image' %>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+    <div class="password-edit-sub-title">パスワードの設定</div>
+    <div class="password-edit-sentence">新しいパスワードを入力してください。新しいパスワードでログインします。</div>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+    <%= f.hidden_field :reset_password_token %>
+    <% resource.errors.full_messages.each do |message| %>
+      <div class="password-change-validation">・<%= message %></div>
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
-  </div>
+    <div class="row password-edit-row">
+      <div id="password-edit-pass-left-keyup" class="col-2 password-edit-field-icon">
+        <svg aria-hidden="true" focusable="false" width="11px" height="14px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="auth0-lock-icon auth0-lock-icon-box"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-288.000000, -1508.000000)" fill="#888888"><path d="M299,1523.998 L290,1523.998 C288.896,1523.998 288,1523.102 288,1521.999 L288,1515.999 C288,1514.895 288.896,1513.998 290,1513.998 L290,1513.998 L290,1512.499 C290,1510.015 292.015,1507.999 294.5,1507.999 C296.985,1507.999 299,1510.015 299,1512.499 L299,1513.999 C300.104,1513.999 301,1514.895 301,1515.999 L301,1521.999 C301,1523.103 300.104,1523.998 299,1523.998 L299,1523.998 Z M298,1512.499 C298,1510.566 296.433,1508.999 294.5,1508.999 C292.567,1508.999 291,1510.566 291,1512.499 L291,1513.998 L298,1513.998 L298,1512.499 L298,1512.499 Z M300,1515.999 C300,1515.446 299.552,1514.998 299,1514.998 L290,1514.998 C289.447,1514.998 289,1515.446 289,1515.999 L289,1521.999 C289,1522.551 289.447,1522.998 290,1522.998 L299,1522.998 C299.552,1522.998 300,1522.551 300,1521.999 L300,1515.999 L300,1515.999 Z M294.5,1520.998 C294.224,1520.998 294,1520.774 294,1520.498 L294,1517.498 C294,1517.223 294.224,1516.999 294.5,1516.999 C294.776,1516.999 295,1517.223 295,1517.498 L295,1520.498 C295,1520.774 294.776,1520.998 294.5,1520.998 L294.5,1520.998 Z"></path></g></g></svg>
+      </div>
+      <div id="password-edit-pass-right-keyup" class="col-10 password-edit-field-form">
+        <%= f.password_field :password, autofocus: true, class: "password_edit_form", autocomplete: "new-password", placeholder: "パスワード" %>
+      </div>
+    </div>
+    <div class="row password-edit-row">
+      <div id="password-edit-passconf-left-keyup" class="col-2 password-edit-field-icon">
+        <svg aria-hidden="true" focusable="false" width="11px" height="14px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="auth0-lock-icon auth0-lock-icon-box"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-288.000000, -1508.000000)" fill="#888888"><path d="M299,1523.998 L290,1523.998 C288.896,1523.998 288,1523.102 288,1521.999 L288,1515.999 C288,1514.895 288.896,1513.998 290,1513.998 L290,1513.998 L290,1512.499 C290,1510.015 292.015,1507.999 294.5,1507.999 C296.985,1507.999 299,1510.015 299,1512.499 L299,1513.999 C300.104,1513.999 301,1514.895 301,1515.999 L301,1521.999 C301,1523.103 300.104,1523.998 299,1523.998 L299,1523.998 Z M298,1512.499 C298,1510.566 296.433,1508.999 294.5,1508.999 C292.567,1508.999 291,1510.566 291,1512.499 L291,1513.998 L298,1513.998 L298,1512.499 L298,1512.499 Z M300,1515.999 C300,1515.446 299.552,1514.998 299,1514.998 L290,1514.998 C289.447,1514.998 289,1515.446 289,1515.999 L289,1521.999 C289,1522.551 289.447,1522.998 290,1522.998 L299,1522.998 C299.552,1522.998 300,1522.551 300,1521.999 L300,1515.999 L300,1515.999 Z M294.5,1520.998 C294.224,1520.998 294,1520.774 294,1520.498 L294,1517.498 C294,1517.223 294.224,1516.999 294.5,1516.999 C294.776,1516.999 295,1517.223 295,1517.498 L295,1520.498 C295,1520.774 294.776,1520.998 294.5,1520.998 L294.5,1520.998 Z"></path></g></g></svg>
+      </div>
+      <div id="password-edit-passconf-right-keyup" class="col-10 password-edit-field-form">
+        <%= f.password_field :password_confirmation, class: "password_edit_form", autocomplete: "new-password", placeholder: "パスワード(確認)" %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <div class="actions password-edit-field">
+      <%= f.submit "パスワードを変更", class: "login-btn" %>
+    </div>
+    <% end %>
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
   </div>
-<% end %>
+</div>
 
-<%= render "devise/shared/links" %>
+<style media="screen">
+  body {
+    background-color: #e9f1f5;
+  }
+
+  .application-height {
+    height: 100%;
+  }
+
+  .password-edit-icon-keyup {
+    border-top: solid 1px #A8A8A8;
+    border-left: none;
+    border-left: solid 1px #A8A8A8;
+    border-bottom: solid 1px #A8A8A8;
+  }
+
+  .password-edit-keyup {
+    border-top: solid 1px #A8A8A8;
+    border-left: none;
+    border-right: solid 1px #A8A8A8;
+    border-bottom: solid 1px #A8A8A8;
+  }
+</style>
+
+<script type="text/javascript">
+  if (document.getElementById("footer") == null) {
+    var diva = document.getElementById("footerfixed");
+    var div = document.createElement('div');
+    div.innerHTML = `
+    <div id="footer" class="footer footer-layout-set">
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
+      </div>
+    </div>
+    `;
+    diva.appendChild(div);
+    $(`#footer`).unwrap();
+  }
+</script>
+
+<script type="text/javascript">
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#password-edit-pass-right-keyup').length) {
+      $('#password-edit-pass-right-keyup').removeClass("password-edit-keyup");
+      $('#password-edit-pass-left-keyup').removeClass("password-edit-icon-keyup");
+    } else {
+      $('#password-edit-pass-right-keyup').addClass("password-edit-keyup");
+      $('#password-edit-pass-left-keyup').addClass("password-edit-icon-keyup");
+    }
+  });
+
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#password-edit-passconf-right-keyup').length) {
+      $('#password-edit-passconf-right-keyup').removeClass("password-edit-keyup");
+      $('#password-edit-passconf-left-keyup').removeClass("password-edit-icon-keyup");
+    } else {
+      $('#password-edit-passconf-right-keyup').addClass("password-edit-keyup");
+      $('#password-edit-passconf-left-keyup').addClass("password-edit-icon-keyup");
+    }
+  });
+</script>

@@ -1,3 +1,21 @@
+<style media="screen">
+  .subheader-menu-link-net-search {
+    color: rgb(0,121,181);
+  }
+
+  .subheader-menu-link-net-search:hover {
+    background-color: rgba(0,121,181,0.1);
+    color: rgb(0,121,181);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .subheader-menu-link-net-reviews {
+    height: 2px;
+    background-color: #0B6597;
+  }
+</style>
+
 <div class="container after-home-page-back">
   <div class="search-kind">
     <div class="search_sentence_icon">
@@ -61,20 +79,25 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);
     $(`#footer`).unwrap();
   }
-</script>
-
-<script>
 
   $(function () {
     setTimeout('rect()'); //アニメーションを実行
@@ -108,12 +131,11 @@ $(function(){
     }
   });
 
-  var searchingTime = 0;
+
     $('#keyword').click(function() {
       if (searchingTime == 0) {
         var search_content = $("#search_content").val();
         if (search_content != "") {
-          console.log(`${search_content}`);
           $('#items').css('display','none');
           search(search_content);
         }
@@ -212,6 +234,8 @@ $(function(){
 
     $('#search_word_react').click(function() {
       if (searchingTime == 0) {
+        console.log(`${searchingTime}`);
+        console.log("react");
         $('#items').css('display','none');
         $("#search_content").val('React.js');
         search("react");
@@ -318,7 +342,12 @@ $(function(){
       }
     });
 
+    var loading_flag = 0;
+
   function search(search_content){
+    if (loading_flag == 0) {
+      loading_flag = 1;
+      console.log("www");
       $(`#loader-div`).css('margin-top','30px');
       $("#search-intros").remove();
       $(`#scroll-comment`).css('display','none');
@@ -343,11 +372,12 @@ $(function(){
         $(`.after-home-page-back`).css('height','auto');
         $(`.after-home-page-back`).css('margin-bottom','0px');
         if (window.innerWidth >= 650) {
-          console.log("www");
           $(`.after-home-page-back`).css('margin-bottom','80px');
         }
         searchingTime = 0;
+        loading_flag = 0;
       });
+    }
   }
 
   function dispLoading(){

@@ -1,113 +1,672 @@
 <% provide(:title, "投稿詳細") %>
-<div id="impression_count">
-  <%=  @review.impressionist_count %>レビュー
-</div>
-<div>
-  <div>
-    <%= @review.user.username %>
-    <% if @review.user.avatar.url %>
-      <div>
-        <img src="<%= @review.user.avatar.url %>" class="aaa">
-      </div>
-    <% else %>
-      <div>
-        <img src="/uploads/user/avatar/default.png" class="bbb">
-      </div>
-    <% end %>
-  </div>
-  <% if @review.picture.url %>
-    <img src="<%= @review.picture.url %>">
-  <% else %>
-    <b>画像はありません</b>
-  <% end %>
-  <div><%= @review.title %></div>
-  <div><%= @review.content %></div>
-  <div><%= @review.rate %></div>
-  <div><%= time_ago_in_words(@review.created_at).delete("約").delete("未満") %>前</div>
-  <div id="show_review_tags">
-    <span>タグ</span>
-    <% @review.tags.each do |tag| %>
-      <div>#<%= tag.name %></div>
-    <% end %>
-  </div>
-  <div>
-    <%= link_to @review.link, target: :_blank do %>
-      <%= @review.link %>
-    <% end %>
-  </div>
-  <div>
-    <% if @review.user == current_user %>
-      <%= link_to '編集する', edit_review_path(@review) %>
-    <% end %>
-  </div>
-  <div>
-    <% if @review.user == current_user %>
-      <%= link_to "削除する", review_destroy_path(id: @review.id, original_page: "not_exist"), method: :delete,
-                                data: { confirm: "本当にこの投稿を削除しますか？" } %>
-    <% end %>
-  </div>
-</div>
 
-<div id="comments_error">
-  <%= render 'layouts/errors', model: @comment %>
-</div>
-<div id="comments_buttons">
-  <%= render partial: 'comments/form', locals: { comment: @comment, review: @review } %>
-</div>
-<div id="comments_area" class="index">
-  <%= render partial: 'comments/index', locals: { comments: @comments } %>
-</div>
-
-<h3>関連した投稿</h3>
-<div id="related_reviews">
-  <% if @related_reviews.size != 0 %>
-    <% @related_reviews.each do |related_review| %>
-      <div class="related_review">
-        <% if related_review.picture.url %>
-          <img class="search_review_img" src="<%= related_review.picture.url %>">
-        <% else %>
-         <div class="no-image">
-           <div class="picture-file-div">画像はありません</div>
-         </div>
-        <% end %>
-        <%= related_review.user.username %>
-        <% if related_review.user.avatar.url %>
-          <img src="<%= related_review.user.avatar.url %>" class="comment-logo">
-        <% else %>
-          <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-        <% end %>
-        <%= link_to "#{related_review.title}", review_path(related_review) %>
-        <div><%= time_ago_in_words(related_review.created_at).delete("約").delete("未満") %>前</div>
-      </div>
-    <% end %>
-  <% else %>
-  関連した投稿はありません
-  <% end %>
-</div>
-
-<h3>最近見た投稿</h3>
-<div id="recent_reviews">
-  <% @browsingHistories.each.with_index(1) do |recent_review, i| %>
-    <div id="recent_review<%= i %>" class="recent_review">
-      <% if recent_review.review.picture.url %>
-        <div>
-          <img class="search_review_img" src="<%= recent_review.review.picture.url %>">
-        </div>
-      <% else %>
-        <div class="no-image">
-          <div class="picture-file-div">画像はありません</div>
-        </div>
-      <% end %>
-      <%= link_to "#{recent_review.review.title}", review_path(recent_review.review) %>
-      <%= recent_review.review.user.username %>
-      <% if recent_review.review.user.avatar.url %>
-        <img src="<%= recent_review.review.user.avatar.url %>" class="comment-logo">
-      <% else %>
-        <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-      <% end %>
+<div class="review-show-size container">
+  <div class="row">
+    <div class="col-md-1 review-show-left">
     </div>
-  <% end %>
+    <div class="col-md-10 review-show-center">
+      <div class="review-show-post">
+        <div class="review-show-post-header">
+          <div class="review-show-post-titles">
+            <div class="review-show-post-names">
+              <%= link_to userpage_path(@review.user.id), class: "review-show-post-icon" do %>
+                <% if @review.user.avatar.url %>
+                  <img src="<%= @review.user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
+                <% else %>
+                  <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
+                <% end %>
+              <% end %>
+              <div class="review-show-post-name">
+                <div><%= link_to "#{@review.user.username}", userpage_path(@review.user.id), class: "user-icon-link-color" %></div>
+                <div class="all-review-to-since">Since <%= @review.user.created_at.strftime("%Y/%m/%d") %></div>
+              </div>
+            </div>
+            <div class="review-show-post-follows">
+              <% if current_user != @review.user %>
+                <div id="follow-div<%= @review.id %>" class="follow-div-color">
+                  <% if current_user.following?(@review.user) %>
+                    <div id="not_follow_btn<%= @review.id %>" class="not_follow_btn_ajax all-reviews-icon follow_user<%= @review.user.id %>">
+                      following
+                    </div>
+                  <% else %>
+                    <div id="follow_btn<%= @review.id %>" class="follow_btn_ajax all-reviews-icon not_follow_user<%= @review.user.id %>">
+                      <i class="fa-xs fas fa-plus"></i>
+                      follow
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              <div class="review-show-pv"><%=  @review.impressionist_count %>PV</div>
+            </div>
+          </div>
+        </div>
+        <div class="all-reviews-stars">
+          <% @review.rate.times do |time| %>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 512 512" style="width: 17px; height: 17px; opacity: 1;" xml:space="preserve">
+              <g>
+                <polygon class="st0" points="256,12.531 327.047,183.922 512,198.531 370.938,319.047 414.219,499.469 256,402.563 97.781,499.469    141.063,319.047 0,198.531 184.953,183.922  " style="fill: #ffd055;"/>
+              </g>
+            </svg>
+          <% end %>
+        </div>
+        <div class="review-show-title-pv">
+          <%= @review.title %>
+          <span class="show-review-related-links">
+            <% if @review.user == current_user %>
+              <%= link_to '編集', edit_review_path(@review), class: "show-review-related-link" %>
+            <% end %>
+            <% if @review.user == current_user || current_user.rule.rule_name == "admin" %>
+              <%= link_to "削除", review_destroy_path(id: @review.id, original_page: "not_exist"), method: :delete, class: "show-review-related-link show-review-deleted-link",
+                                          data: { confirm: "本当にこの投稿を削除しますか？" } %>
+            <% end %>
+          </span>
+        </div>
+        <div class="all-reviews-content">
+          <%= @review.content %>
+          <% @review.tags.each do |tag| %>
+            <%= link_to reviews_path(search_word: tag.name), class: "reviwe-tag-link-class" do %>
+              <span class="mypage-review-tag">#<%= tag.name %></span>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="review-show-link-div">
+          <%= link_to @review.link, target: :_blank do %>
+            <span class="review-show-link"><%= @review.link %></span>
+          <% end %>
+        </div>
+        <div class="review-show-post-img">
+          <div class="show-review-div">
+            <% if @review.picture.url %>
+              <img class="show-review-image" src="<%= @review.picture.url %>">
+            <% else %>
+              <div class="show-review-no-image">𝙉𝙤 𝙄𝙢𝙖𝙜𝙚</div>
+            <% end %>
+          </div>
+        </div>
+        <div class="show-review-bottom">
+          <div class="mypage-review-bottom-icons">
+            <div id="like-div<%= @review.id %>" class="mypage-review-icon">
+              <% if @review.like_by?(current_user) %>
+                <i id="not_like_btn<%= @review.id %>" class="not_like_btn_ajax fas fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+              <% else %>
+                <i id="like_btn<%= @review.id %>" class="like_btn_ajax far fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+              <% end %>
+            </div>
+
+            <!-- モーダルクリック -->
+            <input type="hidden" id="recommend_user_total" value="<%= @will_recommend_users.size %>">
+            <label for="trigger-now-<%= @review.id %>" class="fas fa-retweet mypage-reviews-recommend-icon mypage-review-icon all-reviews-icon recommend_review_id_<%= @review.id %>" style="display: flex;">
+            </label>
+            <div class="modal_wrap">
+
+              <!-- モーダルの表示 -->
+              <input id="trigger-now-<%= @review.id %>" type="checkbox">
+
+              <div class="modal_overlay">
+
+                <!-- モーダルを閉じる  -->
+                <label for="trigger-now-<%= @review.id %>" class="modal_trigger recommend-modal-<%= @review.id %>"></label>
+
+                <div class="show_recommend_modal_content">
+                  <div class="recommend-modal-titles">
+                    <label style="color: white;" for="trigger-now-<%= @review.id %>" class="recommend-s-modal-<%= @review.id %>">.</label>
+                    <div class="recommend-modal-title-name">Who You Recommend ?</div>
+                    <div class="recommend-modal-title-caution">(複数選択可)</div>
+                  </div>
+                  <div class="modal-recommned-scroll">
+                    <div class="recommend-modal-title">
+                      </div>
+                      <% @will_recommend_users.each do |will_recommend_user| %>
+                        <div id="recommend_id_user_<%= will_recommend_user.id %>" class="recommend_user recommend_review_<%= @review.id %> recommend_user_<%= will_recommend_user.id %>">
+                          <div class="will_recommend_user_profiles">
+                            <% if will_recommend_user.avatar.url %>
+                              <img src="<%= will_recommend_user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
+                            <% else %>
+                              <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
+                            <% end %>
+                            <div class="will_recommend_user-titles">
+                              <span style="opacity: 87%;" class="will_recommend_username"><%= will_recommend_user.username %></span>
+                              <span style="opacity: 87%;" class="will_recommend_since">Since <%= @review.user.created_at.strftime("%Y/%m/%d") %></span>
+                            </div>
+                          </div>
+                          <div class="recommend-folloing-div">
+                            <% if current_user.following.include?(will_recommend_user) %>
+                              <span class="recommend-folloing">(フォロー中)</span>
+                            <% end %>
+                          </div>
+                        </div>
+                      <% end %>
+                  </div>
+                  <div class="recommend-modal-btns">
+                    <div class="recommend-option-btns">
+                      <div class="recommend-btn-reset">
+                        <svg style="height: 38px;width: 38px;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 64px; height: 64px; opacity: 1;" xml:space="preserve">
+                          <style type="text/css">
+                            .st22{fill:rgba(0,0,0,0.6);}
+                          </style>
+                          <g>
+                            <path style="height: 22px;width: 22px;" class="st22" d="M255.996,0.005C114.615,0.005,0,114.62,0,256c0,141.38,114.615,255.996,255.996,255.996   C397.39,511.995,512,397.38,512,256C512,114.62,397.39,0.005,255.996,0.005z M308.86,377.124l-87.064,45.899l1.878-35.924   c-23.849-5.799-45.64-18.064-63.186-35.609c-25.489-25.44-39.525-59.346-39.525-95.49c0-18.633,3.746-36.714,11.132-53.741   l1.435-3.299l31.959,13.879l-1.426,3.298c-5.466,12.633-8.238,26.047-8.238,39.863c0,26.766,10.422,51.926,29.344,70.84   c11.374,11.378,25.261,19.835,40.381,24.625l1.487-28.072l90.876,48.916L308.86,377.124z M379.892,309.733l-1.43,3.298   l-31.963-13.879l1.434-3.298c5.461-12.589,8.233-25.994,8.233-39.855c0-26.766-10.422-51.925-29.344-70.848   c-11.427-11.387-25.314-19.844-40.38-24.625l-1.488,28.072l-90.95-48.925l9.194-4.816l17.146-9.08l69.852-36.801l-1.877,35.871   c23.87,5.842,45.662,18.133,63.184,35.652c25.533,25.538,39.569,59.452,39.526,95.499   C391.029,274.668,387.283,292.749,379.892,309.733z" style="fill: rgba(0,0,0,0.6);"/>
+                          </g>
+                        </svg>
+                        <span class="recommend-reset recommend-word-padding-left">リセット</span>
+                      </div>
+                      <div class="recommend-btn-update recommend-update-id-<%= @review.id %>">
+                        <svg style="height: 38px;width: 38px;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 64px; height: 64px; opacity: 1;" xml:space="preserve">
+                          <style type="text/css">
+                            .st44{fill: #4CAF50;}
+                          </style>
+                          <g>
+                            <path class="st44" d="M509.86,267.434c-2.785-4.717-7.858-7.613-13.338-7.613h-43.677v-108.21   c0.014-19.402-7.962-37.293-20.698-49.971c-12.678-12.738-30.57-20.721-49.973-20.699l-194.482-0.007   c-6.088,0-11.731,3.222-14.818,8.472c-3.089,5.243-3.178,11.738-0.222,17.062l17.55,31.65c3.792,6.828,10.99,11.072,18.795,11.072   h173.178c0.786,0.014,1.17,0.214,1.71,0.703c0.49,0.548,0.696,0.933,0.711,1.718v108.21h-43.678c-5.48,0-10.553,2.896-13.338,7.613   c-2.777,4.74-2.858,10.575-0.199,15.374l77.802,140.29c2.726,4.918,7.91,7.969,13.538,7.969s10.812-3.051,13.537-7.969   l77.802-140.29C512.719,278.009,512.637,272.174,509.86,267.434z" style="fill: #4CAF50;"/>
+                            <path class="st44" d="M321.791,373.873c-3.792-6.835-10.983-11.071-18.796-11.071h-173.17c-0.785-0.014-1.17-0.214-1.711-0.703   c-0.488-0.541-0.696-0.926-0.71-1.71v-108.21h43.678c5.473,0,10.553-2.896,13.337-7.613c2.778-4.74,2.859-10.575,0.201-15.374   l-77.802-140.29c-2.733-4.918-7.91-7.969-13.537-7.969c-5.629,0-10.805,3.051-13.538,7.969L1.94,229.192   c-2.658,4.798-2.577,10.634,0.2,15.374c2.785,4.717,7.865,7.613,13.338,7.613h43.678v108.21   c-0.015,19.402,7.961,37.294,20.698,49.972c12.678,12.737,30.57,20.714,49.972,20.69l194.476,0.008   c6.086,0,11.73-3.222,14.818-8.472c3.087-5.251,3.177-11.738,0.222-17.07L321.791,373.873z" style="fill: #4CAF50;"/>
+                          </g>
+                        </svg>
+                        <span class="recommend-word-padding-left recommend-word-color">更新</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+            <!-- 通報モーダルクリック -->
+              <div id="report-div-btn-<%= @review.id %>" class="report-div-btn">
+                <% unless @review.report_by?(current_user) %>
+                  <label for="trigger-report-<%= @review.id %>" class="report-display-flex report-review-btn-<%= @review.id %>">
+                    <div class="mypage-review-report-icon">
+                      <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 192.146 192.146" style="enable-background:new 0 0 192.146 192.146;" xml:space="preserve">
+                        <path style="fill: #797979;" d="M108.186,144.372c0,7.054-4.729,12.32-12.037,12.32h-0.254c-7.054,0-11.92-5.266-11.92-12.32     c0-7.298,5.012-12.31,12.174-12.31C103.311,132.062,108.059,137.054,108.186,144.372z M88.44,125.301h15.447l2.951-61.298H85.46     L88.44,125.301z M190.372,177.034c-2.237,3.664-6.214,5.921-10.493,5.921H12.282c-4.426,0-8.51-2.384-10.698-6.233     c-2.159-3.849-2.11-8.549,0.147-12.349l84.111-149.22c2.208-3.722,6.204-5.96,10.522-5.96h0.332     c4.445,0.107,8.441,2.618,10.513,6.546l83.515,149.229C192.717,168.768,192.629,173.331,190.372,177.034z M179.879,170.634     L96.354,21.454L12.292,170.634H179.879z"/>
+                      </svg>
+                    </div>
+                  </label>
+                <% else %>
+                  <div class="mypage-review-report-icon-off">
+                    <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 192.146 192.146" style="enable-background:new 0 0 192.146 192.146;" xml:space="preserve">
+                      <path style="fill: rgba(0,0,0,.2);" d="M108.186,144.372c0,7.054-4.729,12.32-12.037,12.32h-0.254c-7.054,0-11.92-5.266-11.92-12.32     c0-7.298,5.012-12.31,12.174-12.31C103.311,132.062,108.059,137.054,108.186,144.372z M88.44,125.301h15.447l2.951-61.298H85.46     L88.44,125.301z M190.372,177.034c-2.237,3.664-6.214,5.921-10.493,5.921H12.282c-4.426,0-8.51-2.384-10.698-6.233     c-2.159-3.849-2.11-8.549,0.147-12.349l84.111-149.22c2.208-3.722,6.204-5.96,10.522-5.96h0.332     c4.445,0.107,8.441,2.618,10.513,6.546l83.515,149.229C192.717,168.768,192.629,173.331,190.372,177.034z M179.879,170.634     L96.354,21.454L12.292,170.634H179.879z"/>
+                    </svg>
+                  </div>
+                <% end %>
+              </div>
+
+            <div class="modal_wrap">
+
+              <!-- 通報モーダルの表示 -->
+              <input id="trigger-report-<%= @review.id %>" type="checkbox">
+
+              <div class="modal_overlay">
+
+                <!-- 通報モーダルを閉じる  -->
+                <label for="trigger-report-<%= @review.id %>" class="modal_trigger"></label>
+
+                <div class="report_modal_content">
+                  <div class="report_modal_icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </div>
+                  <div class="report_modal_question">本当に通報しますか？</div>
+                  <div class="report_modal_sentence">(※後から取り消す事はできません)</div>
+                  <div class="report_modal_btns">
+                    <label for="trigger-report-<%= @review.id %>" class="report-cancel-btn report-cancel-<%= @review.id %>">キャンセル</label>
+                    <div class="report-really-btn report-review-id-<%= @review.id %>">通報</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+
+          </div>
+          <div style="opacity: 87%;" class="mypage-review-created-at"><%= l @review.created_at %></div>
+        </div>
+        <div class="show-review-border-bottom">
+        </div>
+        <div class="show-review-comments-count"><%= @comments.size %>件コメント</div>
+
+        <div class="comment_error_alert" id="comments_error">
+          <% if @comment.errors.any? %>
+            <% @comment.errors.full_messages.each do |message| %>
+              <span>・<%= message %></span>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div id="comments_buttons">
+          <%= render partial: 'comments/form', locals: { comment: @comment, review: @review } %>
+        </div>
+
+
+
+        <div id="comments_area" class="index">
+          <%= render partial: 'comments/index', locals: { comments: @comments } %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1 review-show-right">
+    </div>
+  </div>
 </div>
+
+<div class="wrap-tab">
+  <ul id="js-tab" class="list-tab">
+    <li id="recent-review" class="active">最近見た投稿</li>
+    <li id="related-review">関連した投稿</li>
+  </ul>
+  <div class="wrap-tab-content">
+    <div class="tab-content active">
+
+      <div class="recent-reviews">
+        <% if @browsingHistories.size != 0 %>
+          <% @browsingHistories.each do |recent_review, i| %>
+            <div class="recent-review">
+              <%= link_to review_path(recent_review.review) do %>
+                <% if recent_review.review.picture.url %>
+                  <img class="recent-review-image" src="<%= recent_review.review.picture.url %>">
+                <% else %>
+                  <div class="recent-review-no-image">𝙉𝙤 𝙄𝙢𝙖𝙜𝙚</div>
+                <% end %>
+              <% end %>
+              <div class="recent-review-link-a">
+                <%= link_to "#{recent_review.review.title}", review_path(recent_review.review), class: "recent-review-link" %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="recent-reviews-no-exist">最近閲覧した投稿はありません</div>
+        <% end %>
+      </div>
+
+    </div>
+    <div class="tab-content">
+
+      <div class="recent-reviews">
+        <% if @related_reviews.size != 0 %>
+          <% @related_reviews.each do |related_review, i| %>
+            <div class="recent-review">
+              <%= link_to review_path(related_review) do %>
+                <% if related_review.picture.url %>
+                  <img class="recent-review-image" src="<%= related_review.picture.url %>">
+                <% else %>
+                  <div class="recent-review-no-image">𝙉𝙤 𝙄𝙢𝙖𝙜𝙚</div>
+                <% end %>
+              <% end %>
+              <div class="recent-review-link-a">
+                <%= link_to "#{related_review.title}", review_path(related_review), class: "recent-review-link" %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="recent-reviews-no-exist">関連した投稿はありません</div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  tabs = document.querySelectorAll('#js-tab li');
+  for(i = 0; i < tabs.length; i++) {
+    tabs[i].addEventListener('click', tabSwitch, false);
+  }
+
+  function tabSwitch(){
+    tabs = document.querySelectorAll('#js-tab li');
+    var node = Array.prototype.slice.call(tabs, 0);
+    node.forEach(function (element) {
+      element.classList.remove('active');
+    });
+    this.classList.add('active');
+
+    content = document.querySelectorAll('.tab-content');
+    var node = Array.prototype.slice.call(content, 0);
+    node.forEach(function (element) {
+      element.classList.remove('active');
+    });
+
+    const arrayTabs = Array.prototype.slice.call(tabs);
+    const index = arrayTabs.indexOf(this);
+
+    document.querySelectorAll('.tab-content')[index].classList.add('active');
+  };
+</script>
+
+<style media="screen">
+
+  .pagination-div {
+    display: flex;
+    justify-content: center;
+  }
+
+ul{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+p{
+  margin: 0;
+}
+
+.wrap-tab{
+  overflow: hidden;
+  margin-top: 50px;
+  margin-bottom: 90px;
+  position: relative;
+}
+
+.list-tab{
+  display: flex;
+  padding-left: 7%;
+  margin: 0 70px;
+}
+
+.list-tab > li{
+  display: block;
+  padding: 0.4em 1em;
+  margin: 0 2px;
+  color: #6A6F70;
+  text-align: center;
+  background: #d0dbde;
+  box-sizing: border-box;
+  border-top: thin solid rgba(0,0,0,.12);
+  border-left: thin solid rgba(0,0,0,.12);
+  border-right: thin solid rgba(0,0,0,.12);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  font-weight: 600;
+  font-height: 24px;
+  font-size: 14px;
+  margin: 0 5px;
+  margin-bottom: -1px;
+}
+
+.list-tab .active{
+  background: white;
+  border-top: thin solid rgba(0,0,0,.12);
+  border-left: thin solid rgba(0,0,0,.12);
+  border-right: thin solid rgba(0,0,0,.12);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  font-weight: 600;
+  font-height: 24px;
+  font-size: 14px;
+  margin: 0 5px;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+
+.tab-content{
+  display: none;
+  padding: 20px 130px 20px 130px;
+  border-top: thin solid rgba(0,0,0,.12);
+  border-bottom: thin solid rgba(0,0,0,.12);
+  background-color: white;
+}
+
+.tab-content.active{
+  display: block;
+}
+
+</style>
+
+
+<script type="text/javascript">
+  var select_user_id;
+  var hover_user_id;
+  var select_user_ids = [];
+  var recommend_user_total_number = Number($('#recommend_user_total').val());
+  var recommend_user_datas;
+  var review_id;
+  var select_review_id;
+
+  $(`.mypage-reviews-recommend-icon`).on('click',function(){
+    select_user_ids = [];
+    select_review_id = Number($(this).attr('class').split(" ")[5].substring(20));
+    for (let i = 2; i <= recommend_user_total_number + 1; i++) {
+      $(`.recommend_user_${i}`).removeClass('select_user');
+    }
+    $.ajax({
+      type: 'GET',
+      url: 'recommend/modal',
+      data: {review_id: select_review_id},
+      dataType: 'json',
+    }).done(function(contents){
+      for (let i = 0; i <= contents.click_user_ids.length - 1; i++) {
+        $(`.recommend_review_${contents.recommend_review.id}` + `.recommend_user_${contents.click_user_ids[i]}`).click();
+        select_user_ids.push(Number(contents.click_user_ids[i]));
+      }
+    });
+  });
+
+  $(`.recommend_user`).on('click',function(){
+    select_user_id = Number($(this).attr('class').split(" ")[2].substring(15));
+    if (select_user_ids.includes(select_user_id) == false) {
+      select_user_ids.push(select_user_id);
+    } else {
+      select_user_ids = select_user_ids.filter(item => item != Number(select_user_id));
+    }
+    $(this).toggleClass('select_user');
+    $(this).css('background', '');
+  });
+
+  $('.recommend_user').hover(function() {
+    hover_user_id = Number($(this).attr('class').split(" ")[2].substring(15));
+    if (select_user_ids.includes(hover_user_id) == false) {
+      $(this).css({'boder-top': 'rgb(224,224,224)'});
+      $(this).css({'background-color': '#E8F2F5'});
+    }
+  }, function() {
+    if (select_user_ids.includes(hover_user_id) == false) {
+      $(this).css('background', '');
+    }
+  });
+
+  $(`.recommend-btn-update`).on('click', function(){
+    recommend_user_datas = select_user_ids.join();
+    review_id = Number($(this).attr('class').split(" ")[1].substring(20));
+    set_csrftoken();
+    $.ajax({
+      type: 'POST',
+      url: 'recommends',
+      data: {recommend_user_datas: recommend_user_datas, review_id: review_id},
+      dataType: 'json',
+    }).done(function(contents){
+      $(`.recommend-modal-${contents.review_id}`).click();
+        Swal.fire(
+          'You Recommended!',
+          'レコメンドが完了しました',
+          'success'
+        )
+    });
+  });
+
+  $(`.recommend-btn-reset`).click(function() {
+    $(`.select_user`).click();
+  });
+
+</script>
+<style media="screen">
+  .select_user {
+    background-color: #c4dee6;
+    border-top: thin solid white;
+  }
+</style>
+
+<script type="text/javascript">
+  var report_select_review_id;
+  var div_report;
+  var div_report_in;
+  $(`.report-really-btn`).on('click',function(){
+    report_select_review_id = Number($(this).attr('class').split(" ")[1].substring(17));
+    set_csrftoken();
+    $.ajax({
+      type: 'POST',
+      url: 'reports',
+      data: {review_id: report_select_review_id},
+      dataType: 'json',
+    }).done(function(contents){
+      $(`.report-cancel-${contents.review_id}`).click();
+      $(`.report-review-btn-${contents.review_id}`).remove();
+       if (contents.is_delete_review) {
+        $(`#review_${contents.review_id}`).remove();
+      }
+      div_report = document.getElementById(`report-div-btn-${contents.review_id}`);
+      div_report_in = document.createElement('div');
+      div_report_in.innerHTML = `
+        <div class="mypage-review-report-icon-off">
+          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 192.146 192.146" style="enable-background:new 0 0 192.146 192.146;" xml:space="preserve">
+            <path style="fill: rgba(0,0,0,.2);" d="M108.186,144.372c0,7.054-4.729,12.32-12.037,12.32h-0.254c-7.054,0-11.92-5.266-11.92-12.32     c0-7.298,5.012-12.31,12.174-12.31C103.311,132.062,108.059,137.054,108.186,144.372z M88.44,125.301h15.447l2.951-61.298H85.46     L88.44,125.301z M190.372,177.034c-2.237,3.664-6.214,5.921-10.493,5.921H12.282c-4.426,0-8.51-2.384-10.698-6.233     c-2.159-3.849-2.11-8.549,0.147-12.349l84.111-149.22c2.208-3.722,6.204-5.96,10.522-5.96h0.332     c4.445,0.107,8.441,2.618,10.513,6.546l83.515,149.229C192.717,168.768,192.629,173.331,190.372,177.034z M179.879,170.634     L96.354,21.454L12.292,170.634H179.879z"/>
+          </svg>
+        </div>
+      `;
+      div_report.appendChild(div_report_in);
+      $(`.mypage-review-report-icon-off`).unwrap();
+    });
+  });
+</script>
+
+<!-- フォロー機能のAjax -->
+<script type="text/javascript">
+  var follow_flag = 0;
+  var not_follow_flag = 0;
+
+  $(document).on('click', '.follow_btn_ajax', function() {
+    if (follow_flag == 0) {
+      follow_flag = 1;
+      var follow_data = Number($(this).attr('id').substr( 10 ));
+      var follow_user_data = Number($(this).attr('class').substr( 48 ));
+      follow_ajax(follow_data, follow_user_data);
+    }
+  });
+
+  $(document).on('click', '.not_follow_btn_ajax', function() {
+    if (not_follow_flag == 0) {
+      not_follow_flag = 1;
+      var not_follow_data = Number($(this).attr('id').substr( 14 ));
+      var not_follow_user_data = Number($(this).attr('class').substr( 48 ));
+      not_follow_ajax(not_follow_data, not_follow_user_data);
+    }
+  });
+
+  function follow_ajax(follow_data, follow_user_data){
+      set_csrftoken();
+      $.ajax({
+        type: 'POST',
+        url: 'review_show_follow/create',
+        data: {review_id: follow_data, user_id: follow_user_data},
+        dataType: 'json',
+
+      }).done(function(follow_result){
+        $(`#follow_btn${follow_result.follow_review_id}`).remove();
+        var follow_div = document.getElementById(`follow-div${follow_result.follow_review_id}`);
+        var follow_icon = document.createElement('span');
+        follow_icon.innerHTML = `
+          <span id="not_follow_btn${follow_result.follow_review_id}" class="not_follow_btn_ajax all-reviews-icon follow_user${follow_result.follow_user_id}">following</span>
+        `;
+        follow_div.appendChild(follow_icon);
+        $(`#not_follow_btn${follow_result.follow_review_id}`).unwrap();
+        follow_flag = 0;
+      });
+  }
+
+  function not_follow_ajax(not_follow_data, not_follow_user_data){
+    set_csrftoken();
+    $.ajax({
+      type: 'POST',
+      url: 'review_show_follow/destroy',
+      data: {review_id: not_follow_data, user_id: not_follow_user_data},
+      dataType: 'json',
+
+    }).done(function(not_follow_result){
+      $(`#not_follow_btn${not_follow_result.not_follow_review_id}`).remove();
+      var follow_div = document.getElementById(`follow-div${not_follow_result.not_follow_review_id}`);
+      var not_follow_icon = document.createElement('span');
+      not_follow_icon.innerHTML = `
+        <span id="follow_btn${not_follow_result.not_follow_review_id}" class="follow_btn_ajax all-reviews-icon not_follow_user${not_follow_result.not_follow_user_id}">
+          <i class="fa-xs fas fa-plus"></i>
+          follow
+        </span>
+      `;
+      follow_div.appendChild(not_follow_icon);
+      $(`#follow_btn${not_follow_result.not_follow_review_id}`).unwrap();
+      not_follow_flag = 0;
+    });
+  }
+
+  function set_csrftoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        if (!options.crossDomain) {
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (token) {
+                return jqXHR.setRequestHeader('X-CSRF-Token', token);
+            }
+        }
+    });
+  }
+</script>
+
+<script type="text/javascript">
+  var like_flag = 0;
+  var not_like_flag = 0;
+
+  $(document).on('click', '.like_btn_ajax', function() {
+    if (like_flag == 0) {
+      like_flag = 1;
+      var like_data = Number($(this).attr('id').substr( 8 ));
+      console.log(like_data);
+      like_ajax(like_data);
+    }
+  });
+
+  $(document).on('click', '.not_like_btn_ajax', function() {
+    if (not_like_flag == 0) {
+      not_like_flag = 1;
+      var not_like_data = Number($(this).attr('id').substr( 12 ));
+      not_like_ajax(not_like_data);
+    }
+  });
+
+  function like_ajax(like_data){
+      set_csrftoken();
+      $.ajax({
+        type: 'POST',
+        url: 'show_review_like/create',
+        data: {review_id: like_data},
+        dataType: 'json',
+      }).done(function(like_result){
+        $(`#like_btn${like_result.like_review_id}`).remove();
+        var like_div = document.getElementById(`like-div${like_result.like_review_id}`);
+        var like_icon = document.createElement('span');
+        like_icon.innerHTML = `
+          <i id="not_like_btn${like_result.like_review_id}" class="not_like_btn_ajax fas fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+        `;
+        like_div.appendChild(like_icon);
+        $(`#not_like_btn${like_result.like_review_id}`).unwrap();
+        like_flag = 0;
+      });
+  }
+
+  function not_like_ajax(not_like_data){
+    set_csrftoken();
+    $.ajax({
+      type: 'POST',
+      url: 'show_review_like/destroy',
+      data: {id: not_like_data},
+      dataType: 'json',
+    }).done(function(not_like_result){
+      $(`#not_like_btn${not_like_result.not_like_review_id}`).remove();
+      var like_div = document.getElementById(`like-div${not_like_result.not_like_review_id}`);
+      var not_like_icon = document.createElement('span');
+      not_like_icon.innerHTML = `
+        <i id="like_btn${not_like_result.not_like_review_id}" class="like_btn_ajax far fa-heart mypage-reviews-like-icon all-reviews-icon"></i>
+      `;
+      like_div.appendChild(not_like_icon);
+      $(`#like_btn${not_like_result.not_like_review_id}`).unwrap();
+      not_like_flag = 0;
+    });
+  }
+</script>
 
 <script type="text/javascript">
   if (document.getElementById("footer") == null) {
@@ -115,15 +674,155 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);
     $(`#footer`).unwrap();
   }
+</script>
+
+<script type="text/javascript">
+  var res_comment_display_flag = 0;
+
+  $(document).on('click', '.response-default-commnet-btn', function() {
+    var res_comment_number = Number($(this).attr('id').substr(32));
+    if (res_comment_display_flag == 0) {
+      $(`#response-default-display-commnet-btn-id-${res_comment_number}`).slideToggle();
+      $(this).text("返信の非表示");
+      res_comment_display_flag = 1;
+    } else {
+      $(`#response-default-display-commnet-btn-id-${res_comment_number}`).slideToggle();
+      $(this).text("返信の表示");
+      res_comment_display_flag = 0;
+    }
+  });
+</script>
+<style media="screen">
+  .scroll-prevent {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+
+<script type="text/javascript">
+  var response_comment_flag = 0;
+
+  $(document).on('click', '.review-show-reponse-response-btn', function() {
+    if (response_comment_flag == 0) {
+      response_comment_flag = 1;
+      var parent_comment_number = Number($(this).attr('id').substr(27));
+      var review_number = Number($(this).attr('class').substr(55));
+      var comment_respose_content = $(`.response-comment-form-${parent_comment_number}`).val();
+
+      if (comment_respose_content == "") {
+        $(`.response_error_alert-${parent_comment_number}`).text("・返信内容を入力してください");
+        response_comment_flag = 0;
+      } else if (comment_respose_content.length >= 501) {
+        $(`.response_error_alert-${parent_comment_number}`).text("・返信内容は500文字以内で入力してください");
+        response_comment_flag = 0;
+      } else {
+        $(`.response-comment-form-${parent_comment_number}`).val("");
+        set_csrftoken();
+        $.ajax({
+          type: 'POST',
+          url: 'response/create',
+          data: {review_id: review_number, parent_id: parent_comment_number, comment: { content: comment_respose_content } },
+          dataType: 'json',
+        }).done(function(response_data){
+          var response_user_image_url;
+          if (response_data.response_user.avatar.url != null) {
+            response_user_image_url = `${response_data.response_user.avatar.url}`;
+          }else{
+            response_user_image_url = "/uploads/user/avatar/default.png";
+          }
+          $(`.response-reviews-comment-${response_data.parent_comment.id}`)
+          .append(`
+            <div class="response-reviews-comment-css response-each-comment-id-${response_data.reponse_comment.id}">
+              <div class="response-reviews-response-each-comment">
+                <a href="/userpages/${response_data.response_user.id}">
+                  <img src="${response_user_image_url}" class="review-show-response-icon icon-image-class" style="height: 30px; width: 30px;">
+                </a>
+                <div class="response-each-comments-right">
+                  <div class="response-each-comment-right-in-right">
+                    <div class="response-each-comment-titles">
+                      <span class="response-each-comment-title-username">
+                        <a class="user-icon-link-color" href="/userpages/${response_data.response_user.id}">${response_data.response_user.username}</a>
+                      </span>
+                      <span class="response-each-comment-title-date">${response_data.response_comment_date}前</span>
+                    </div>
+                    <div class="response-each-comment-content">
+                      ${response_data.reponse_comment.content}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="response-each-comment-right-in-left">
+                <span class="response-each-comment-delete response-comment-destroy-${response_data.reponse_comment.id}">削除</span>
+              </div>
+            </div>
+          `);
+          $(`.response_error_alert-${response_data.parent_comment.id}`).text("");
+          $("#FlexTextarea").val("");
+          $(".FlexTextarea__dummy").text("");
+        });
+        response_comment_flag = 0;
+      }
+    }
+  });
+
+  $(document).on('click', '.response-each-comment-delete', function() {
+      var res_comment_destroy_number = Number($(this).attr('class').substr(54));
+      set_csrftoken();
+      $.ajax({
+        type: 'POST',
+        url: 'response/destroy',
+        data: { comment_id: res_comment_destroy_number },
+        dataType: 'json',
+      }).done(function(response_data){
+        $(`.response-each-comment-id-${response_data.destroy_comment.id}`).css('display', 'none');
+      });
+  });
+
+  function set_csrftoken() {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        if (!options.crossDomain) {
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (token) {
+                return jqXHR.setRequestHeader('X-CSRF-Token', token);
+            }
+        }
+    });
+  }
+</script>
+
+<script type="text/javascript">
+  $(document).on('click', '.comment-response-class', function() {
+    var comment_number = $(this).attr('id').substr(20);
+    $(`#comment-responses-${comment_number}`).css('display','');
+  });
+
+  $(document).on('click', '.review-show-reponse-cancel-btn', function() {
+    var response_cancel_number = $(this).attr('id').substr(25);
+    console.log(response_cancel_number);
+    $(`#comment-responses-${response_cancel_number}`).css('display','none');
+    $(`.response-comment-form-${response_cancel_number}`).val("");
+    $(`.response-comment-dummy-${response_cancel_number}`).text("");
+    $(`.response_error_alert-${response_cancel_number}`).text("");
+  });
 </script>

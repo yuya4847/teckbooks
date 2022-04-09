@@ -4,7 +4,24 @@ require 'nokogiri'
 require 'open-uri'
 
 class HomesController < ApplicationController
+  def guest_sign_in
+    user = User.where(email: 'example@samp.com')[0]
+    sign_in user
+    flash[:notice] = "ゲストログインしました。"
+    redirect_to userpage_path(user.id)
+  end
+
+  def guest_sign_in_review_show
+    user = User.where(email: 'example@samp.com')[0]
+    sign_in user
+    flash[:notice] = "ゲストログインしました。"
+    redirect_to review_path(params[:id])
+  end
+
   def home
+    @knetaki_review = Review.find(1)
+    @azarashi_review = Review.find(2)
+    @kumamon_review = Review.find(3)
   end
 
   def terms
@@ -15,7 +32,7 @@ class HomesController < ApplicationController
 
   def suggest
     @search_keyword = "#{params[:suggest_content]}"
-    @suggest_books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005")
+    @suggest_books = RakutenWebService::Books::Book.search(title: "#{@search_keyword}", booksGenreId: "001005").first(15)
     suggest_titles = []
     @suggest_books.each do |suggest_book|
       suggest_titles << suggest_book.title
@@ -76,6 +93,11 @@ class HomesController < ApplicationController
           yahoo_books = JSON.parse(yahoo_json)['hits']
         end
         if Rails.env == 'development'
+          yahoo_url = URI.parse(URI.encode "https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=#{ENV['YAHOO_DEV_ID']}&genre_category_id=10002&query=#{@search_keyword}")
+          yahoo_json = Net::HTTP.get(yahoo_url)
+          yahoo_books = JSON.parse(yahoo_json)['hits']
+        end
+        if Rails.env == 'test'
           yahoo_url = URI.parse(URI.encode "https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=#{ENV['YAHOO_DEV_ID']}&genre_category_id=10002&query=#{@search_keyword}")
           yahoo_json = Net::HTTP.get(yahoo_url)
           yahoo_books = JSON.parse(yahoo_json)['hits']

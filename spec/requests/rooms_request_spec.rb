@@ -1,3 +1,4 @@
+include ActionView::Helpers::DateHelper
 RSpec.describe "Rooms", type: :request do
   let!(:user) { create(:user) }
   let!(:second_user) { create(:second_user) }
@@ -98,9 +99,9 @@ RSpec.describe "Rooms", type: :request do
 
         it 'DMページが正しく表示されていること' do
           get room_path(room)
-          expect(response.body).to include user.username
-          expect(response.body).to include second_user.username
+          expect(response.body).to include "#{I18n.l(room.created_at)}"
           expect(response.body).to include message.content
+          expect(response.body).to include "#{time_ago_in_words(message.created_at).delete("約").delete("未満") }"
         end
       end
 

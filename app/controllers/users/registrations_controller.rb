@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  before_action :sample_user,       only: [:edit]
 
   # GET /resource/sign_up
   # def new
@@ -15,9 +16,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    super
+  end
 
   # PUT /resource
   def update
@@ -87,4 +88,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # 自分で設定した「マイページ」へのパス
     userpage_path(current_user)
   end
+
+  private
+
+    def review_params
+      params.require(:review).permit(
+        :picture,
+        :content,
+        :rate,
+        :title,
+        :link
+      )
+    end
+
+    def sample_user
+      if current_user.rule.rule_name == "sample"
+        flash[:notice] = "このユーザーを編集することはできません。"
+        redirect_to userpage_path(current_user.id)
+      end
+    end
 end

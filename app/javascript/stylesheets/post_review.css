@@ -18,7 +18,7 @@
 }
 
 .post-review-big-title-label {
-  background-color: #74accc;
+  background-color: #0F79B5;
   color: white;
   font-weight: bold;
   display: flex;
@@ -31,7 +31,7 @@
 .post-review-big-title-form {
   background-color: white;
   padding: 25px;
-  font-size: 30px;
+  font-size: 20px;
   color: #6A6F70;
   border-top-right-radius: 4px;
 }
@@ -41,7 +41,7 @@
   flex-flow: column;
   max-width: 700px;
   padding: 0;
-  margin-top: 30px;
+  margin-top: 25px;
 }
 
 .post-review-title {
@@ -53,7 +53,7 @@
 }
 
 .post-review-title-label {
-  background-color: #74accc;
+  background-color: #0F79B5;
   padding: 25px;
   color: white;
   font-weight: bold;
@@ -82,7 +82,7 @@
 }
 
 .post-review-rate-label {
-  background-color: #74accc;
+  background-color: #0F79B5;
   padding: 25px;
   color: white;
   font-weight: bold;
@@ -105,7 +105,7 @@
 }
 
 .post-review-content-label {
-  background-color: #74accc;
+  background-color: #0F79B5;
   padding: 25px;
   color: white;
   font-weight: bold;
@@ -134,7 +134,7 @@
 }
 
 .post-review-link-label {
-  background-color: #74accc;
+  background-color: #0F79B5;
   padding: 25px;
   color: white;
   font-weight: bold;
@@ -162,7 +162,7 @@
 }
 
 .post-review-tag-label {
-  background-color: #74accc;
+  background-color: #0F79B5;
   padding: 25px;
   color: white;
   font-weight: bold;
@@ -190,7 +190,7 @@
 }
 
 .post-review-image-label {
-  background-color: #74accc;
+  background-color: #0F79B5;
   padding: 25px;
   color: white;
   font-weight: bold;

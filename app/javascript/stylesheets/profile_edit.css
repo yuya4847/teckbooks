@@ -15,7 +15,7 @@
   flex-flow: column;
   max-width: 1000px;
   padding: 70px 100px;
-  margin-top: 12px;
+  margin-top: 25px;
 }
 
 .icon-image-flex {
@@ -38,7 +38,7 @@
   text-align: center;
   font-size: 12px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 30px;
   width: 90px;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .profile-edit-btn-div {
-  padding-top: 20px;
+  padding-top: 40px;
   display: flex;
   justify-content: center;
 }

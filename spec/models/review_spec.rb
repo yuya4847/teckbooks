@@ -63,7 +63,6 @@ RSpec.describe Review, type: :model do
       review.save
       expect{ user.destroy }.to change{ Review.count }.by(-1)
     end
-
   end
 
   describe '#destroy' do

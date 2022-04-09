@@ -9,12 +9,12 @@ RSpec.describe "Tags", type: :system do
         log_in_as(user.email, user.password)
         visit '/reviews/new'
         fill_in 'review_title', with: good_review.title
-        fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby"
-        click_button 'レビューを投稿する'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby"
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.reviwe-tag-link-class') do
+          expect(page).to have_selector 'span', text: '#ruby'
         end
       end
 
@@ -25,11 +25,12 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby,Python,PHP"
-        click_button 'レビューを投稿する'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby"
-          expect(page).to have_content "python"
-          expect(page).to have_content "php"
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.all-reviews-content') do
+          expect(page).to have_selector 'span', text: '#ruby'
+          expect(page).to have_selector 'span', text: '#python'
+          expect(page).to have_selector 'span', text: '#php'
         end
       end
 
@@ -40,9 +41,10 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby,Ruby,Ruby"
-        click_button 'レビューを投稿する'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby", count: 1
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.reviwe-tag-link-class') do
+          expect(page).to have_selector 'span', text: '#ruby', count: 1
         end
       end
     end
@@ -55,18 +57,20 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby"
-        click_button 'レビューを投稿する'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby"
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.reviwe-tag-link-class') do
+          expect(page).to have_selector 'span', text: '#ruby'
         end
         visit '/reviews/1/edit'
         tag_form = find('#review_tag_ids')
         expect(tag_form.value).to match 'ruby'
         fill_in 'review_tag_ids', with: "Ruby,Python"
-        click_button '編集完了'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby"
-          expect(page).to have_content "python"
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.all-reviews-content') do
+          expect(page).to have_selector 'span', text: '#ruby'
+          expect(page).to have_selector 'span', text: '#python'
         end
       end
 
@@ -77,16 +81,18 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby"
-        click_button 'レビューを投稿する'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby"
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.reviwe-tag-link-class') do
+          expect(page).to have_selector 'span', text: '#ruby'
         end
         visit '/reviews/1/edit'
         tag_form = find('#review_tag_ids')
         expect(tag_form.value).to match 'ruby'
         fill_in 'review_tag_ids', with: "Ruby,Ruby,Ruby"
-        click_button '編集完了'
-        within('#userpage_review_tags') do
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.all-reviews-content') do
           expect(page).to have_content "ruby", count: 1
         end
       end
@@ -98,32 +104,34 @@ RSpec.describe "Tags", type: :system do
         fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby"
-        click_button 'レビューを投稿する'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby"
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.reviwe-tag-link-class') do
+          expect(page).to have_selector 'span', text: '#ruby'
         end
         visit '/reviews/1/edit'
         tag_form = find('#review_tag_ids')
         expect(tag_form.value).to match 'ruby'
         fill_in 'review_tag_ids', with: ""
-        click_button '編集完了'
-        within('#userpage_review_tags') do
+        find('.post-review-btn').click
+        visit "/reviews/1"
+        within('.all-reviews-content') do
           expect(page).to have_no_content "ruby"
         end
       end
     end
 
     describe 'タグ付けがそれぞれのページに反映される' do
-      it 'userpageページにタグの投稿が反映されること' do
+      it 'profile_reviewsページにタグの投稿が反映されること' do
         log_in_as(user.email, user.password)
         visit '/reviews/new'
         fill_in 'review_title', with: good_review.title
-        fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby"
-        click_button 'レビューを投稿する'
-        within('#userpage_review_tags') do
-          expect(page).to have_content "ruby"
+        find('.post-review-btn').click
+        visit '/userpages/profile_reviews/1'
+        within('.mypage-review-content') do
+          expect(page).to have_selector 'span', text: '#ruby'
         end
       end
 
@@ -131,13 +139,12 @@ RSpec.describe "Tags", type: :system do
         log_in_as(user.email, user.password)
         visit '/reviews/new'
         fill_in 'review_title', with: good_review.title
-        fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby"
-        click_button 'レビューを投稿する'
-        click_link "全ての投稿"
-        within('#all_review_tags') do
-          expect(page).to have_content "ruby"
+        find('.post-review-btn').click
+        visit '/all_reviews'
+        within('.all-reviews-content') do
+          expect(page).to have_selector 'span', text: '#ruby'
         end
       end
 
@@ -145,13 +152,26 @@ RSpec.describe "Tags", type: :system do
         log_in_as(user.email, user.password)
         visit '/reviews/new'
         fill_in 'review_title', with: good_review.title
-        fill_in 'review_rate', with: good_review.rate
         fill_in 'review_content', with: good_review.content
         fill_in 'review_tag_ids', with: "Ruby"
-        click_button 'レビューを投稿する'
-        click_link "#{good_review.title}"
-        within('#show_review_tags') do
-          expect(page).to have_content "ruby"
+        find('.post-review-btn').click
+        visit '/reviews/1'
+        within('.all-reviews-content') do
+          expect(page).to have_content "#ruby"
+        end
+      end
+
+      it 'レビュー検索ページにタグの投稿が反映されること', js: true do
+        log_in_as(user.email, user.password)
+        visit '/reviews/new'
+        fill_in 'review_title', with: good_review.title
+        fill_in 'review_content', with: good_review.content
+        fill_in 'review_tag_ids', with: "Ruby"
+        find('.post-review-btn').click
+        visit '/reviews'
+        find('#ruby_search_tag').click
+        within('.mypage-review-content') do
+          expect(page).to have_selector 'span', text: '#ruby'
         end
       end
     end

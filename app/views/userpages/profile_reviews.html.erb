@@ -1,19 +1,22 @@
+<% provide(:title, @title) %>
 <div class="container mypage-reviews-size">
   <div class="mypage-reviews-status row">
     <div class="mypage-reviews-title-left col-md-7">
       <div class="mypage-reviews-title-icon">
         <div class="mypage-reviews-title-icon-left">
-          <% if @user.avatar.url %>
-            <img src="<%= @user.avatar.url %>" class="icon-image-class mypage-reviews-title-image" style="height: 60px; width: 60px;">
-          <% else %>
-            <img src="/uploads/user/avatar/default.png" class="icon-image-class mypage-reviews-title-image" style="height: 60px; width: 60px;">
+          <%= link_to userpage_path(@user.id) do %>
+            <% if @user.avatar.url %>
+              <img src="<%= @user.avatar.url %>" class="icon-image-class mypage-reviews-title-image" style="height: 60px; width: 60px;">
+            <% else %>
+              <img src="/uploads/user/avatar/default.png" class="icon-image-class mypage-reviews-title-image" style="height: 60px; width: 60px;">
+            <% end %>
           <% end %>
         </div>
         <div class="mypage-reviews-title-icon-right">
           <div class="mypage-reviews-title-icons">
             <span class="mypage-reviews-title-username"><%= @user.username %></span>
             <% if @user.sex == "woman" %>
-            <svg class="" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 15px; height: 15px; opacity: 1;" xml:space="preserve">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 15px; height: 15px; opacity: 1;" xml:space="preserve">
               <g>
                 <path class="st0" d="M375.846,289.327c30.62-30.577,49.655-73.137,49.641-119.843c0.014-46.706-19.021-89.266-49.641-119.843   C345.262,19.022,302.702-0.014,255.996,0c-46.706-0.014-89.266,19.022-119.843,49.641c-30.619,30.577-49.655,73.137-49.64,119.843   c-0.015,46.706,19.021,89.266,49.64,119.843c25.533,25.568,59.416,43.009,97.088,48.074v52.818h-78.55v45.502h78.55V512h45.509   v-76.279h78.551v-45.502h-78.551v-52.818C316.423,332.336,350.306,314.895,375.846,289.327z M255.996,279.816   c-15.317-0.007-29.75-3.085-42.944-8.656c-19.763-8.349-36.661-22.384-48.559-40.009c-11.912-17.64-18.822-38.713-18.836-61.667   c0.014-15.317,3.092-29.758,8.663-42.937c8.349-19.762,22.384-36.668,40.01-48.565c17.639-11.905,38.712-18.822,61.666-18.83   c15.317,0.007,29.75,3.085,42.93,8.656c19.762,8.35,36.676,22.385,48.572,40.01c11.898,17.64,18.808,38.712,18.822,61.667   c0,15.317-3.077,29.751-8.648,42.938c-8.35,19.763-22.384,36.668-40.01,48.566C300.023,272.891,278.951,279.802,255.996,279.816z" style="fill: #666666;"/>
               </g>
@@ -45,7 +48,17 @@
       <div class="mypage-reviews-title-profile"><%= @user.profile %></div>
 
       <%= button_to userpage_path(@user.id), class: "profile-reviews", method: :get do %>
-          <div class="">マイページに戻る</div>
+          <div class="">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 18px; height: 18px; opacity: 1;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#0F79B5;}
+</style>
+<g>
+	<path class="st0" d="M292.497,168.968c-21.134,0-40.287,0-57.542,0V65.394L0,255.995l234.955,190.61V334.395   c7.132,0,14.331,0,21.578,0c95.305,0,227.772-2.396,237.359,100.701C541.847,322.408,501.086,168.968,292.497,168.968z" style="fill: #0F79B5;"/>
+</g>
+</svg>
+            プロフィールに戻る
+          </div>
       <% end %>
 
     </div>
@@ -60,11 +73,23 @@
       </div>
       <div class="myprofile-status">
         <div class="myprofile-status-title" style="opacity: 60%;">初めてのレビュー</div>
-        <div class="myprofile-status-content"><%= l @reviews.last.created_at %></div>
+        <div class="myprofile-status-content">
+          <% unless @reviews.size == 0 %>
+            <%= l @reviews.first.created_at %>
+          <% else %>
+            投稿はありません
+          <% end %>
+        </div>
       </div>
       <div class="myprofile-status">
         <div class="myprofile-status-title" style="opacity: 60%;">最新のレビュー</div>
-        <div class="myprofile-status-content"><%= l @reviews.first.created_at %></div>
+        <div class="myprofile-status-content">
+          <% unless @reviews.size == 0 %>
+            <%= l @reviews.last.created_at %>
+          <% else %>
+            投稿はありません
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -72,7 +97,7 @@
     <div class="mypage-reviews-posts col-md-8">
       <% unless @reviews.size == 0 %>
         <% @reviews.each do |review| %>
-          <%= link_to review_path(review), class: "mypage-reviews-post" do %>
+          <%= link_to review_path(review), class: "mypage-reviews-post mypage-reviews-post-#{review.id}" do %>
             <div class="mypage-reviews-post-names-div">
               <div class="mypage-reviews-post-names">
                 <% if @user.avatar.url %>
@@ -116,61 +141,63 @@
       <% end %>
     </div>
     <div class="mypage-reviews-subinfo col-md-4">
-      <div class="mypage-reviews-subinfo-involved-users">
-        <div id="unknown_users">
-          <div class="mypage-find-friends">友達を見つけよう！</div>
-          <% if @unknown_users %>
-            <% @unknown_users.each do |unknown_user| %>
-              <div>
-                <% @user = unknown_user %>
-                <div class="mypage-reviews-min-follows">
-                  <div class="mypage-min-profile">
-                    <% if @user.avatar.url %>
-                      <img src="<%= @user.avatar.url %>" class="icon-image-class" style="height: 40px; width: 40px;">
-                    <% else %>
-                      <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 40px; width: 40px;">
-                    <% end %>
-                    <div class="min-follow-username" style="opacity: 87%;">
-                      <%= @user.username %>
-                      <span class="profile-reviews-follow-btn-word">Since <%= @user.created_at.strftime("%Y-%m-%d") %></span>
+      <% if @unknown_users.size != 0 %>
+        <div class="mypage-reviews-subinfo-involved-users">
+          <div id="unknown_users">
+            <div class="mypage-find-friends">友達を見つけよう！</div>
+              <% @unknown_users.each do |unknown_user| %>
+                <div>
+                  <% @user = unknown_user %>
+                  <div class="mypage-reviews-min-follows">
+                    <div class="mypage-min-profile">
+                      <%= link_to userpage_path(@user.id) do %>
+                        <% if @user.avatar.url %>
+                          <img src="<%= @user.avatar.url %>" class="icon-image-class" style="height: 40px; width: 40px;">
+                        <% else %>
+                          <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 40px; width: 40px;">
+                        <% end %>
+                      <% end %>
+                      <div class="min-follow-username" style="opacity: 87%;">
+                        <%= link_to "#{@user.username}", userpage_path(@user.id), class: "user-icon-link-color" %>
+                        <span class="profile-reviews-follow-btn-word">Since <%= @user.created_at.strftime("%Y-%m-%d") %></span>
+                      </div>
+                    </div>
+                    <div id="follow-div<%= @user.id %>" class="mypage-reviews-follow-btn">
+                      <% if current_user.following?(@user) %>
+                        <div id="not_follow_btn<%= @user.id %>" class="mypage_reviews_not_follow_btn_ajax all-reviews-icon">
+                          following
+                        </div>
+                      <% else %>
+                        <div id="follow_btn<%= @user.id %>" class="mypage_reviews_follow_btn_ajax all-reviews-icon">
+                          <i class="fa-xs fas fa-plus"></i>
+                          follow
+                        </div>
+                      <% end %>
                     </div>
                   </div>
-                  <div id="follow-div<%= @user.id %>" class="mypage-reviews-follow-btn">
-                    <% if current_user.following?(@user) %>
-                      <div id="not_follow_btn<%= @user.id %>" class="mypage_reviews_not_follow_btn_ajax all-reviews-icon">
-                        following
-                      </div>
-                    <% else %>
-                      <div id="follow_btn<%= @user.id %>" class="mypage_reviews_follow_btn_ajax all-reviews-icon">
-                        <i class="fa-xs fas fa-plus"></i>
-                        follow
-                      </div>
-                    <% end %>
-                  </div>
                 </div>
-              </div>
-            <% end %>
-          <% else %>
-            <div class="mypage-min-none-user">フォローしていないユーザーはいません。</div>
-          <% end %>
+              <% end %>
+          </div>
         </div>
-      </div>
-      <div class="mypage-reviews-subinfo-known-users">
-        <div id="may_friend_users">
-          <div>
-            <% if @may_friend_users %>
+      <% end %>
+      <% if @may_friend_users.size != 0 %>
+        <div class="mypage-reviews-subinfo-known-users">
+          <div id="may_friend_users">
+            <div>
               <div class="mypage-maybe-friends">知り合いかも？</div>
               <% @may_friend_users.each do |may_friend_user| %>
                 <% @user = may_friend_user %>
                 <div class="mypage-reviews-min-follows">
                   <div class="mypage-min-profile">
-                    <% if @user.avatar.url %>
-                      <img src="<%= @user.avatar.url %>" class="icon-image-class" style="height: 40px; width: 40px;">
-                    <% else %>
-                      <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 40px; width: 40px;">
+                    <%= link_to userpage_path(@user.id) do %>
+                      <% if @user.avatar.url %>
+                        <img src="<%= @user.avatar.url %>" class="icon-image-class" style="height: 40px; width: 40px;">
+                      <% else %>
+                        <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 40px; width: 40px;">
+                      <% end %>
                     <% end %>
                     <div class="min-follow-username" style="opacity: 87%;">
-                      <%= @user.username %>
+                      <%= link_to "#{@user.username}", userpage_path(@user.id), class: "user-icon-link-color" %>
                       <span class="profile-reviews-follow-btn-word">Since <%= @user.created_at.strftime("%Y-%m-%d") %></span>
                     </div>
                   </div>
@@ -188,12 +215,10 @@
                   </div>
                 </div>
               <% end %>
-            <% else %>
-              <div class="mypage-min-none-user">知り合いかもしれないユーザーはいません。</div>
-            <% end %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     </div>
     <%= paginate @reviews %>
   </div>
@@ -205,12 +230,20 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);

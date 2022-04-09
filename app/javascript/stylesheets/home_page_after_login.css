@@ -9,12 +9,12 @@
   max-width: 1200px;
   height: 100%;
   margin-bottom: 80px;
-  margin-top: 12px;
+  margin-top: 30px;
 }
 
 .search-kind {
   margin: 0 1rem 1rem 1rem;
-  padding-top: 35px;
+  padding-top: 40px;
 }
 
 .search_sentence_icon {
@@ -80,7 +80,7 @@
 }
 
 .api-search-form:focus {
-  border: 1px solid blue;
+  border: 1px solid #0079b5;
 }
 
 .api-search-btn {
@@ -94,6 +94,8 @@
 
 .api-search-btn:hover {
   color: white;
+  filter: brightness(1.05);
+  transition-duration: 0.2s;
 }
 
 .api-search-btn:focus {

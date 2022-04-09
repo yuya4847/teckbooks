@@ -21,40 +21,42 @@
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { multipart: true }) do |f| %>
       <% if resource.errors.any? %>
-        <% resource.errors.full_messages.each do |message| %>
-          <div class="signup-validation">・ <%= message %></div>
-        <% end %>
+        <div class="sign-up-error-messages">
+          <% resource.errors.full_messages.each do |message| %>
+            <div class="signup-validation">・ <%= message %></div>
+          <% end %>
+        </div>
       <% end %>
 
       <div class="row signup-row">
-        <div class="col-2 signup-field-icon">
+        <div id="signup-username-left-keyup" class="col-2 signup-field-icon">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" aria-labelledby="personIconTitle" stroke="#888888" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#888888"> <title id="personIconTitle">Person</title> <path d="M4,20 C4,17 8,17 10,15 C11,14 8,14 8,9 C8,5.667 9.333,4 12,4 C14.667,4 16,5.667 16,9 C16,14 13,14 14,15 C16,17 20,17 20,20"></path> </svg>
         </div>
-        <div class="col-10 signup-field-form">
+        <div id="signup-username-right-keyup" class="col-10 signup-field-form">
           <%= f.text_field :username, class: "signup-form", autofocus: true, placeholder: "ユーザー名（後で変えられます）" %>
         </div>
       </div>
 
       <div class="row signup-row">
-        <div class="col-2 signup-field-icon">
+        <div id="signup-email-left-keyup" class="col-2 signup-field-icon">
           <svg aria-hidden="true" focusable="false" width="14px" height="13px" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" class="auth0-lock-icon auth0-lock-icon-box"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"><g id="32px" sketch:type="MSLayerGroup" transform="translate(-2155.000000, -2317.000000)" fill="#888888"><g id="Group-856" transform="translate(1.000000, 1.000000)" sketch:type="MSShapeGroup"><path id="Fill-419" d="M2184,2339 C2184,2339.55 2183.55,2340 2183,2340 L2157,2340 C2156.45,2340 2156,2339.55 2156,2339 L2156,2319 C2156,2318.45 2156.45,2318 2157,2318 L2183,2318 C2183.55,2318 2184,2318.45 2184,2319 L2184,2339 L2184,2339 Z M2184,2316 L2156,2316 C2154.89,2316 2154,2316.89 2154,2318 L2154,2340 C2154,2341.1 2154.89,2342 2156,2342 L2184,2342 C2185.1,2342 2186,2341.1 2186,2340 L2186,2318 C2186,2316.89 2185.1,2316 2184,2316 L2184,2316 Z M2176,2322 L2180,2322 L2180,2326 L2176,2326 L2176,2322 Z M2174,2328 L2182,2328 L2182,2320 L2174,2320 L2174,2328 Z M2158,2332 L2172,2332 L2172,2330 L2158,2330 L2158,2332 Z M2158,2336 L2172,2336 L2172,2334 L2158,2334 L2158,2336 Z"></path></g></g></g></svg>
         </div>
-        <div class="col-10 signup-field-form">
+        <div id="signup-email-right-keyup" class="col-10 signup-field-form">
           <%= f.text_field :email, class: "signup-form", autofocus: true, autocomplete: "email", placeholder: "yours@example.com" %>
         </div>
       </div>
 
       <div class="row signup-row signup-profile-row">
-        <div class="col-2 signup-field-icon">
+        <div id="signup-profile-left-keyup" class="col-2 signup-field-icon">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" aria-labelledby="editIconTitle" stroke="#888888" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#888888"> <title id="editIconTitle">Edit</title> <path d="M18.4142136 4.41421356L19.5857864 5.58578644C20.366835 6.36683502 20.366835 7.63316498 19.5857864 8.41421356L8 20 4 20 4 16 15.5857864 4.41421356C16.366835 3.63316498 17.633165 3.63316498 18.4142136 4.41421356zM14 6L18 10"></path></svg>
         </div>
-        <div class="col-10 signup-field-form">
+        <div id="signup-profile-right-keyup" class="col-10 signup-field-form">
           <%= f.text_area :profile, class: "signup-form signup-introduce-text", placeholder: "例) よろしくお願いします!!  (任意)" %>
         </div>
       </div>
 
       <div class="row signup-row">
-        <div class="col-2 signup-field-icon">
+        <div id="signup-sex-left-keyup" class="col-2 signup-field-icon">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 420 512" style="width: 18px; height: 18px; opacity: 1;" xml:space="preserve">
             <g>
 	            <path class="st0" d="M130.624,96.437c26.628,0,48.218-21.6,48.218-48.2C178.842,21.572,157.252,0,130.624,0   c-26.646,0-48.217,21.572-48.217,48.237C82.407,74.837,103.979,96.437,130.624,96.437z M130.624,15.63   c17.972,0,32.58,14.625,32.58,32.607c0,17.962-14.608,32.561-32.58,32.561c-17.962,0-32.588-14.599-32.588-32.561   C98.036,30.255,112.662,15.63,130.624,15.63z" style="fill: #888888;"/>
@@ -64,7 +66,7 @@
             </g>
           </svg>
         </div>
-        <div class="col-10 signup-field-form">
+        <div id="signup-sex-right-keyup" class="col-10 signup-field-form">
           <div class="signup-form sex-form">
             <div class="signup-sex-form">
               <svg class="sex-select-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" viewBox="0 0 512 512" style="width: 13px; height: 13px; opacity: 1;" xml:space="preserve">
@@ -86,24 +88,24 @@
       </div>
 
       <div class="row signup-row">
-        <div class="col-2 signup-field-icon">
+        <div id="signup-pass-left-keyup" class="col-2 signup-field-icon">
           <svg aria-hidden="true" focusable="false" width="11px" height="14px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="auth0-lock-icon auth0-lock-icon-box"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-288.000000, -1508.000000)" fill="#888888"><path d="M299,1523.998 L290,1523.998 C288.896,1523.998 288,1523.102 288,1521.999 L288,1515.999 C288,1514.895 288.896,1513.998 290,1513.998 L290,1513.998 L290,1512.499 C290,1510.015 292.015,1507.999 294.5,1507.999 C296.985,1507.999 299,1510.015 299,1512.499 L299,1513.999 C300.104,1513.999 301,1514.895 301,1515.999 L301,1521.999 C301,1523.103 300.104,1523.998 299,1523.998 L299,1523.998 Z M298,1512.499 C298,1510.566 296.433,1508.999 294.5,1508.999 C292.567,1508.999 291,1510.566 291,1512.499 L291,1513.998 L298,1513.998 L298,1512.499 L298,1512.499 Z M300,1515.999 C300,1515.446 299.552,1514.998 299,1514.998 L290,1514.998 C289.447,1514.998 289,1515.446 289,1515.999 L289,1521.999 C289,1522.551 289.447,1522.998 290,1522.998 L299,1522.998 C299.552,1522.998 300,1522.551 300,1521.999 L300,1515.999 L300,1515.999 Z M294.5,1520.998 C294.224,1520.998 294,1520.774 294,1520.498 L294,1517.498 C294,1517.223 294.224,1516.999 294.5,1516.999 C294.776,1516.999 295,1517.223 295,1517.498 L295,1520.498 C295,1520.774 294.776,1520.998 294.5,1520.998 L294.5,1520.998 Z"></path></g></g></svg>
         </div>
-        <div class="col-10 signup-field-form">
+        <div id="signup-pass-right-keyup" class="col-10 signup-field-form">
           <%= f.password_field :password, class: "signup-form", autocomplete: "current-password", placeholder: "パスワード" %>
         </div>
       </div>
 
       <div class="row signup-row">
-        <div class="col-2 signup-field-icon">
+        <div id="signup-conf-pass-left-keyup" class="col-2 signup-field-icon">
           <svg aria-hidden="true" focusable="false" width="11px" height="14px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="auth0-lock-icon auth0-lock-icon-box"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-288.000000, -1508.000000)" fill="#888888"><path d="M299,1523.998 L290,1523.998 C288.896,1523.998 288,1523.102 288,1521.999 L288,1515.999 C288,1514.895 288.896,1513.998 290,1513.998 L290,1513.998 L290,1512.499 C290,1510.015 292.015,1507.999 294.5,1507.999 C296.985,1507.999 299,1510.015 299,1512.499 L299,1513.999 C300.104,1513.999 301,1514.895 301,1515.999 L301,1521.999 C301,1523.103 300.104,1523.998 299,1523.998 L299,1523.998 Z M298,1512.499 C298,1510.566 296.433,1508.999 294.5,1508.999 C292.567,1508.999 291,1510.566 291,1512.499 L291,1513.998 L298,1513.998 L298,1512.499 L298,1512.499 Z M300,1515.999 C300,1515.446 299.552,1514.998 299,1514.998 L290,1514.998 C289.447,1514.998 289,1515.446 289,1515.999 L289,1521.999 C289,1522.551 289.447,1522.998 290,1522.998 L299,1522.998 C299.552,1522.998 300,1522.551 300,1521.999 L300,1515.999 L300,1515.999 Z M294.5,1520.998 C294.224,1520.998 294,1520.774 294,1520.498 L294,1517.498 C294,1517.223 294.224,1516.999 294.5,1516.999 C294.776,1516.999 295,1517.223 295,1517.498 L295,1520.498 C295,1520.774 294.776,1520.998 294.5,1520.998 L294.5,1520.998 Z"></path></g></g></svg>
         </div>
-        <div class="col-10 signup-field-form">
+        <div id="signup-conf-pass-right-keyup" class="col-10 signup-field-form">
           <%= f.password_field :password_confirmation, class: "signup-form", autocomplete: "current-password", placeholder: "パスワード (確認) " %>
         </div>
       </div>
 
-      <div class="">
+      <div class="signup-btn-div">
         <%= f.submit "新規登録", class: "is-signup-btn" %>
       </div>
     <% end %>
@@ -120,6 +122,20 @@
   .application-height {
     height: 100%;
   }
+
+  .signup-field-icon-keyup {
+    border-top: solid 1px #A8A8A8;
+    border-left: none;
+    border-left: solid 1px #A8A8A8;
+    border-bottom: solid 1px #A8A8A8;
+  }
+
+  .signup-form-keyup {
+    border-top: solid 1px #A8A8A8;
+    border-left: none;
+    border-right: solid 1px #A8A8A8;
+    border-bottom: solid 1px #A8A8A8;
+  }
 </style>
 
 <script type="text/javascript">
@@ -128,15 +144,85 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);
     $(`#footer`).unwrap();
   }
+</script>
+
+<script type="text/javascript">
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#signup-sex-right-keyup').length) {
+      $('#signup-sex-right-keyup').removeClass("signup-form-keyup");
+      $('#signup-sex-left-keyup').removeClass("signup-field-icon-keyup");
+    } else {
+      $('#signup-sex-right-keyup').addClass("signup-form-keyup");
+      $('#signup-sex-left-keyup').addClass("signup-field-icon-keyup");
+    }
+  });
+
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#signup-profile-right-keyup').length) {
+      $('#signup-profile-right-keyup').removeClass("signup-form-keyup");
+      $('#signup-profile-left-keyup').removeClass("signup-field-icon-keyup");
+    } else {
+      $('#signup-profile-right-keyup').addClass("signup-form-keyup");
+      $('#signup-profile-left-keyup').addClass("signup-field-icon-keyup");
+    }
+  });
+
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#signup-username-right-keyup').length) {
+      $('#signup-username-right-keyup').removeClass("signup-form-keyup");
+      $('#signup-username-left-keyup').removeClass("signup-field-icon-keyup");
+    } else {
+      $('#signup-username-right-keyup').addClass("signup-form-keyup");
+      $('#signup-username-left-keyup').addClass("signup-field-icon-keyup");
+    }
+  });
+
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#signup-email-right-keyup').length) {
+      $('#signup-email-right-keyup').removeClass("signup-form-keyup");
+      $('#signup-email-left-keyup').removeClass("signup-field-icon-keyup");
+    } else {
+      $('#signup-email-right-keyup').addClass("signup-form-keyup");
+      $('#signup-email-left-keyup').addClass("signup-field-icon-keyup");
+    }
+  });
+
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#signup-pass-right-keyup').length) {
+      $('#signup-pass-right-keyup').removeClass("signup-form-keyup");
+      $('#signup-pass-left-keyup').removeClass("signup-field-icon-keyup");
+    } else {
+      $('#signup-pass-right-keyup').addClass("signup-form-keyup");
+      $('#signup-pass-left-keyup').addClass("signup-field-icon-keyup");
+    }
+  });
+
+  $(document).on('click',function(e) {
+    if(!$(e.target).closest('#signup-conf-pass-right-keyup').length) {
+      $('#signup-conf-pass-right-keyup').removeClass("signup-form-keyup");
+      $('#signup-conf-pass-left-keyup').removeClass("signup-field-icon-keyup");
+    } else {
+      $('#signup-conf-pass-right-keyup').addClass("signup-form-keyup");
+      $('#signup-conf-pass-left-keyup').addClass("signup-field-icon-keyup");
+    }
+  });
 </script>

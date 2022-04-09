@@ -55,14 +55,24 @@
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   max-width: 39px;
+  border-top: solid 1px #F1F1F1;
+  border-bottom: solid 1px #F1F1F1;
+  border-left: solid 1px #F1F1F1;
+  border-right: none;
 }
 
 .account-change-pass-form-div {
   padding: 0;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top: solid 1px #F1F1F1;
+  border-bottom: solid 1px #F1F1F1;
+  border-right: solid 1px #F1F1F1;
+  border-left: none;
 }
 
 .account-change-pass-form {
-  border: solid 1px #F1F1F1;
+  border: none;
   background: white !important;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;

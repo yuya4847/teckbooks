@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
+  has_one :rule
+  after_create :build_default_rule
   has_many :reviews, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :like_reviews, through: :likes
@@ -99,6 +101,17 @@ class User < ApplicationRecord
     def avatar_size
       if avatar.size > 5.megabytes
         errors.add(:avatar, "should be less than 5MB")
+      end
+    end
+
+    def build_default_rule
+      case self.id
+        when 1 then
+          Rule.create(user_id: self.id, rule_name: "admin")
+        when 2 then
+          Rule.create(user_id: self.id, rule_name: "sample")
+        else
+          Rule.create(user_id: self.id, rule_name: "general")
       end
     end
 end

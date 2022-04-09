@@ -1,3 +1,4 @@
+<% provide(:title, "プライバシーポリシー") %>
 <div class="container privacy-policy-terms">
   <div class="privacy-policy-big-title">プライバシーポリシー</div>
   <div class="privacy-policy-title">取得する情報</div>
@@ -120,12 +121,20 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);

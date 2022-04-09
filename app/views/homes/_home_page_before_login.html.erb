@@ -8,7 +8,7 @@
             <label for="trigger-now" class="modal_trigger"></label>
             <div class="modal_content">
               <div class="modal-scroll">
-                <div class="">
+                <div>
                   <h2 class="modal-content-title">利用規約</h2>
                   <div class="modal-content-sentence">
                     この利用規約（以下，「本規約」とします。）は，ウェブサイト上で提供するサービス（以下，「本サービス」とします。）の利用条件を定めるものです。本サービスの利用者（以下，「ユーザー」とします。）には，本規約に従い，本サービスをご利用いただきます。
@@ -26,7 +26,7 @@
                   </div>
                   <h4>第3条（ユーザー情報）</h4>
                   <h5>第1項（ユーザー情報の利用）</h5>
-                  <div class="modal-content-sentence-link">
+                  <div class="modal-content-sentence-link now-signup-modal-link">
                     当サービスでは、ユーザーのプライバシー情報と個人情報を、<%= link_to 'プライバシーポリシー', show_privacy_policy_path, class: 'privacy-link' %>に従って適切に取り扱います。
                   </div>
                   <h5 class="modal-content-subtitle">第2項（本サービス内でのツイートデータの取り扱いについて）</h5>
@@ -110,20 +110,21 @@
                 <div class="modal-btns-div">
                   <div class="terms-consent">
                     <div>
-                      <ul class="md-checkbox-ul">
+                      <ul class="md-checkbox-ul modal-guest-login-checkboxes">
                         <li>
                           <input type="checkbox" id="register-checkbox-now" name="register-checkbox-name-now" class="md-checkbox-checkbox">
-                          <label for="register-checkbox-now"></label>
+                          <label for="register-checkbox-now" class="guest-login-modal-check"></label>
                           <span class="md-checkbox-ripple"></span>
                           <span class="terms-check-sentences">利用規約に同意する</span>
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <div class="terms-consent-links">
+                  <div class="terms-consent-links terms-consent-links-guest-login">
                       <label for="trigger-now" class="close_button consent-link-cancel">キャンセル</label>
                       <div id="resister-link-id-now" class="consent-link-resister-div">
-                        <a class="consent-link-resister">登録する</a>
+                        <a class="consent-link-resister">ゲストログイン</a>
+                        <a style="visibility: hidden;" href="/homes/guest_sign_in" class="consent-link-resister-display-none">ゲストログイン</a>
                       </div>
                   </div>
                 </div>
@@ -155,7 +156,7 @@
                 </div>
                 <h4>第3条（ユーザー情報）</h4>
                 <h5>第1項（ユーザー情報の利用）</h5>
-                <div class="modal-content-sentence-link">
+                <div class="modal-content-sentence-link signup-modal-link">
                   当サービスでは、ユーザーのプライバシー情報と個人情報を、<%= link_to 'プライバシーポリシー', show_privacy_policy_path, class: 'privacy-link' %>に従って適切に取り扱います。
                 </div>
                 <h5 class="modal-content-subtitle">第2項（本サービス内でのツイートデータの取り扱いについて）</h5>
@@ -238,20 +239,21 @@
                 <div class="modal-btns-div">
                   <div class="terms-consent">
                     <div>
-                      <ul class="md-checkbox-ul">
+                      <ul class="md-checkbox-ul modal-sing-up-checkboxes">
                         <li>
                           <input type="checkbox" id="register-checkbox" name="register-checkbox-name" class="md-checkbox-checkbox">
-                          <label for="register-checkbox"></label>
+                          <label for="register-checkbox" class="register-checkbox-class"></label>
                           <span class="md-checkbox-ripple"></span>
                           <span class="terms-check-sentences">利用規約に同意する</span>
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <div class="terms-consent-links">
+                  <div class="terms-consent-links terms-consent-links-signup">
                       <label for="trigger" class="close_button consent-link-cancel">キャンセル</label>
                       <div id="resister-link-id" class="consent-link-resister-div">
                         <a class="consent-link-resister">登録する</a>
+                        <a style="visibility: hidden;" href="/users/sign_up" class="consent-link-signup-display-none">登録する</a>
                       </div>
                   </div>
                 </div>
@@ -290,31 +292,37 @@
     </div>
     <div class="intro-reviews row">
       <div class="col-12 col-lg-4 intro-review">
-        <div class="intro-content">
-          <img src="/uploads/user/avatar/default.png" class="user-logo-home">
-          <span class="intro-content-username" style="opacity: 87.0%;">ケンタッキー</span>
-          <div class="intro-content-title">パーフェクトRuby on Rails</div>
-          <div class="">しっかりとした Rails の基礎知識や、最新のプラクティスが詰まった良書でした...</div>
-          <div class="intro-content-date">2021年12月9日(木)3時56分</div>
-        </div>
+        <%= link_to guest_sign_in_review_show_path(knetaki_review.id), class: "intro-content-link" do %>
+          <div class="intro-content sample-review-left">
+            <img src="/uploads/user/avatar/default.png" class="user-logo-home">
+            <span class="intro-content-username" style="opacity: 87.0%;"><%= knetaki_review.user.username %></span>
+            <div class="intro-content-title"><%= knetaki_review.title %></div>
+            <div><%= truncate(knetaki_review.content, length: 45) %></div>
+            <div class="intro-content-date"><%= l knetaki_review.created_at %></div>
+          </div>
+        <% end %>
       </div>
       <div class="col-12 col-lg-4 intro-review">
-        <div class="intro-content">
-          <img src="/uploads/user/avatar/default.png" class="user-logo-home">
-          <span class="intro-content-username" style="opacity: 87.0%;">あざらし</span>
-          <div class="intro-content-title">PHPフレームワークLaravel入門</div>
-          <div class="">Laravelをある程度使っており、まとまって参考になる資料が欲しいと思い購入しました...</div>
-          <div class="intro-content-date">2021年12月5日(木)2時16分</div>
-        </div>
+        <%= link_to guest_sign_in_review_show_path(azarashi_review.id), class: "intro-content-link" do %>
+          <div class="intro-content sample-review-center">
+            <img src="/uploads/user/avatar/default.png" class="user-logo-home">
+            <span class="intro-content-username" style="opacity: 87.0%;"><%= azarashi_review.user.username %></span>
+            <div class="intro-content-title"><%= azarashi_review.title %></div>
+            <div><%= truncate(azarashi_review.content, length: 45) %></div>
+            <div class="intro-content-date"><%= l azarashi_review.created_at %></div>
+          </div>
+        <% end %>
       </div>
       <div class="col-12 col-lg-4 intro-review">
-        <div class="intro-content">
-          <img src="/uploads/user/avatar/default.png" class="user-logo-home">
-          <span class="intro-content-username" style="opacity: 87.0%;">くまモン</span>
-          <div class="intro-content-title">Docker/Kubernetes 実践コンテナ開発入門</div>
-          <div class="">Dockerを見よう見まねで使ってきましたが、基礎からしっかり学ぼうと購入してみました...</div>
-          <div class="intro-content-date">2020年11月9日(木)12時00分</div>
-        </div>
+        <%= link_to guest_sign_in_review_show_path(kumamon_review.id), class: "intro-content-link" do %>
+          <div class="intro-content sample-review-right">
+            <img src="/uploads/user/avatar/default.png" class="user-logo-home">
+            <span class="intro-content-username" style="opacity: 87.0%;"><%= kumamon_review.user.username %></span>
+            <div class="intro-content-title"><%= kumamon_review.title %></div>
+            <div><%= truncate(kumamon_review.content, length: 45) %></div>
+            <div class="intro-content-date"><%= l kumamon_review.created_at %></div>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -364,9 +372,9 @@
   $(function(){
     $('input[name=register-checkbox-name-now]').change(function() {
       if ($('input[name=register-checkbox-name-now]').prop("checked")) {
-        $('#resister-link-id-now').html('<a href="/users/sign_up" class="consent-link-resister-after">登録する</a>');
+        $('#resister-link-id-now').html('<a href="/homes/guest_sign_in" class="consent-link-resister-after">ゲストログイン</a>');
       } else {
-        $('#resister-link-id-now').html('<a class="consent-link-resister">登録する</a>');
+        $('#resister-link-id-now').html('<a href="/homes/guest_sign_in" class="consent-link-resister">ゲストログイン</a>');
       }
     });
   });
@@ -384,12 +392,20 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);

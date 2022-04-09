@@ -25,26 +25,26 @@
             <% end %>
           <% end %>
 
-          <div class="profile-edit-field">
+          <div class="profile-edit-field profile-edit-field-username">
             <%= f.text_field :username, class: "profile-edit-input profile-edit-username", autofocus: true %>
           </div>
 
-          <div class="profile-edit-field">
+          <div class="profile-edit-field profile-edit-field-email">
             <div class="profile-edit-label">メールアドレス</div>
             <%= f.email_field :email, class: "profile-edit-input" %>
           </div>
 
-          <div class="profile-edit-field">
+          <div class="profile-edit-field profile-edit-field-profile">
             <div class="profile-edit-label">プロフィール</div>
             <%= f.text_area :profile, class: "profile-edit-input" %>
           </div>
 
-          <div class="profile-edit-field">
+          <div class="profile-edit-field profile-edit-field-password">
             <div class="profile-edit-label">パスワード</div>
             <%= f.password_field :password, class: "profile-edit-input", autocomplete: "new-password" %>
           </div>
 
-          <div class="profile-edit-field">
+          <div class="profile-edit-field profile-edit-field-password-conf">
             <div class="profile-edit-label">パスワード(確認)</div>
             <%= f.password_field :password_confirmation, class: "profile-edit-input", autocomplete: "new-password" %>
           </div>
@@ -57,7 +57,7 @@
       </div>
     <% end %>
     <div class="delete-registration">
-      <%= button_to "退会する", registration_path(resource_name), data: { confirm: "本当に、消去してもよろしいですか？" }, class: "delete-registration-link", method: :delete %>
+      <%= link_to "退会する", registration_path(resource_name), data: { confirm: "本当に、消去してもよろしいですか？" }, class: "delete-registration-link", method: :delete %>
     </div>
   </div>
 </div>
@@ -68,12 +68,20 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);

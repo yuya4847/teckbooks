@@ -14,7 +14,7 @@ class Message < ApplicationRecord
     )
     unless visitor_user == visited_user
       visited_notification_count = Notification.where(["visited_id = ? and checked = ?", visited_user[0].id, false]).size
-      if visited_notification_count % 5 == 0
+      if visited_notification_count == 300
         NotificationMailer.notification_new_storage(visited_user[0]).deliver_now
       end
     end

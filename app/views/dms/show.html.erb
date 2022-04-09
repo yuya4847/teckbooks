@@ -1,21 +1,82 @@
-<div>
-  <% if @currentUserEntries %>
-    <% @currentUserEntries.each do |currentUserEntry| %>
-      <div>
-        <% currentUserEntry.room.entries.each do |entry| %>
-          <% unless entry.user_id == current_user.id %>
-            <% if entry.user.avatar.url %>
-              <img src="<%= entry.user.avatar.url %>" class="comment-logo" style="height: 80px; width: 80px;">
-            <% else %>
-              <img src="/uploads/user/avatar/default.png" class="comment-default-logo" style="height: 80px; width: 80px;">
+<% provide(:title, "DM(一覧)") %>
+<div class="container dm-rooms-size">
+  <div class="dm-rooms-frame">
+    <div class="dm-rooms-title-message">
+      <div class="dm-rooms-title">
+        <div>DM</div>
+      </div>
+    </div>
+    <div>
+      <% if @currentUserEntries.size != 0 %>
+        <% @currentUserEntries.each do |currentUserEntry| %>
+          <% currentUserEntry.room.entries.each do |entry| %>
+            <% unless entry.user_id == current_user.id %>
+              <a class="to-room-each" href="/rooms/<%= currentUserEntry.room.id %>">
+                <% if entry.user.avatar.url %>
+                  <img src="<%= entry.user.avatar.url %>" class="icon-image-class" style="height: 47px; width: 47px;">
+                <% else %>
+                  <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 47px; width: 47px;">
+                <% end %>
+                <div class="to-room-each-right">
+                  <div>
+                    <div class="to-room-each-titles">
+                      <div class="to-room-each-titles-left">
+                        <span class="to-room-each-username"><%= entry.user.username %></span>
+                      </div>
+                      <div class="to-room-each-titles-right">
+                        <% if entry.room.messages.last %>
+                          <span class="to-room-each-since-a"><%= time_ago_in_words(entry.room.messages.last.created_at).delete("約").delete("未満") %>前</span>
+                        <% else %>
+                          <span class="to-room-each-since-a"><%= time_ago_in_words(entry.room.created_at).delete("約").delete("未満") %>前</span>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="to-room-each-content">
+                      <% if entry.room.messages.last %>
+                        <span><%= truncate(entry.room.messages.last.content, length: 15) %></span>
+                      <% else %>
+                        <span>　</span>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </a>
             <% end %>
-            <%= entry.user.username %>
-            <a href="/rooms/<%= currentUserEntry.room.id %>">チャットへ</a>
-            <%= link_to "削除", room_path(currentUserEntry.room.id), method: :delete,
-                                      data: { confirm: "You sure?" } %>
           <% end %>
         <% end %>
-      </div>
-    <% end %>
-  <% end %>
+      <% else %>
+        <div class="dm-room-none-ms">DMはありません</div>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+<script type="text/javascript">
+  if (document.getElementById("footer") == null) {
+    var diva = document.getElementById("footerfixed");
+    var div = document.createElement('div');
+    div.innerHTML = `
+    <div id="footer" class="footer footer-layout-set">
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
+      </div>
+    </div>
+    `;
+    diva.appendChild(div);
+    $(`#footer`).unwrap();
+  }
+</script>

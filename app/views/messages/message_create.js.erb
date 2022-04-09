@@ -1,2 +1,4 @@
-$("#dm_message").html("<%= j(render 'dm_messages', { messages: @messages }) %>");
+$("#dm_message").html("<%= j(render 'dm_messages', { messages: @messages, room: @room }) %>");
 $("#message_form").val('');
+var list = document.getElementById('dm_message');
+list.scrollTo(0, list.scrollHeight);

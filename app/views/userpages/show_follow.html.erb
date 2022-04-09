@@ -1,84 +1,74 @@
 <% provide(:title, @title) %>
-<div><%= @title %></div>
 
-<div>
-  <div>
-    <%= @user.username %>
-  </div>
-  <div>
-    <%= @user.profile %>
-  </div>
-  <div>
-    <%= @user.email %>
-  </div>
-  <div>
-    <% if @user.sex == "woman" %>
-      女
-    <% else %>
-      男
-    <% end %>
-    <% if @user.avatar.url %>
-      <div>
-        <img src="<%= @user.avatar.url %>" class="aaa">
-        <% if @user == current_user %>
-        <%= link_to "delete", userpage_path(current_user), method: :delete,
-                                  data: { confirm: "You sure?" } %>
+<div class="container follow-index-size">
+  <div class="follow-index-frame">
+    <div class="follow-index-links">
+      <div class="follow-index-title"><%= @title %></div>
+      <% if @title == "Following" %>
+        <a class="follow-index-other-link" href="<%= followers_user_path(@user) %>">
+          followers
+          <span class="follow-index-other-link-in-icon">
+            <svg class="like-ranking-to-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </span>
+        </a>
+      <% else %>
+        <a class="follow-index-other-link" href="<%= following_user_path(@user) %>">
+          following
+          <span class="follow-index-other-link-in-icon">
+            <svg class="like-ranking-to-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </span>
+        </a>
+      <% end %>
+    </div>
+    <div class="follow-index-users">
+      <% unless @users.size == 0 %>
+        <% @users.each do |user| %>
+          <a href="/userpages/<%= user.id %>" class="follow-index-user follow-index-user-<%= user.id %>">
+            <% if user.avatar.url %>
+              <img src="<%= user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
+            <% else %>
+              <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
+            <% end %>
+            <div class="follow-index-user-username"><%= user.username %></div>
+          </a>
         <% end %>
-      </div>
-    <% else %>
-      <div>
-        <img src="/uploads/user/avatar/default.png" class="bbb">
-        <% if @user == current_user %>
-          <%= link_to 'アバターを変更する', edit_user_registration_path %>
-        <% end %>
-      </div>
-    <% end %>
+      <% else %>
+        <div class="nothing-follow">
+          <% if @title == "Following" %>
+            followingはいません
+          <% else %>
+            followersいません
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% if @user == current_user %>
-  <div>
-    <%= link_to 'プロフィール変更', edit_user_registration_path %>
-  </div>
-<% end %>
-
-<div>
-  <a href="<%= following_user_path(@user) %>">
-    <%= @user.following.count %>
-    following
-  </a>
-  <a href="<%= followers_user_path(@user) %>">
-    <%= @user.followers.count %>
-    followers
-  </a>
-</div>
 </div>
 
-<% if current_user != @user %>
-  <div>
-  <% if current_user.following?(@user) %>
-    <%= form_for(current_user.active_relationships.find_by(followed_id: @user.id),
-           html: { method: :delete }) do |f| %>
-           <%= f.submit "Unfollow" %>
-    <% end %>
-  <% else %>
-    <%= form_for(current_user.active_relationships.build) do |f| %>
-       <div><%= hidden_field_tag :followed_id, @user.id %></div>
-       <%= f.submit "Follow" %>
-    <% end %>
-  <% end %>
-  </div>
-<% end %>
 
-<% @users.each do |user| %>
-  <div>
-    <div><%= user.username %></div>
-    <% if user.avatar.url %>
-      <div>
-        <img src="<%= user.avatar.url %>" class="aaa">
+<script type="text/javascript">
+  if (document.getElementById("footer") == null) {
+    var diva = document.getElementById("footerfixed");
+    var div = document.createElement('div');
+    div.innerHTML = `
+    <div id="footer" class="footer footer-layout-set">
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-    <% else %>
-      <div>
-        <img src="/uploads/user/avatar/default.png" class="bbb">
-      </div>
-    <% end %>
-  </div>
-<% end %>
+    </div>
+    `;
+    diva.appendChild(div);
+    $(`#footer`).unwrap();
+  }
+</script>

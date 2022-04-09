@@ -4,8 +4,8 @@
     <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_pack_tag 'application' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application' %>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
@@ -52,4 +52,35 @@
       $('#alert').css("display", "none");
     }
   });
+</script>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function(){
+  tabs = document.querySelectorAll('#js-tab li');
+  for(i = 0; i < tabs.length; i++) {
+    tabs[i].addEventListener('click', tabSwitch, false);
+  }
+
+  function tabSwitch(){
+    tabs = document.querySelectorAll('#js-tab li');
+    var node = Array.prototype.slice.call(tabs, 0);
+    node.forEach(function (element) {
+      element.classList.remove('active');
+    });
+    this.classList.add('active');
+
+    content = document.querySelectorAll('.tab-content');
+    var node = Array.prototype.slice.call(content, 0);
+    node.forEach(function (element) {
+      element.classList.remove('active');
+    });
+
+    const arrayTabs = Array.prototype.slice.call(tabs);
+    const index = arrayTabs.indexOf(this);
+
+    document.querySelectorAll('.tab-content')[index].classList.add('active');
+  };
+});
+
+var searchingTime = 0;
 </script>

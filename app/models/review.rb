@@ -32,7 +32,7 @@ class Review < ApplicationRecord
       )
       unless visitor_user == visited_user
         visited_notification_count = Notification.where(["visited_id = ? and checked = ?", visited_user.id, false]).size
-        if visited_notification_count % 5 == 0
+        if visited_notification_count == 100
           NotificationMailer.notification_new_storage(visited_user).deliver_now
         end
       end
@@ -53,7 +53,7 @@ class Review < ApplicationRecord
       visited_user = response_comment.parent.user
       unless visitor_user == visited_user
         visited_notification_count = Notification.where(["visited_id = ? and checked = ?", visited_user.id, false]).size
-        if visited_notification_count % 5 == 0
+        if visited_notification_count == 100
           NotificationMailer.notification_new_storage(visited_user).deliver_now
         end
       end
@@ -73,7 +73,7 @@ class Review < ApplicationRecord
       visited_user = self.user
       unless visitor_user == visited_user
         visited_notification_count = Notification.where(["visited_id = ? and checked = ?", visited_user.id, false]).size
-        if visited_notification_count % 5 == 0
+        if visited_notification_count == 100
           NotificationMailer.notification_new_storage(visited_user).deliver_now
         end
       end
@@ -95,7 +95,7 @@ class Review < ApplicationRecord
         visited_user = self.user
         unless visitor_user == visited_user
           visited_notification_count = Notification.where(["visited_id = ? and checked = ?", visited_user.id, false]).size
-          if visited_notification_count % 5 == 0
+          if visited_notification_count == 100
             NotificationMailer.notification_new_storage(visited_user).deliver_now
           end
         end
@@ -118,7 +118,7 @@ class Review < ApplicationRecord
         visited_user = self.user
         unless visitor_user == visited_user
           visited_notification_count = Notification.where(["visited_id = ? and checked = ?", visited_user.id, false]).size
-          if visited_notification_count % 5 == 0
+          if visited_notification_count == 100
             NotificationMailer.notification_new_storage(visited_user).deliver_now
           end
         end
@@ -150,6 +150,10 @@ class Review < ApplicationRecord
 
     def like_by?(user)
       liked_users.include?(user)
+    end
+
+    def report_by?(user)
+      reports.find_by(user_id: user.id)
     end
 
   private

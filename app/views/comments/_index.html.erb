@@ -1,56 +1,109 @@
-<div><%= comments.size %>件コメント</div>
 <% comments.each do |comment| %>
-  <div class="comment_space">
-    <% unless comment.id.nil? %>
-      <div>
+  <% unless comment.id.nil? %>
         <% unless comment.parent_id %>
-          <% if comment.user.avatar.url %>
-            <img src="<%= comment.user.avatar.url %>" class="comment-logo">
-          <% else %>
-            <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-          <% end %>
-          <span><%= comment.user.username %></span>
-          <span><%= time_ago_in_words(comment.created_at).delete("約").delete("未満") %>前</span>
-          <div>
-            <%= comment.content %>
-            <% if comment.user == current_user %>
-              <%= link_to '削除', review_comment_path(comment.review_id, comment.id), method: :delete, remote: true %>
+          <div class="show-review-each-comment">
+            <%= link_to userpage_path(comment.user.id), class: "review-show-post-icon" do %>
+              <% if comment.user.avatar.url %>
+                <img src="<%= comment.user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
+              <% else %>
+                <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
+              <% end %>
             <% end %>
-          </div>
-        <% end %>
-      </div>
-      <div>
-        <% comment.replies.each do |response_comment| %>
-        <div id="response_content<%= response_comment.id %>">
-          <% if response_comment.user.avatar.url %>
-            <img src="<%= response_comment.user.avatar.url %>" class="response-logo">
-          <% else %>
-            <img src="/uploads/user/avatar/default.png" class="response-default-logo">
-          <% end %>
-          <span><%= response_comment.user.username %></span>
-          <span><%= time_ago_in_words(response_comment.created_at).delete("約").delete("未満") %>前</span>
-            <div>
-              <%= response_comment.content %>
-              <%= link_to '返信を削除', response_comment_path(response_comment.id), method: :delete, remote: true %>
+            <div class="show-review-each-right">
+              <div class="show-review-each-comment-content">
+                <div class="show-review-each-content-sentences">
+                  <div>
+                    <span class="show-review-each-username"><%= link_to "#{comment.user.username}", userpage_path(comment.user.id), class: "user-icon-link-color" %></span>
+                    <span class="show-review-each-date"><%= time_ago_in_words(comment.created_at).delete("約").delete("未満") %>前</span>
+                  </div>
+                  <div class="show-review-each-content-sentence">
+                    <%= comment.content %>
+                  </div>
+                </div>
+                <div class="show-review-each-delete-div">
+                  <div class="show-review-each-response-btn-div">
+                    <span id="comment-response-id-<%= comment.id %>" class="comment-response-class show-review-each-response-btn">返信</span>
+                  </div>
+                  <div class="show-review-each-delete-btn-div">
+                    <% if comment.user == current_user %>
+                      <%= link_to '削除', review_comment_path(comment.review_id, comment.id), method: :delete, remote: true, class: "show-review-each-delete-btn" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div id="comment-responses-<%= comment.id %>" class="show-review-responses" style="display: none;">
+                <div class="response_error_alert response_error_alert-<%= comment.id %>"></div>
+                <%= link_to userpage_path(comment.user.id), class: "review-show-post-icon" do %>
+                  <% if current_user.avatar.url %>
+                    <img src="<%= current_user.avatar.url %>" class="icon-image-class" style="height: 30px; width: 30px;">
+                  <% else %>
+                    <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 30px; width: 30px;">
+                  <% end %>
+                <% end %>
+
+                <div class="review-show-new-comment-forms">
+                  <div class="FlexTextarea">
+                    <div class="FlexTextarea__dummy response-comment-dummy-<%= comment.id %>" aria-hidden="true"></div>
+                    <textarea id="FlexTextarea" class="FlexTextarea__textarea review-show-comment-form response-comment-form-<%= comment.id %>" placeholder="コメントを入力..." id="comment_form" name="comment[content]"></textarea>
+                  </div>
+                </div>
+                <div class="review-show-reponse-btns">
+                  <span id="comment-responses-cancel-<%= comment.id %>" class="review-show-reponse-cancel-btn">キャンセル</span>
+                  <span id="comment-responses-response-<%= comment.id %>" class="review-show-reponse-response-btn review-show-review-id-<%= comment.review.id %>">返信</span>
+                </div>
+
+              </div>
+              <div class="review-show-all-reponse-comments">
+                <% if comment.replies.size != 0 %>
+                  <span id="response-default-commnet-btn-id-<%= comment.id %>" class="response-default-commnet-btn">
+                    返信の表示
+                  </span>
+                  <div id="response-default-display-commnet-btn-id-<%= comment.id %>" class="response-reviews-default-comments-css" style="display: none;">
+                    <% comment.replies.each do |response_comment| %>
+                      <div class="response-reviews-comment-css response-each-comment-id-<%= response_comment.id %>">
+                        <div class="response-reviews-response-each-comment">
+                          <%= link_to userpage_path(comment.user.id), class: "review-show-post-icon" do %>
+                            <% if response_comment.user.avatar.url %>
+                              <img src="<%= response_comment.user.avatar.url %>" class="icon-image-class" style="height: 30px; width: 30px;">
+                            <% else %>
+                              <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 30px; width: 30px;">
+                            <% end %>
+                          <% end %>
+                          <div class="response-each-comments-right">
+                            <div class="response-each-comment-right-in-right">
+                              <div class="response-each-comment-titles">
+                                <span class="response-each-comment-title-username"><%= link_to "#{response_comment.user.username}", userpage_path(response_comment.user.id), class: "user-icon-link-color" %></span><span class="response-each-comment-title-date"><%= time_ago_in_words(response_comment.created_at).delete("約").delete("未満") %>前</span>
+                              </div>
+                              <div class="response-each-comment-content">
+                                <%= response_comment.content %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="response-each-comment-right-in-left">
+                          <span class="response-each-comment-delete response-comment-destroy-<%= response_comment.id %>">削除</span>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+                <div class="response-reviews-ajax-comments-css response-reviews-comment-<%= comment.id %>">
+                </div>
+              </div>
             </div>
-          <% end %>
-        </div>
-      </div>
-      <div>
-        <% unless comment.parent_id %>
-          <div id="response_area<%= comment.id %>">
-            <%= form_with(model: [comment.review_id, comment], url: response_comments_path(comment.review_id, comment.id), method: :post, remote: true ) do |f| %>
-              <%= f.text_area :content, value: '', :placeholder => "返信を入力...", :id => "response_form#{comment.id}" %>
-              <div><%= f.submit "返信" %></div>
-            <% end %>
           </div>
-          <div id="res_cancel_btn">
-            <%= form_with(url: cancel_response_path(comment.id), remote: true) do |f| %>
-                <%= f.submit "キャンセル" %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+  <% end %>
 <% end %>
+
+
+<script type="text/javascript">
+  function flexTextarea(el) {
+  const dummy = el.querySelector('.FlexTextarea__dummy')
+  el.querySelector('.FlexTextarea__textarea').addEventListener('input', e => {
+    dummy.textContent = e.target.value + '\u200b'
+  })
+}
+
+document.querySelectorAll('.FlexTextarea').forEach(flexTextarea)
+</script>

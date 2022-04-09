@@ -52,16 +52,17 @@
 }
 
 .mypage-reviews-subinfo-involved-users {
-  padding: 25px 25px 25px 25px;
+  padding: 10px 15px;
   margin-bottom: 12px;
   background-color: white;
   border-radius: 4px;
 }
 
 .mypage-reviews-subinfo-known-users {
-  padding: 25px 25px 25px 25px;
+  padding: 10px 15px;
   background-color: white;
   border-radius: 4px;
+  margin-bottom: 12px;
 }
 
 .mypage-reviews-title-left {
@@ -218,6 +219,7 @@
   font-size: 14px;
   line-height: 22px;
   letter-spacing: 0.1px;
+  word-wrap: break-word;
 }
 
 .mypage-review-tag {
@@ -252,6 +254,10 @@
   display: flex;
 }
 
+.report-display-flex {
+  display: flex;
+}
+
 .mypage-review-icon {
   padding: 0 8px;
   display: flex;
@@ -261,14 +267,16 @@
 
 .mypage-find-friends {
   color: #6a6f70;
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  margin-bottom: 7px;
+  margin-left: 5px;
 }
 
 .mypage-maybe-friends {
   color: #6a6f70;
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  margin-bottom: 7px;
+  margin-left: 5px;
 }
 
 .min-follow-username {

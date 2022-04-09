@@ -1,17 +1,37 @@
+<div class="dm-chat-room-created-at">
+  <%= l room.created_at %>
+</div>
 <% if messages.present? %>
   <% messages.each do |message| %>
-    <% if message.user.avatar.url %>
-      <img src="<%= message.user.avatar.url %>" class="comment-logo">
-    <% else %>
-      <img src="/uploads/user/avatar/default.png" class="comment-default-logo">
-    <% end %>
     <% if message.user == current_user %>
       <% content_color = "currentuser" %>
     <% else %>
       <% content_color = "user" %>
     <% end %>
-    <div class="<%= content_color %>_message_content"><%= message.content %></div>
+
+    <div class="dm-chat-message-each-<%= content_color %>">
+      <%= link_to userpage_path(message.user.id) do %>
+        <% if message.user.avatar.url %>
+          <img src="<%= message.user.avatar.url %>" class="dm-chat-message-icon icon-image-class" style="height: 58px; width: 34px;">
+        <% else %>
+          <img src="/uploads/user/avatar/default.png" class="dm-chat-message-icon icon-image-class" style="height: 58px; width: 34px;">
+        <% end %>
+      <% end %>
+
+      <div class="dm-chat-message-each-content-<%= content_color %>">
+        <div>
+          <% if message.user == current_user %>
+            <span class="<%= content_color %>_message_content dm-chat-message-current"><%= message.content %></span>
+          <% else %>
+            <span class="<%= content_color %>_message_content dm-chat-message-other"><%= message.content %></span>
+          <% end %>
+        </div>
+        <div class="dm-chat-message-each-date-<%= content_color %>">
+          <span class="dm-chat-message-each-date"><%= time_ago_in_words(message.created_at).delete("約").delete("未満") %>前</span>
+        </div>
+      </div>
+
+    </div>
+
   <% end %>
-<% else %>
-  <div>メッセージはまだありません</div>
 <% end %>

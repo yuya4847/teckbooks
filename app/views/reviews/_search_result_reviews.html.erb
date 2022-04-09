@@ -1,17 +1,49 @@
 <% if reviews %>
   <% reviews.each do |review| %>
-    <div class="index">
-      <div><%= review.title %></div>
-      <div><%= review.content %></div>
-      <div><%= review.rate %></div>
-      <div><%= time_ago_in_words(review.created_at).delete("約").delete("未満") %>前</div>
-      <% if review.picture.url %>
-        <img class="search_review_img" src="<%= review.picture.url %>">
-      <% else %>
-       <div class="no-image">
-         <div class="picture-file-div">画像はありません</div>
-       </div>
+  <%= link_to review_path(review), class: "mypage-reviews-post mypage-reviews-post-#{review.id}" do %>
+    <div class="mypage-reviews-post-names-div">
+      <div class="mypage-reviews-post-names">
+        <% if review.user.avatar.url %>
+          <img src="<%= review.user.avatar.url %>" class="icon-image-class mypage-reviews-title-image" style="height: 45px; width: 45px;">
+        <% else %>
+          <img src="/uploads/user/avatar/default.png" class="icon-image-class mypage-reviews-title-image" style="height: 45px; width: 45px;">
+        <% end %>
+        <div class="mypage-reviews-post-username" style="opacity: 87%;">
+          <%= review.user.username %>
+          <div class="all-review-to-since">
+            <span class="all-review-to-word">Since <%= review.user.created_at.strftime("%Y-%m-%d") %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mypage-reviews-stars">
+      <% review.rate.times do |time| %>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="_x32_" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 512 512" style="width: 17px; height: 17px; opacity: 1;" xml:space="preserve">
+          <g>
+            <polygon class="st0" points="256,12.531 327.047,183.922 512,198.531 370.938,319.047 414.219,499.469 256,402.563 97.781,499.469    141.063,319.047 0,198.531 184.953,183.922  " style="fill: #ffd055;"/>
+          </g>
+        </svg>
       <% end %>
     </div>
+    <div class="mypage-review-content">
+      <%= review.content %>
+      <% review.tags.each do |tag| %>
+        <span class="mypage-review-tag">#<%= tag.name %></span>
+      <% end %>
+    </div>
+    <div class="mypage-review-bottom">
+      <div class="mypage-review-bottom-icons">
+        <div class="mypage-review-icon"><i class="far fa-comment mypage-reviews-comment-icon"></i></div>
+        <div class="mypage-review-icon"><i class="fas fa-retweet mypage-reviews-recommend-icon"></i></div>
+        <div class="mypage-review-icon"><i class="far fa-heart mypage-reviews-like-icon"></i></div>
+      </div>
+      <div class="mypage-review-created-at"><%= l review.created_at %></div>
+    </div>
   <% end %>
+  <% end %>
+<% else %>
+  <div class="none-search-icon">
+    <i class="none-search-icon-awesome fas fa-search"></i>
+    <div class="none-search-icon-sentence">レビューを検索してみよう!</div>
+  </div>
 <% end %>

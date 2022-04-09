@@ -17,7 +17,7 @@
 
 .home-btn-logo-div {
   width: 260px;
-  margin: 12px 12px 7px 12px;
+  margin: 8px 12px 3px -8px;
 }
 
 .title-home-logo {
@@ -161,6 +161,14 @@
   border-radius: 4px;
   background-color: #e9f1f5;
   padding: 12px;
+}
+
+.intro-content-link {
+  color: black;
+}
+
+.intro-content-link:hover {
+  color: black;
 }
 
 .intro-content-username {

@@ -11,49 +11,18 @@ class ReportsController < ApplicationController
         SELECT review_id
         FROM reports
         GROUP BY reports.review_id
-        HAVING (COUNT(*) >= 1)
+        HAVING (COUNT(*) >= 5)
       )
     ')
-
-    delete_reviews = Review.find(Report.group(:review_id).having('count(*) >= ?', 1).pluck(:review_id))
-
-    delete_reviews2 = Review.find_by_sql('
-      SELECT *
-      FROM reviews AS T1
-      JOIN
-      (
-        SELECT *
-        FROM reports
-        GROUP BY reports.review_id
-        HAVING (COUNT(*) >= 1)
-      ) T2
-      ON T1.id = T2.review_id;
-    ')
-
-    sql = <<-"SQL"
-    SELECT *
-    FROM reviews AS T1
-    JOIN
-    (
-      SELECT *
-      FROM reports
-      GROUP BY reports.review_id
-      HAVING (COUNT(*) >= 1)
-    ) T2
-    ON T1.id = T2.review_id;
-    SQL
-
-    delete_reviews3 = ActiveRecord::Base.connection.execute(sql)
-
-
     if @report_reviews != []
       @report_reviews.each do |report_review|
         report_review.destroy
       end
-      @delete_review = "on"
+      @is_delete_review = true
     else
-      @delete_review = nil
+      @is_delete_review = false
     end
-    render :index
+    contents = { review_id: @review.id, is_delete_review: @is_delete_review}
+    render json: contents
   end
 end

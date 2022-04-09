@@ -1,33 +1,202 @@
 <% provide(:title, "検索") %>
-<%= search_form_for @q, remote: true do |f| %>
-  <%= f.label :title, "タイトル" %>
-  <%= f.search_field :title_cont %>
 
-  <%= f.label :content, "内容" %>
-  <%= f.search_field :content_cont %>
+<style media="screen">
+  .subheader-menu-link-review-search {
+    color: rgb(0,121,181);
+  }
 
-  <%= f.submit "検索" %>
-<% end %>
-<div>
-  <%= link_to "Ruby", tag_search_reviews_path("ruby"), method: :POST, remote: true %>
-  <%= link_to "Rails", tag_search_reviews_path("rails"), method: :POST, remote: true %>
-  <%= link_to "PHP", tag_search_reviews_path("php"), method: :POST, remote: true %>
-  <%= link_to "Python", tag_search_reviews_path("python"), method: :POST, remote: true %>
-  <%= link_to "Go", tag_search_reviews_path("go"), method: :POST, remote: true %>
-  <%= link_to "Java", tag_search_reviews_path("java"), method: :POST, remote: true %>
-  <%= link_to "Javascript", tag_search_reviews_path("javascript"), method: :POST, remote: true %>
-  <%= link_to "Typescript", tag_search_reviews_path("typescript"), method: :POST, remote: true %>
-  <%= link_to "AWS", tag_search_reviews_path("aws"), method: :POST, remote: true %>
-  <%= link_to "Docker", tag_search_reviews_path("docker"), method: :POST, remote: true %>
-  <%= link_to "Linux", tag_search_reviews_path("linux"), method: :POST, remote: true %>
-  <%= link_to "SQL", tag_search_reviews_path("sql"), method: :POST, remote: true %>
-  <%= link_to "Vue.js", tag_search_reviews_path("vue"), method: :POST, remote: true %>
-  <%= link_to "React.js", tag_search_reviews_path("react"), method: :POST, remote: true %>
-  <%= link_to "その他", tag_search_reviews_path("その他"), method: :POST, remote: true %>
+  .subheader-menu-link-review-search:hover {
+    background-color: rgba(0,121,181,0.1);
+    color: rgb(0,121,181);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .subheader-menu-link-review-search-reviews {
+    height: 2px;
+    background-color: #0B6597;
+  }
+</style>
+
+<div class="container search-reviews-index-size">
+  <div class="row search-reviews-forms">
+    <div class="search-reviews-index-explains">
+      <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px;margin-bottom: 1px;margin-right: -4px;" class="align-middle" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+      <span class="search-reviews-index-explain">サイト内からレビューを探せます!</span>
+    </div>
+      <%= search_form_for @q, class: "form-group search-index-form-groups", remote: true do |f| %>
+        <%= f.search_field :title_or_content_cont, class: "form-control title-or-content-form" %>
+
+        <%= f.submit "タイトルで検索", class: "reviews-index-search-form btn title-search-btn" %>
+        <div class="search-reviews-or">or</div>
+        <%= f.submit "内容で検索", class: "reviews-index-search-form btn content-search-btn" %>
+      <% end %>
+    <div class="search-reviews-index-words">
+      <%= link_to "# Ruby", tag_search_reviews_path("ruby"), id: "ruby_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Rails", tag_search_reviews_path("rails"), id: "rails_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# PHP", tag_search_reviews_path("php"), id: "php_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Laravel", tag_search_reviews_path("laravel"), id: "laravel_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Python", tag_search_reviews_path("python"), id: "python_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Django", tag_search_reviews_path("django"), id: "django_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Go", tag_search_reviews_path("go"), id: "go_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Java", tag_search_reviews_path("java"), id: "java_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Javascript", tag_search_reviews_path("javascript"), id: "javascript_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Typescript", tag_search_reviews_path("typescript"), id: "typescript_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# AWS", tag_search_reviews_path("aws"), id: "aws_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Docker", tag_search_reviews_path("docker"), id: "docker_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Linux", tag_search_reviews_path("linux"), id: "linux_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# SQL", tag_search_reviews_path("sql"), id: "sql_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Vue.js", tag_search_reviews_path("vue"), id: "vue_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# React.js", tag_search_reviews_path("react"), id: "react_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+
+      <%= link_to "# HTML", tag_search_reviews_path("html"), id: "html_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Kurbenetes", tag_search_reviews_path("kurbenetes"), id: "kurbenetes_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Swift", tag_search_reviews_path("swift"), id: "swift_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+      <%= link_to "# Flutter", tag_search_reviews_path("flutter"), id: "flutter_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+
+      <%= link_to "その他", tag_search_reviews_path("その他"), id: "other_search_tag", class: "search-reviews-tag", method: :POST, remote: true %>
+    </div>
+  </div>
+  <div class="row search-reviews-infos">
+    <div class="search-reviews-infos-left col-md-8">
+      <div id="search_result_reviews" class="index">
+        <%= render partial: 'reviews/search_result_reviews', locals: { reviews: @review } %>
+      </div>
+    </div>
+    <div class="search-reviews-infos-right col-md-4">
+      <div id="ranking_ajax" class="like-ranking">
+        <%= render partial: 'reviews/ranking', locals: { ranking_reviews: @ranking_reviews } %>
+      </div>
+      <% if @top_pv_reviews.size >= 3 %>
+      <div class="pv-ranking">
+        <div class="like-ranking-title">
+          <div class="like-ranking-title-word">
+            PVランキング
+          </div>
+          <div class="like-ranking-title-icon">
+            <svg style="fill: #6A6F70;" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 200 145.218"><path d="M112.159,265.46v.028L62.307,323.72l-39.689-40V378.5H201.724V283.719l-39.689,40-49.852-58.232v-.028l-.012.014ZM16.519,387.2a4.338,4.338,0,0,0-4.348,4.348v14.782a4.338,4.338,0,0,0,4.348,4.348h191.3a4.338,4.338,0,0,0,4.348-4.348V391.547a4.338,4.338,0,0,0-4.348-4.348Z" transform="translate(-12.171 -265.459)"/></svg>
+          </div>
+        </div>
+        <% if @top_pv_reviews.first %>
+          <div id="ranking_1" class="ranking-review-individual">
+            <div class="ranking-icon-div-left">
+              <div class="ranking-icon-div">
+                <svg class="ranking-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="36px" height="54px" viewBox="0 0 72 108" enable-background="new 0 0 72 108" xml:space="preserve">  <image id="image0" width="72" height="108" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABsCAMAAAD+DgRVAAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABlVBMVEVHcEypdQSkcQClcQCl           cwCkcQCkcQCkcQClcgCyfwDMmQCmcQClcQClcQClcgGkcQCkcQCqcQCueACkcgCkcQCndAKkcQCk cQCncgCqcwCkcQCpdwWlcQCmdgCmcwClcQClcgCkcQCkdAClcQCodQOkcQCmcgCqqgCkcgClcQC/ fwCkcQClcgCkcgCkcQCvfwC/fwClcgCmcwKkcQClcgCmdQCkcgCpdgSlcQCqdQCndgCkcgCkcgCm cwClcQCkcQCkcQCkcQCmcQD/fwCkcQCqfwCkcQCkcQCwdQCkcwCkcQCmeQClcQCqcQCkcQCteQel cwCueQekcQDntEDmsz7jsDvRniquewnKlyTWoy+yfw3ToC3aqDO3hBK2gxHcqTXerDe8iRbAjhvi rzvirjrAjRvKliPksTzFkyDUoS3LlyTntD/QnSmtegjAjRrVoi6xfgzZpjK1ghDdqja7iBXhrjnA jBrhrjrEkR7lsz7JlyPToCznsz/OmyiseQfcqDSvfQvYpTG0gQ/cqjW5hhS+ixj///+JM9KCAAAA UnRSTlMA/uZnTdj+8HoKBXDu/v74jRITlfv+/aAdKrj+sytLxDzVT5T+4mID7XUI1/72hxAEb/78 mhqT/q0nKbfAN0rRbt9cAusG9IINSfoXqCSS1DPQQs8olQAAAAFiS0dEhozeO10AAAAHdElNRQfm AgYBHTX7f5yLAAABdElEQVRYw+3Z1VYCYRiF4R8DE5WwFVuxxU7s7u0odqEidgd23bfMuGAJzCDM 4Nm3L+A5eE83Q5jGwgjNhWEEEUQQQQQRRBBBBBFEEEEEEUQQQQQRRBBBBBFE0D9C3Hx4oAWrapFT Di0t8yeDdUUhtLoGRERGRQPrGwqgzS01YmLjGItPSIRm2yYT2tlNQnKKlgnT6Q1Q7XEyIPt+KtLS M5hnmVmuVI5QIe4gG8jJZV4zSqaSgg6PjoG8fOY7IdWJLWjo9AwoKGRi0xUZUOyfShQ6vwBKSsuY xERTiUCXV2qYyitYgBkr/VL5Qdc3VaiuqWWBV2fmU91KQ/a7ejQ0NrG/p232TuUF3TtbgNa2IBh+ 7R2uVA8i0OPTM9DZFSTDz8KnevGFHK9AtyUEhk/V40nlht7egd6+/tAcdyon54Y+PoEB82DIzK9U AvSlwdDwiCyG3yif6uenHdOPy2aEVCbhp1VPTCphhFRTBrDpGaWMkGr2G1Bz76Ye65KpAAAAJXRF WHRkYXRlOmNyZWF0ZQAyMDIyLTAyLTA2VDAxOjI5OjUyKzAwOjAwo3mUpAAAACV0RVh0ZGF0ZTpt b2RpZnkAMjAyMi0wMi0wNlQwMToyOTo1MiswMDowMNIkLBgAAAAASUVORK5CYII="/>
+                </svg>
+                <div class="ranking-icon-number">1</div>
+              </div>
+            </div>
+            <div class="ranking-icon-div-right">
+              <div class="ranking-review-link">
+                <%= link_to review_path(@top_pv_reviews.first), class: "ranking-review-link-path" do %>
+                  <span><%= @top_pv_reviews.first.title %></span>
+                  <svg class="like-ranking-to-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                <% end %>
+              </div>
+              <div class="ranking-review-status">
+                <span><%= @top_pv_reviews.first.impressionist_count %>PV / <%= @top_pv_reviews.first.user.username %> / <%= l(@top_pv_reviews.first.created_at, format: :long) %></span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% if @top_pv_reviews.second %>
+          <div id="ranking_2" class="ranking-review-individual">
+            <div class="ranking-icon-div-left">
+              <div class="ranking-icon-div">
+                <svg class="ranking-icon-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="36px" height="54px" viewBox="0 0 72 108" enable-background="new 0 0 72 108" xml:space="preserve">  <image id="image0" width="72" height="108" x="0" y="0"
+                    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABsCAMAAAD+DgRVAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+                AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABXFBMVEVHcEyGhoaCgoKDg4OE
+                hISDg4OCgoKCgoKDg4OZmZmZmZmEhISCgoKDg4OCgoKCgoKNjY2GhoaCgoKCgoKEhISCgoKCgoKD
+                g4OFhYWCgoKDg4OCgoKEhISCgoKDg4OCgoKEhISCgoKFhYWCgoKCgoKqqqqCgoKCgoKfn5+CgoKC
+                goKCgoKPj4+/v7+CgoKCgoKCgoKJiYmCgoKDg4OCgoKCgoKCgoKCgoKGhoaCgoKCgoKEhISCgoKC
+                goL///+CgoKqqqqCgoKDg4OJiYmEhISCgoKFhYWCgoKGhoaCgoKJiYmCgoKJiYmCgoK4uLi1tbWm
+                pqaKioqgoKC3t7eqqqqNjY2Li4uoqKiurq6RkZGvr6+xsbGVlZWYmJi0tLSZmZmhoaG2tradnZ2i
+                oqKlpaWJiYmpqamtra2QkJCwsLCUlJSysrKcnJykpKSIiIisrKyPj4+Tk5OXl5f///86wnCqAAAA
+                TXRSTlMA/uZnTdj+8HoKBXDu/viNEhOV+/79oB0quLMrS8Q81U+U/uJiA+11CNf2hxAEb/yaGpOt
+                Jym3wDdK0W7fXALrBvSCDUn6F6gkktQz0ICkOKQAAAABYktHRD5JZADjAAAAB3RJTUUH5gIGAR02
+                YnbNMQAAAXFJREFUWMPt2VVXAlEYheGDMeYoZWMrNnZgd28RUEoBMbHj/1/IGRYsGKkJ7779A56L
+                98yam49BpzEdoTMdRhBBBBFEEEEEEUQQQQQRRBBBBBFEEEEEEUQQQQT9J+TSBzp3Gzxe7dDFJT8y
+                +PwaoUAQKCuvqASCIQ3Q1bWAquoaxmrr6iGGIyqhSFREQ6ORSTOZLTDceFVAsVsrmppbWHqtbflT
+                5Ye8dwagvYNlzcZTBRRB9w9AZxeTT0oVjZQMPSZevLuH5Zqp14K+v6lyQk9xoH9gkOUZT+X2F4ee
+                XwTYh4ZZgdlGgHigMPQaFjA6Ns4Kb8Ih/6pkkOvNismpaVZ8xpnsVFlQzJN48dm5Ehi++YXMVJnQ
+                +wewuFQiw+fkqUJyyO8Dlp0KGJ5qJZ0qBX1+Aatr68qcVCr+r0pCoW9gw7GpmMlIJUE/Ira2d1Qx
+                fLuJVMHknXbPvK+akVLZpTutcHCohZFSHVnAjk+0MlKq01/FfWNNj04y/QAAACV0RVh0ZGF0ZTpj
+                cmVhdGUAMjAyMi0wMi0wNlQwMToyOTo1NCswMDowMMCpoZ4AAAAldEVYdGRhdGU6bW9kaWZ5ADIw
+                MjItMDItMDZUMDE6Mjk6NTQrMDA6MDCx9BkiAAAAAElFTkSuQmCC" />
+                </svg>
+                <div class="ranking-icon-number">2</div>
+              </div>
+            </div>
+            <div class="ranking-icon-div-right">
+              <div class="ranking-review-link">
+                <%= link_to review_path(@top_pv_reviews.second), class: "ranking-review-link-path" do %>
+                  <span><%= @top_pv_reviews.second.title %></span>
+                  <svg class="like-ranking-to-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                <% end %>
+              </div>
+              <div class="ranking-review-status">
+                <span><%= @top_pv_reviews.second.impressionist_count %>PV / <%= @top_pv_reviews.second.user.username %> / <%= l(@top_pv_reviews.second.created_at, format: :long) %></span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% if @top_pv_reviews.third %>
+          <div id="ranking_3" class="ranking-review-individual-last">
+            <div class="ranking-icon-div-left">
+              <div class="ranking-icon-div">
+                <svg class="ranking-icon-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="36px" height="54px" viewBox="0 0 72 108" enable-background="new 0 0 72 108" xml:space="preserve">  <image id="image0" width="72" height="108" x="0" y="0"
+                    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABsCAMAAAD+DgRVAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+                AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABoVBMVEVHcEw7HQI1GQA2GwA4
+                GgA1GQA1GQA1GQA2GQBMGQBmMwA2GQA1GQA2GQA2GgA1GQA2GQA4HAA1GgA1GQA1GQA5HAE1GQA2
+                GQA9GgA2HgA2GgA8HgM2GQA1HQA2GwA1GgA3GQA1GQA2GQA1GQA6HQI1GQA2GgBVVQA1GQA2GgA/
+                HwA1GgA3GgA1GQA2GgA/HwA/PwA3GQA4HAE1GQA2GgA6HQA1GgA1GQA6GgA3HwA2GQA1GQA3GwA3
+                GwA1GQA1GQA1GQA3GwB/fwA1GgBVKgA1GQA2GQA6JwA3GwA1GQA3IQA1GQA4HAA2GgA/IAQ3GQA/
+                IQQ1GQCLVyqJVimGUydvQxxCIgZmPBeKVil1Rx9GJghCIwZyRR16SyJOKgtNKgt9TSOATyRUMA5Z
+                MxGEUiZaNBFlOxeHVChgOBVnPRh8TSKLVyltQRtAIQVzRh5FJQh6SiFLKQp+TiNSLg5MKguDUSVY
+                MhFYMxGFUiaGVCdfNhSJVShlPBdxRR2KVylrQBo/IQR9TCJDJAdZMhF3SSBKKAp9TiNQLQ1yRB1W
+                MRD///+5Or20AAAAUXRSTlMA/uZnTdj+8HoKBXDu/v74jRITlfv+/aAdKrj+sytLxDzVT5T+4mID
+                7XUI1/72hxAEb/78mhqTrScpt8A3StFu31wC6wb0gg1J+heoJJLUM9BH6iqyAAAAAWJLR0SKhWh3
+                dgAAAAd0SU1FB+YCBgEdNmJ2zTEAAAF6SURBVFjD7dnVVkJRFIXhjYGJAdjdHdiF3T0NRMXGwm5U
+                7H5r2YcBQ5RDHbxb8wG+i39dLoYAjQUQmgrACCKIIIIIIogggggiiCCCCCKIIIIIIogggggiiKB/
+                hKZnAgPN6mRzeunQ/AJ/MiwaJEJLy0BQcEgosLIqAVpblyMsPIKxyKhoKDaMfkLGzRjExsUzYUqV
+                GrItvR/Q9k4CEpOSmWMpqeKpxCH9bhqQnsGclslTmXyB9vYPgKxs9nuiqUSgwyMgJ5e5mjJPjfy/
+                qVxCxydAQWERExlPpTN4hk7P5CguKWVullkGnJvcQxeX5aiorGLuV62xproyi0PXNzWoratnnhff
+                4JzKCbq1WC/e2OQFw9fcYk115wK6f3gEWtu8ZPi0PNXTb8jwDLRrfWB4qg5rqhfzT+j1Dejs6vbN
+                saey6O3Q+wfQo+n1mXGk+rRBXwr09Q/4xfAN8lS2P+2QathvRkhVLPxp5SOjUhgh1ZgabHxCKiOk
+                mvwGwxDVESwn+dcAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDItMDZUMDE6Mjk6NTQrMDA6MDDA
+                qaGeAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTAyLTA2VDAxOjI5OjU0KzAwOjAwsfQZIgAAAABJ
+                RU5ErkJggg==" />
+                </svg>
+                <div class="ranking-icon-number">3</div>
+              </div>
+            </div>
+            <div class="ranking-icon-div-right">
+              <div class="ranking-review-link">
+                <%= link_to review_path(@top_pv_reviews.third), class: "ranking-review-link-path" do %>
+                  <span><%= @top_pv_reviews.third.title %></span>
+                  <svg class="like-ranking-to-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                <% end %>
+              </div>
+              <div class="ranking-review-status">
+                <span><%= @top_pv_reviews.third.impressionist_count %>PV / <%= @top_pv_reviews.third.user.username %> / <%= l(@top_pv_reviews.third.created_at, format: :long) %></span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+  </div>
 </div>
-<div id="search_result_reviews" class="index">
-  <%= render partial: 'reviews/search_result_reviews', locals: { reviews: @review } %>
-</div>
+
+
+
+
+
+
+
+
+
 
 <script type="text/javascript">
   if (document.getElementById("footer") == null) {
@@ -35,15 +204,29 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);
     $(`#footer`).unwrap();
   }
 </script>
+
+<% if @search_word %>
+  <script type="text/javascript">
+   document.getElementById("<%= @search_word %>").click();
+  </script>
+<% end %>

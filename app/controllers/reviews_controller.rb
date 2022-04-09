@@ -9,6 +9,16 @@ class ReviewsController < ApplicationController
 
   def index
     @q = Review.ransack(params[:q])
+    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(10)
+    @top_pv_reviews = Review.find_top_pv_reviews
+    all_tags = [ "ruby", "rails", "php", "laravel", "python", "django", "go", "java", "javascript", "typescript", "aws", "docker", "linux", "sql", "vue", "react", "html", "kurbenetes", "swift", "flutter" ];
+    if params[:search_word]
+      if all_tags.include?(params[:search_word])
+        @search_word = "#{params[:search_word]}_search_tag"
+      else
+        @search_word = "other_search_tag"
+      end
+    end
     if params[:q]
       @reviews = @q.result(distinct: true)
       render :search_result
@@ -21,7 +31,9 @@ class ReviewsController < ApplicationController
       .where.not(tags: { name: "ruby" })
       .where.not(tags: { name: "rails" })
       .where.not(tags: { name: "php" })
+      .where.not(tags: { name: "laravel" })
       .where.not(tags: { name: "python" })
+      .where.not(tags: { name: "django" })
       .where.not(tags: { name: "go" })
       .where.not(tags: { name: "java" })
       .where.not(tags: { name: "javascript" })
@@ -32,6 +44,10 @@ class ReviewsController < ApplicationController
       .where.not(tags: { name: "sql" })
       .where.not(tags: { name: "vue" })
       .where.not(tags: { name: "react" })
+      .where.not(tags: { name: "html" })
+      .where.not(tags: { name: "kurbenetes" })
+      .where.not(tags: { name: "swift" })
+      .where.not(tags: { name: "flutter" })
       render 'reviews/search_result'
     else
       @tag = Tag.find_by(name: params[:id])
@@ -41,11 +57,12 @@ class ReviewsController < ApplicationController
   end
 
   def all_reviews
-    @reviews = Review.all.page(params[:page]).per(7)
+    @reviews = Review.all.includes(:user).page(params[:page]).per(6)
     @will_recommend_users = User.not_user(current_user)
     @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(10)
     @top_pv_reviews = Review.find_top_pv_reviews
     @recommends = Recommend.all
+    @browsingHistories = BrowsingHistory.order(created_at: :desc).where(user_id: current_user.id)
   end
 
   def new
@@ -71,6 +88,10 @@ class ReviewsController < ApplicationController
 
   def show
     @review = Review.find(params[:id])
+    @recommends = Recommend.all
+    @will_recommend_users = User.not_user(current_user)
+    @top_pv_reviews = Review.find_top_pv_reviews
+    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(10)
     impressionist(@review, nil, unique: [:session_hash])
     @user = @review.user
     @comment = Comment.new
@@ -92,7 +113,7 @@ class ReviewsController < ApplicationController
     end
     new_history.save
 
-    histories_stock_limit = 7
+    histories_stock_limit = 6
     histories = current_user.browsing_histories.all
     if histories.count > histories_stock_limit
       histories[0].destroy
@@ -130,7 +151,7 @@ class ReviewsController < ApplicationController
     if params[:original_page] == "exist"
       redirect_back(fallback_location: root_path)
     else
-      redirect_to userpage_path(@review.user)
+      redirect_to userpage_path(current_user)
     end
   end
 

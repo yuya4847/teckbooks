@@ -8,6 +8,6 @@ class Comment < ApplicationRecord
   validates :user_id, presence: true
   validates :review_id, presence: true
   validates :content, presence: { message: 'を入力してください' }
-  validates :content, length: { maximum: 50 }
+  validates :content, length: { maximum: 500 }
   default_scope -> { order(created_at: :desc) }
 end

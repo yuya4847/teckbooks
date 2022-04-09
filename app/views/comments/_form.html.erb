@@ -1,7 +1,38 @@
-<%= form_with(model: [review, comment], url: review_comments_path(review), remote: true) do |f| %>
-  <div><%= f.text_area :content, placeholder: "コメントを入力...", id: "comment_form" %></div>
-  <%= f.submit "コメント" %>
-<% end %>
-<%= form_with(url: cancel_comment_path, remote: true) do |f| %>
-  <%= f.submit "キャンセル" %>
-<% end %>
+<div class="review-show-new-comment">
+  <%= link_to userpage_path(@review.user.id), class: "review-show-post-icon" do %>
+    <% if current_user.avatar.url %>
+      <img src="<%= current_user.avatar.url %>" class="icon-image-class" style="height: 45px; width: 45px;">
+    <% else %>
+      <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
+    <% end %>
+  <% end %>
+  <%= form_with(model: [review, comment], url: review_comments_path(review), remote: true, class: "show-review-form_with", style: "max-width: 652px;") do |f| %>
+    <div class="review-show-new-comment-forms">
+      <div class="FlexTextarea">
+        <div style="max-width: 652px;" class="FlexTextarea__dummy" aria-hidden="true"></div>
+        <textarea id="FlexTextarea" class="FlexTextarea__textarea review-show-comment-form" placeholder="コメントを入力..." name="comment[content]"></textarea>
+      </div>
+    </div>
+    <div class="review-show-new-btns">
+      <div class="review-show-new-cancel-bt" id="review-show-new-comment-cancel-btn">キャンセル</div>
+      <input id="comment-btn-new-comment" class="review-show-new-comment-bt" type="submit" name="commit" value="コメント" data-disable-with="コメント">
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $(document).on('click', '#review-show-new-comment-cancel-btn', function() {
+    $("#FlexTextarea").val("");
+    $(".FlexTextarea__dummy").text("");
+  });
+</script>
+
+<script type="text/javascript">
+  function flexTextarea(el) {
+  var dummy = el.querySelector('.FlexTextarea__dummy')
+  el.querySelector('.FlexTextarea__textarea').addEventListener('input', e => {
+    dummy.textContent = e.target.value + '\u200b'
+  })
+}
+
+document.querySelectorAll('.FlexTextarea').forEach(flexTextarea)
+</script>

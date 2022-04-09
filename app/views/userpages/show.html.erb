@@ -29,7 +29,7 @@
             </svg>
             <% end %>
           </div>
-          <div>
+          <div class="following-and-followers-links">
             <a class="mypage-profile-follow mypage-profile-following" href="<%= following_user_path(@user) %>">
               <span id="following">
                 <%= @user.following.count %>
@@ -66,7 +66,7 @@
           <% if @isRoom == true %>
             <a class="to-dm" href="/rooms/<%= @roomId %>">
               <%= render partial: 'mypage_profile_dm_svg' %>
-              <div class="">DMへ</div>
+              <div class="to-dm-div-tag">DMへ</div>
             </a>
           <% else %>
             <%= form_for @room do |f| %>
@@ -97,20 +97,16 @@
         </div>
         <div class="mypage-profile-status-user">
           <div class="mypage_profile_status-general"><%= render partial: 'mypage_profile_status-general' %></div>
-          <div class="mypage_profile_status-general-word">一般ユーザー</div>
+          <div class="mypage_profile_status-general-word"><%= user_rule(@user.rule.rule_name) %></div>
         </div>
 
         <% unless @user == current_user %>
           <div id="follow-div<%= @user.id %>" class="mypage-follow-btn">
             <% if current_user.following?(@user) %>
-              <div id="not_follow_btn<%= @user.id %>" class="mypage_not_follow_btn_ajax all-reviews-icon">
-                following
-              </div>
+              <div id="not_follow_btn<%= @user.id %>" class="mypage_not_follow_btn_ajax all-reviews-icon">following</div>
             <% else %>
               <div id="follow_btn<%= @user.id %>" class="mypage_follow_btn_ajax all-reviews-icon">
-                <i class="fa-xs fas fa-plus"></i>
-                follow
-              </div>
+                <i class="fa-xs fas fa-plus"></i>follow</div>
             <% end %>
           </div>
         <% end %>
@@ -229,12 +225,20 @@
     var div = document.createElement('div');
     div.innerHTML = `
     <div id="footer" class="footer footer-layout-set">
-      <div class="footer-name">
-        <span>作成者</span>
-        <span class="footer-username">@yuya</span>
-        <span><svg class="footer-username-mark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span>
+      <div class="footer-sentence">
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/terms">利用規約</a>
+        </span>
+        <span class="footer-sentence-link">
+          <a class="footer-sentence-link-in" href="/homes/privacy_policy">プライバシーポリシー</a>
+        </span>
+        <span class="footer-sentence-link-twe footer-sentence-link-twitter">
+          <a class="footer-sentence-link-in" href="https://twitter.com/0je3EP7f4PZPpLm">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </span>
+        <span class="footer-sentence-link-when">© 2020 - 2022 TechBookHub</span>
       </div>
-      <div class="footer-sentence">お問い合わせなどはDMでお願いします</div>
     </div>
     `;
     diva.appendChild(div);

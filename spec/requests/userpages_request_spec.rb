@@ -25,21 +25,9 @@ RSpec.describe "Userpage", type: :request do
             expect(response).to have_http_status(200)
           end
 
-          it '正しいプロフィールや投稿を取得すること' do
+          it '正しいプロフィールを取得すること' do
             expect(response.body).to include user.username
             expect(response.body).to include user.profile
-            expect(response.body).to include user.email
-            expect(response.body).to include "男"
-            expect(response.body).to include great_review.title
-            expect(response.body).to include great_review.content
-            expect(response.body).to include great_review.rate.to_s
-            expect(response.body).to include "20分前"
-          end
-
-          it 'DMをやり取りしているユーザーが表示されること' do
-            expect(response.body).to include second_user.username
-            expect(response.body).to include "チャットへ"
-            expect(response.body).to include "削除"
           end
         end
 
@@ -61,12 +49,10 @@ RSpec.describe "Userpage", type: :request do
             it '正しいプロフィールや投稿を取得すること' do
               expect(response.body).to include second_user.username
               expect(response.body).to include second_user.profile
-              expect(response.body).to include second_user.email
-              expect(response.body).to include "男"
             end
 
             it 'DMページへのリンクが表示されること' do
-              expect(response.body).to include "チャットへ"
+              expect(response.body).to include "DMへ"
             end
           end
 
@@ -77,7 +63,7 @@ RSpec.describe "Userpage", type: :request do
             end
 
             it 'DM作成するためのボタンが表示されること' do
-              expect(response.body).to include "チャットを始める"
+              expect(response.body).to include "DMを送る"
             end
           end
         end
@@ -164,10 +150,6 @@ RSpec.describe "Userpage", type: :request do
         end
 
         it '正しいプロフィールとフォローしているユーザーを表示すること' do
-          expect(response.body).to include user.username
-          expect(response.body).to include user.profile
-          expect(response.body).to include user.email
-          expect(response.body).to include "男"
           expect(response.body).to include "Following"
           expect(response.body).to include second_user.username
         end
@@ -211,12 +193,8 @@ RSpec.describe "Userpage", type: :request do
         end
 
         it '正しいプロフィールとフォローしているユーザーを表示すること' do
-          expect(response.body).to include second_user.username
-          expect(response.body).to include second_user.profile
-          expect(response.body).to include second_user.email
-          expect(response.body).to include "男"
-          expect(response.body).to include "Followers"
           expect(response.body).to include user.username
+          expect(response.body).to include "Followers"
         end
       end
 
