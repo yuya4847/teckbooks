@@ -256,9 +256,9 @@
     <div class="tab-content active">
 
       <div class="recent-reviews">
-        <% if @browsingHistories.size != 0 %>
-          <% @browsingHistories.each do |recent_review, i| %>
-            <div class="recent-review">
+        <% if @browsing_histories.size != 0 %>
+          <% @browsing_histories.each do |recent_review, i| %>
+            <div class="recent-review recent-review-<%= recent_review.id %>">
               <%= link_to review_path(recent_review.review) do %>
                 <% if recent_review.review.picture.url %>
                   <img class="recent-review-image" src="<%= recent_review.review.picture.url %>">
@@ -282,7 +282,7 @@
       <div class="recent-reviews">
         <% if @related_reviews.size != 0 %>
           <% @related_reviews.each do |related_review, i| %>
-            <div class="recent-review">
+            <div class="recent-review related-review-<%= related_review.id %>">
               <%= link_to review_path(related_review) do %>
                 <% if related_review.picture.url %>
                   <img class="recent-review-image" src="<%= related_review.picture.url %>">

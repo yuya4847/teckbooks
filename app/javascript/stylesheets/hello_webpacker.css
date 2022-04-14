@@ -21,10 +21,15 @@ textarea {
   align-items: center;
   position: fixed;
   bottom: -100px;
+  z-index: 30;
 }
 
-.flash {
-
+.alert {
+  position: relative;
+  padding: 0px;
+  margin-bottom: 0px;
+  border: none;
+  border-radius: none;
 }
 
 .icon-image-class {

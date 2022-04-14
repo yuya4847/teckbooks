@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   post 'userpages/profile_reviews/review_follow/create', to: 'follow#create', as: 'follow_from_userpage_profile_reviews'
   post 'userpages/profile_reviews/review_follow/destroy', to: 'follow#destroy', as: 'unfollow_from_userpage_profile_reviews'
 
-  resources :userpages,     only: [:show]
+  resources :userpages, only: [:show]
   delete 'userpages/:id', to: 'userpages#avatar_destroy'
   get 'userpages/profile_reviews/:id', to: 'userpages#profile_reviews', as: 'profile_reviews'
   get 'userpages/:id/following', to: 'userpages#following', as: 'following_user'

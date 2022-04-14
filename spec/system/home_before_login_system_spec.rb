@@ -110,6 +110,9 @@ RSpec.describe "Homes_before_login", type: :system do
   describe 'ログイン前の利用規約ページの検証', js: true do
     let!(:user) { create(:user) }
     let!(:sample_user) { create(:second_user, email: "example@samp.com") }
+    let!(:recent_review) { create(:recent_review) }
+    let!(:good_review) { create(:good_review) }
+    let!(:great_review) { create(:great_review) }
 
     it '利用規約ページの要素検証すること' do
       visit '/'

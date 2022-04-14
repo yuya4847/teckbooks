@@ -3,3 +3,24 @@
 <% else %>
   <%= render partial: 'home_page_before_login', locals: { knetaki_review: @knetaki_review, azarashi_review: @azarashi_review, kumamon_review: @kumamon_review }%>
 <% end %>
+
+
+<script type="text/javascript">
+  $(function(){
+
+    if($('#notice').text().length) {
+      $('#flash-messages').stop().animate({'bottom' : '5px'}, 400);
+      setTimeout(function() {
+        $('#flash-messages').stop().animate({'bottom' : '-105px'}, 400);
+	    }, 3500);
+    }
+
+    if($('#notice').text().length == "") {
+      $('#notice').css("display", "none");
+    }
+
+    if($('#alert').text().length == "") {
+      $('#alert').css("display", "none");
+    }
+  });
+</script>

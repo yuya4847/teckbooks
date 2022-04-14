@@ -512,25 +512,29 @@
 <div class="wrap-tab">
   <ul id="js-tab" class="list-tab">
     <li id="recent-review" class="active">最近見た投稿</li>
-    <li id="related-review">関連した投稿</li>
+    <li id="related-review" class="related_reviews_class">関連した投稿</li>
   </ul>
   <div class="wrap-tab-content">
     <div class="tab-content active">
 
       <div class="recent-reviews">
-        <% @browsingHistories.each do |recent_review, i| %>
-          <div class="recent-review">
-            <%= link_to review_path(recent_review.review) do %>
-              <% if recent_review.review.picture.url %>
-                <img class="recent-review-image" src="<%= recent_review.review.picture.url %>">
-              <% else %>
-                <div class="recent-review-no-image">𝙉𝙤 𝙄𝙢𝙖𝙜𝙚</div>
+        <% if @browsing_histories.size != 0 %>
+          <% @browsing_histories.each do |recent_review, i| %>
+            <div class="recent-review recent-review-<%= recent_review.id %>">
+              <%= link_to review_path(recent_review.review) do %>
+                <% if recent_review.review.picture.url %>
+                  <img class="recent-review-image" src="<%= recent_review.review.picture.url %>">
+                <% else %>
+                  <div class="recent-review-no-image">𝙉𝙤 𝙄𝙢𝙖𝙜𝙚</div>
+                <% end %>
               <% end %>
-            <% end %>
-            <div class="recent-review-link-a">
-              <%= link_to "#{recent_review.review.title}", review_path(recent_review.review), class: "recent-review-link" %>
+              <div class="recent-review-link-a">
+                <%= link_to "#{recent_review.review.title}", review_path(recent_review.review), class: "recent-review-link" %>
+              </div>
             </div>
-          </div>
+          <% end %>
+        <% else %>
+          <div class="recent-reviews-no-exist">最近見た投稿はありません</div>
         <% end %>
       </div>
 

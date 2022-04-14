@@ -63,8 +63,8 @@
 
       <div>
         <% unless @user == current_user %>
-          <% if @isRoom == true %>
-            <a class="to-dm" href="/rooms/<%= @roomId %>">
+          <% if @is_room == true %>
+            <a class="to-dm" href="/rooms/<%= @room_id %>">
               <%= render partial: 'mypage_profile_dm_svg' %>
               <div class="to-dm-div-tag">DMへ</div>
             </a>
@@ -83,7 +83,7 @@
       </div>
 
       <%= button_to profile_reviews_path(@user.id), class: "profile-reviews", method: :get do %>
-          <div class="">投稿したレビューを見る</div>
+          <div>投稿したレビューを見る</div>
       <% end %>
     </div>
   </div>

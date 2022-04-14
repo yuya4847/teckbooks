@@ -44,6 +44,13 @@
 	    }, 3500);
     }
 
+    if($('#alert').text().length) {
+      $('#flash-messages').stop().animate({'bottom' : '5px'}, 400);
+      setTimeout(function() {
+        $('#flash-messages').stop().animate({'bottom' : '-105px'}, 400);
+	    }, 3500);
+    }
+
     if($('#notice').text().length == "") {
       $('#notice').css("display", "none");
     }

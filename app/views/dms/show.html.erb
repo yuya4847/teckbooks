@@ -6,12 +6,12 @@
         <div>DM</div>
       </div>
     </div>
-    <div>
-      <% if @currentUserEntries.size != 0 %>
-        <% @currentUserEntries.each do |currentUserEntry| %>
+    <div class="dm-rooms-scroll">
+      <% if @current_user_entries.size != 0 %>
+        <% @current_user_entries.each do |currentUserEntry| %>
           <% currentUserEntry.room.entries.each do |entry| %>
             <% unless entry.user_id == current_user.id %>
-              <a class="to-room-each" href="/rooms/<%= currentUserEntry.room.id %>">
+              <a class="to-room-each each-dm-room-<%= currentUserEntry.room.id %>" href="/rooms/<%= currentUserEntry.room.id %>">
                 <% if entry.user.avatar.url %>
                   <img src="<%= entry.user.avatar.url %>" class="icon-image-class" style="height: 47px; width: 47px;">
                 <% else %>
@@ -40,7 +40,6 @@
                     </div>
                   </div>
                   <div>
-
                   </div>
                 </div>
               </a>
@@ -51,6 +50,7 @@
         <div class="dm-room-none-ms">DMはありません</div>
       <% end %>
     </div>
+    <div class="dm-rooms-bottom-margin"></div>
   </div>
 </div>
 
