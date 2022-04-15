@@ -1,27 +1,27 @@
 class UserpagesController < ApplicationController
   before_action :authenticate_user!, only: [:show, :profile_reviews, :avatar_destroy, :following, :followers]
-  before_action :user_exist?,       only: [:show, :following, :followers]
-  before_action :correct_user,       only: [:avatar_destroy]
+  before_action :user_exist?, only: [:show, :following, :followers]
+  before_action :correct_user, only: [:avatar_destroy]
   REAOMMEND_USERS = 5
   RELATED_REVIRES_COUNT = 7
 
   def show
     @user = User.find(params[:id])
     @reviews = @user.reviews
-    @currentUserEntry = Entry.where(user_id: current_user.id)
-    @UserEntry = Entry.where(user_id: @user.id)
+    @current_user_entry = Entry.where(user_id: current_user.id)
+    @user_entry = Entry.where(user_id: @user.id)
     if @user.id == current_user.id
-      @currentUserEntries = Entry.where(user_id: current_user.id)
+      @current_user_entries = Entry.where(user_id: current_user.id)
     else
-      @currentUserEntry.each do |cu|
-        @UserEntry.each do |u|
+      @current_user_entry.each do |cu|
+        @user_entry.each do |u|
           if cu.room_id == u.room_id
-            @isRoom = true
-            @roomId = cu.room_id
+            @is_room = true
+            @room_id = cu.room_id
           end
         end
       end
-      if @isRoom
+      if @is_room
       else
         @room = Room.new
         @entry = Entry.new
@@ -54,7 +54,7 @@ class UserpagesController < ApplicationController
       )
     )
     "
-    @may_frind_other_userss = Relationship.find_by_sql([querys, current_user_id: current_user.id ])
+    @may_frind_other_userss = Relationship.find_by_sql([querys, current_user_id: current_user.id])
 
     query = "
     SELECT *
@@ -69,22 +69,14 @@ class UserpagesController < ApplicationController
     "
     @may_frind_other_users = Relationship.find_by_sql([query, { follow_user_ids: current_user.following.ids, current_user_id: current_user.id }])
 
-    @following_users = Relationship.where("follower_id IN (:follow_user_ids)",
-    follow_user_ids: current_user.following.ids)
+    @following_users = Relationship.where("follower_id IN (:follow_user_ids)", follow_user_ids: current_user.following.ids)
     user_ids = []
     @following_users.each do |following_user|
       user_ids << following_user.followed_id
     end
-    @may_friend_users = User.not_user(current_user)
-    .where.not("id IN (:current_following_ids)",
-    current_following_ids: current_user.following.ids)
-    .where("id IN (:following_user_ids)",
-    following_user_ids: user_ids)
-
-
-    @unknown_users = User.where.not("id IN (:follow_ids) OR id = :current_id",
-    follow_ids: current_user.following.ids,
-    current_id: current_user).shuffle.take(REAOMMEND_USERS)
+    @may_friend_users = User.not_user(current_user).where.not("id IN (:current_following_ids)", current_following_ids: current_user.following.ids).where("id IN (:following_user_ids)", following_user_ids: user_ids)
+    @unknown_users = User.where.not("id IN (:follow_ids) OR id = :current_id", follow_ids: current_user.following.ids,
+                                                                               current_id: current_user).shuffle.take(REAOMMEND_USERS)
     @unknown_users -= @may_friend_users
   end
 
@@ -112,18 +104,18 @@ class UserpagesController < ApplicationController
 
   private
 
-    def user_exist?
-      unless User.exists?(id: params[:id])
-        flash[:alert] = "ユーザーは存在しません。"
-        redirect_to root_path
-      end
+  def user_exist?
+    unless User.exists?(id: params[:id])
+      flash[:alert] = "ユーザーは存在しません。"
+      redirect_to root_path
     end
+  end
 
-    def correct_user
-      @user = User.find(params[:id])
-      unless @user == current_user
-        flash[:notice] = "現在ログインしているユーザーでは削除できません。"
-        redirect_to root_path
-      end
+  def correct_user
+    @user = User.find(params[:id])
+    unless @user == current_user
+      flash[:notice] = "現在ログインしているユーザーでは削除できません。"
+      redirect_to root_path
     end
+  end
 end

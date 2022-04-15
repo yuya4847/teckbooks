@@ -30,17 +30,17 @@ class RoomsController < ApplicationController
 
   private
 
-    def entry_params
-      params.require(:entry).permit(
-        :user_id,
-        :room_id
-      ).merge(room_id: @room.id)
-    end
+  def entry_params
+    params.require(:entry).permit(
+      :user_id,
+      :room_id
+    ).merge(room_id: @room.id)
+  end
 
-    def room_exist?
-      unless Room.exists?(id: params[:id])
-        flash[:alert] = "メッセージはありません"
-        redirect_to root_path
-      end
+  def room_exist?
+    unless Room.exists?(id: params[:id])
+      flash[:alert] = "メッセージはありません"
+      redirect_to root_path
     end
+  end
 end

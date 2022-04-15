@@ -6,6 +6,8 @@ AllCops:
     - 'app/helpers/application_helper.rb'
     - 'app/models/review.rb'
     - 'app/models/user.rb'
+    - 'app/models/comment.rb'
+    - 'app/models/notification.rb'
     - 'db/**/*'
     - 'bin/*'
     - 'config/environments/*'

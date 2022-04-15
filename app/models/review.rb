@@ -158,20 +158,20 @@ class Review < ApplicationRecord
 
   private
 
-    def rate_custom_error
-      if rate.blank?
-        errors.add(:rate, "を入力してください")
-      elsif rate <= 0 || rate >= 6
-        errors.add(:rate, "は1以上5以下の値にしてください")
-      elsif !rate.is_a?(Integer)
-        errors.add(:rate, "は数値で入力してください")
-      end
+  def rate_custom_error
+    if rate.blank?
+      errors.add(:rate, "を入力してください")
+    elsif rate <= 0 || rate >= 6
+      errors.add(:rate, "は1以上5以下の値にしてください")
+    elsif !rate.is_a?(Integer)
+      errors.add(:rate, "は数値で入力してください")
     end
+  end
 
-    # アップロード画像のサイズを検証する
-    def picture_size
-      if picture.size > 5.megabytes
-        errors.add(:picture, "should be less than 5MB")
-      end
+  # アップロード画像のサイズを検証する
+  def picture_size
+    if picture.size > 5.megabytes
+      errors.add(:picture, "should be less than 5MB")
     end
+  end
 end

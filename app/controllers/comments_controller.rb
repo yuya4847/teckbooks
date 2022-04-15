@@ -1,6 +1,5 @@
-include ActionView::Helpers::DateHelper
 class CommentsController < ApplicationController
-
+  include ActionView::Helpers::DateHelper
   def create
     @comment = Comment.new(comment_params)
     @comment.user_id = current_user.id
@@ -34,8 +33,8 @@ class CommentsController < ApplicationController
         parent_comment: @parent_comment,
         reponse_comment: @comment,
         response_user: current_user,
-        response_comment_date: "#{time_ago_in_words(@comment.created_at).delete("約").delete("未満") }"
-       }
+        response_comment_date: "#{time_ago_in_words(@comment.created_at).delete("約").delete("未満")}",
+      }
       render json: contents
     end
   end
@@ -43,9 +42,7 @@ class CommentsController < ApplicationController
   def response_destroy
     @comment = Comment.find(params[:comment_id])
     if @comment.destroy
-      contents = {
-        destroy_comment: @comment
-       }
+      contents = { destroy_comment: @comment }
       render json: contents
     end
   end

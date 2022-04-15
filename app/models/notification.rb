@@ -8,7 +8,7 @@ class Notification < ApplicationRecord
   belongs_to :dm_message, class_name: "Message", optional: true
   validates :visitor_id, presence: true
   validates :visited_id, presence: true
-  ACTION_VALUES = ["like", "follow", "comment", "response_comment", "report", "dm", "recommend"]
+  ACTION_VALUES = ["like", "follow", "comment", "response_comment", "report", "dm", "recommend"].freeze
   validates :action,  presence: true, inclusion: { in: ACTION_VALUES }
   validates :checked, inclusion: { in: [true, false] }
 end

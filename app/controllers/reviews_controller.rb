@@ -2,16 +2,16 @@ class ReviewsController < ApplicationController
   REAOMMEND_USERS = 5
   RELATED_REVIRES_COUNT = 7
   before_action :authenticate_user!, only: [:index, :all_reviews, :new, :create, :show, :edit, :update, :review_destroy]
-  before_action :review_exist?,       only: [:show, :edit]
-  before_action :correct_user,       only: [:edit, :update]
-  before_action :admin_or_current_user,     only: :review_destroy
+  before_action :review_exist?, only: [:show, :edit]
+  before_action :correct_user, only: [:edit, :update]
+  before_action :admin_or_current_user, only: :review_destroy
   impressionist actions: [:show]
 
   def index
     @q = Review.ransack(params[:q])
-    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(10)
+    @ranking_reviews = Review.includes(:liked_users).sort { |a, b| b.liked_users.size <=> a.liked_users.size }.first(10)
     @top_pv_reviews = Review.find_top_pv_reviews
-    all_tags = [ "ruby", "rails", "php", "laravel", "python", "django", "go", "java", "javascript", "typescript", "aws", "docker", "linux", "sql", "vue", "react", "html", "kurbenetes", "swift", "flutter" ];
+    all_tags = ["ruby", "rails", "php", "laravel", "python", "django", "go", "java", "javascript", "typescript", "aws", "docker", "linux", "sql", "vue", "react", "html", "kurbenetes", "swift", "flutter"]
     if params[:search_word]
       if all_tags.include?(params[:search_word])
         @search_word = "#{params[:search_word]}_search_tag"
@@ -27,27 +27,7 @@ class ReviewsController < ApplicationController
 
   def tag_search
     if params[:id] == "その他"
-      @reviews = Review.includes(:tags)
-      .where.not(tags: { name: "ruby" })
-      .where.not(tags: { name: "rails" })
-      .where.not(tags: { name: "php" })
-      .where.not(tags: { name: "laravel" })
-      .where.not(tags: { name: "python" })
-      .where.not(tags: { name: "django" })
-      .where.not(tags: { name: "go" })
-      .where.not(tags: { name: "java" })
-      .where.not(tags: { name: "javascript" })
-      .where.not(tags: { name: "typescript" })
-      .where.not(tags: { name: "aws" })
-      .where.not(tags: { name: "docker" })
-      .where.not(tags: { name: "linux" })
-      .where.not(tags: { name: "sql" })
-      .where.not(tags: { name: "vue" })
-      .where.not(tags: { name: "react" })
-      .where.not(tags: { name: "html" })
-      .where.not(tags: { name: "kurbenetes" })
-      .where.not(tags: { name: "swift" })
-      .where.not(tags: { name: "flutter" })
+      @reviews = Review.includes(:tags).where.not(tags: { name: ["ruby", "rails", "php", "laravel", "python", "django", "go", "java", "javascript", "typescript", "aws", "docker", "linux", "sql", "vue", "react", "html", "kurbenetes", "swift", "flutter"] })
       render 'reviews/search_result'
     else
       @tag = Tag.find_by(name: params[:id])
@@ -59,10 +39,10 @@ class ReviewsController < ApplicationController
   def all_reviews
     @reviews = Review.all.includes(:user).page(params[:page]).per(6)
     @will_recommend_users = User.not_user(current_user)
-    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(10)
+    @ranking_reviews = Review.includes(:liked_users).sort { |a, b| b.liked_users.size <=> a.liked_users.size }.first(10)
     @top_pv_reviews = Review.find_top_pv_reviews
     @recommends = Recommend.all
-    @browsingHistories = BrowsingHistory.order(created_at: :desc).where(user_id: current_user.id)
+    @browsing_histories = BrowsingHistory.order(created_at: :desc).where(user_id: current_user.id)
   end
 
   def new
@@ -91,7 +71,7 @@ class ReviewsController < ApplicationController
     @recommends = Recommend.all
     @will_recommend_users = User.not_user(current_user)
     @top_pv_reviews = Review.find_top_pv_reviews
-    @ranking_reviews = Review.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.first(10)
+    @ranking_reviews = Review.includes(:liked_users).sort { |a, b| b.liked_users.size <=> a.liked_users.size }.first(10)
     impressionist(@review, nil, unique: [:session_hash])
     @user = @review.user
     @comment = Comment.new
@@ -119,7 +99,7 @@ class ReviewsController < ApplicationController
       histories[0].destroy
     end
 
-    @browsingHistories = BrowsingHistory.order(created_at: :desc).where(user_id: current_user.id)
+    @browsing_histories = BrowsingHistory.order(created_at: :desc).where(user_id: current_user.id)
   end
 
   def edit
@@ -157,37 +137,38 @@ class ReviewsController < ApplicationController
 
   private
 
-    def review_params
-      params.require(:review).permit(
-        :picture,
-        :content,
-        :rate,
-        :title,
-        :link
-      )
-    end
+  def review_params
+    params.require(:review).permit(
+      :picture,
+      :content,
+      :rate,
+      :title,
+      :link
+    )
+  end
 
-    def review_exist?
-      unless Review.exists?(id: params[:id])
-        flash[:alert] = "レビューは存在しません。"
-        redirect_to root_path
-      end
+  def review_exist?
+    unless Review.exists?(id: params[:id])
+      flash[:alert] = "レビューは存在しません。"
+      redirect_to root_path
     end
+  end
 
-    # 正しいユーザーかどうか確認
-    def correct_user
-      @review = Review.find(params[:id])
-      unless @review.user == current_user
-        flash[:notice] = "この投稿は編集できません。"
-        redirect_to root_path
-      end
+  # 正しいユーザーかどうか確認
+  def correct_user
+    @review = Review.find(params[:id])
+    unless @review.user == current_user
+      flash[:notice] = "この投稿は編集できません。"
+      redirect_to root_path
     end
+  end
 
-    def admin_or_current_user
-      @review = Review.find(params[:id])
-      unless @review.user == current_user || current_user.admin?
-        flash[:notice] = "この投稿は削除できません。"
-        redirect_to root_path
-      end
+  def admin_or_current_user
+    @review = Review.find(params[:id])
+    if @review.user == current_user || current_user.admin?
+    else
+      flash[:notice] = "この投稿は削除できません。"
+      redirect_to root_path
     end
+  end
 end

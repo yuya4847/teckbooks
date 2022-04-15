@@ -7,9 +7,9 @@ class Message < ApplicationRecord
   validates :content, presence: true
 
   def create_notification_dm!(visitor_user, visited_user)
-    new_notification = visitor_user.active_notifications.create(
+    visitor_user.active_notifications.create(
       visited_id: visited_user[0].id,
-      dm_message_id: self.id,
+      dm_message_id: id,
       action: "dm"
     )
     unless visitor_user == visited_user

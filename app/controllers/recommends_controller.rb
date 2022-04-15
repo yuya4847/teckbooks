@@ -1,9 +1,8 @@
 class RecommendsController < ApplicationController
-
   def recommend_open_modal
     @review = Review.find(params[:review_id])
     @recommend_user_ids = Recommend.where(recommend_user_id: current_user.id, review_id: @review.id).pluck(:recommended_user_id).map(&:to_i)
-    contents = { click_user_ids: @recommend_user_ids, recommend_review: @review}
+    contents = { click_user_ids: @recommend_user_ids, recommend_review: @review }
     render json: contents
   end
 
@@ -27,7 +26,7 @@ class RecommendsController < ApplicationController
       @review.create_notification_recommend!(current_user, User.find(new_recommend))
     end
 
-    contents = { review_id: @review.id}
+    contents = { review_id: @review.id }
     render json: contents
   end
 end

@@ -3,7 +3,7 @@ class FollowController < ApplicationController
     @user = User.find(params[:user_id])
     current_user.follow(@user)
     @user.create_notification_follow!(current_user, @user)
-    if (params[:review_id])
+    if params[:review_id]
       @review = Review.find(params[:review_id])
       follow_results = { follow_review_id: @review.id, follow_user_id: @user.id }
     else
@@ -16,7 +16,7 @@ class FollowController < ApplicationController
   def destroy
     @user = User.find(params[:user_id])
     current_user.unfollow(@user)
-    if (params[:review_id])
+    if params[:review_id]
       @review = Review.find(params[:review_id])
       not_follow_results = { not_follow_review_id: @review.id, not_follow_user_id: @user.id }
     else

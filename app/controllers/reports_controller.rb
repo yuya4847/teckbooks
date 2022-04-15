@@ -3,7 +3,6 @@ class ReportsController < ApplicationController
     Report.create(user_id: current_user.id, review_id: params[:review_id])
     @review = Review.find(params[:review_id])
     @review.create_notification_report!(current_user)
-
     @report_reviews = Review.find_by_sql('
       SELECT *
       FROM reviews
@@ -22,7 +21,7 @@ class ReportsController < ApplicationController
     else
       @is_delete_review = false
     end
-    contents = { review_id: @review.id, is_delete_review: @is_delete_review}
+    contents = { review_id: @review.id, is_delete_review: @is_delete_review }
     render json: contents
   end
 end

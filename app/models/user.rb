@@ -97,21 +97,21 @@ class User < ApplicationRecord
 
   private
 
-    # アップロードされた画像のサイズをバリデーションする
-    def avatar_size
-      if avatar.size > 5.megabytes
-        errors.add(:avatar, "should be less than 5MB")
-      end
+  # アップロードされた画像のサイズをバリデーションする
+  def avatar_size
+    if avatar.size > 5.megabytes
+      errors.add(:avatar, "should be less than 5MB")
     end
+  end
 
-    def build_default_rule
-      case self.id
-        when 1 then
-          Rule.create(user_id: self.id, rule_name: "admin")
-        when 2 then
-          Rule.create(user_id: self.id, rule_name: "sample")
-        else
-          Rule.create(user_id: self.id, rule_name: "general")
-      end
+  def build_default_rule
+    case id
+      when 1
+        Rule.create(user_id: id, rule_name: "admin")
+      when 2
+        Rule.create(user_id: id, rule_name: "sample")
+      else
+        Rule.create(user_id: id, rule_name: "general")
     end
+  end
 end
