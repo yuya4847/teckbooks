@@ -2,6 +2,14 @@ input::-webkit-calendar-picker-indicator {
     opacity: 0;
 }
 
+.alert {
+  position: relative;
+  padding: 0px;
+  margin-bottom: 0px;
+  border: none;
+  border-radius: none;
+}
+
 .footer-layout-set-on {
   display: none;
 }
@@ -22,14 +30,6 @@ textarea {
   position: fixed;
   bottom: -100px;
   z-index: 30;
-}
-
-.alert {
-  position: relative;
-  padding: 0px;
-  margin-bottom: 0px;
-  border: none;
-  border-radius: none;
 }
 
 .icon-image-class {
