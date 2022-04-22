@@ -35,7 +35,7 @@ gem 'google-analytics-rails'
 gem 'impressionist'
 gem 'rakuten_web_service'
 gem "selenium-webdriver"
-
+gem 'dotenv-rails'
 gem 'nokogiri'
 gem 'open-uri'
 
@@ -46,7 +46,7 @@ gem 'sweet-alert2-rails'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
-  gem 'sqlite3', '~> 1.4'
+  gem 'mysql2', '~> 0.5'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'pry-rails'

@@ -12,14 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2022_03_20_044448) do
 
-  create_table "browsing_histories", force: :cascade do |t|
+  create_table "browsing_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "review_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "comments", force: :cascade do |t|
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content"
     t.integer "user_id"
     t.integer "review_id"
@@ -28,14 +28,14 @@ ActiveRecord::Schema.define(version: 2022_03_20_044448) do
     t.integer "parent_id"
   end
 
-  create_table "entries", force: :cascade do |t|
+  create_table "entries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "room_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "impressions", force: :cascade do |t|
+  create_table "impressions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "impressionable_type"
     t.integer "impressionable_id"
     t.integer "user_id"
@@ -54,21 +54,21 @@ ActiveRecord::Schema.define(version: 2022_03_20_044448) do
     t.index ["controller_name", "action_name", "request_hash"], name: "controlleraction_request_index"
     t.index ["controller_name", "action_name", "session_hash"], name: "controlleraction_session_index"
     t.index ["impressionable_type", "impressionable_id", "ip_address"], name: "poly_ip_index"
-    t.index ["impressionable_type", "impressionable_id", "params"], name: "poly_params_request_index"
+    t.index ["impressionable_type", "impressionable_id", "params"], name: "poly_params_request_index", length: { params: 255 }
     t.index ["impressionable_type", "impressionable_id", "request_hash"], name: "poly_request_index"
     t.index ["impressionable_type", "impressionable_id", "session_hash"], name: "poly_session_index"
-    t.index ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index"
+    t.index ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index", length: { message: 255 }
     t.index ["user_id"], name: "index_impressions_on_user_id"
   end
 
-  create_table "likes", force: :cascade do |t|
+  create_table "likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "review_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "messages", force: :cascade do |t|
+  create_table "messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "room_id"
     t.text "content"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_044448) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "notifications", force: :cascade do |t|
+  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "visitor_id"
     t.integer "visited_id"
     t.integer "review_id"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_044448) do
     t.integer "dm_message_id"
   end
 
-  create_table "recommends", force: :cascade do |t|
+  create_table "recommends", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "recommend_user_id"
     t.integer "recommended_user_id"
     t.integer "review_id"
@@ -97,25 +97,25 @@ ActiveRecord::Schema.define(version: 2022_03_20_044448) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "relationships", force: :cascade do |t|
+  create_table "relationships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "reports", force: :cascade do |t|
+  create_table "reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "review_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "reviews", force: :cascade do |t|
+  create_table "reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.integer "rate"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "link"
@@ -124,33 +124,33 @@ ActiveRecord::Schema.define(version: 2022_03_20_044448) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
-  create_table "rooms", force: :cascade do |t|
+  create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "rules", force: :cascade do |t|
+  create_table "rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.string "rule_name", default: "general", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "tag_relationships", force: :cascade do |t|
+  create_table "tag_relationships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "review_id", null: false
     t.integer "tag_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "tags", force: :cascade do |t|
+  create_table "tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

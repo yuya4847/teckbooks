@@ -7,7 +7,9 @@ services:
       - MYSQL_ROOT_PASSWORD=db_root_password
       - MYSQL_USER=user_name
       - MYSQL_PASSWORD=user_password
-      - RAILS_ENV=development
+      - RAILS_ENV=production
+      - AWS_ACCESS_KEY_ID=AKIAXOA4RC3I7QE2KA4T
+      - AWS_SECRET_ACCESS_KEY=BONFRiCHSB5MVmPLtm/ATcu+RYXMUI+Dih0N
     command: bundle exec puma -C config/puma.rb
     volumes:
       - .:/webapp
