@@ -19,3 +19,7 @@ test:
 
 production:
   <<: *default
+  database: webapp_production
+  host: rails-db
+  username: root
+  password: password
