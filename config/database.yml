@@ -20,6 +20,6 @@ test:
 production:
   <<: *default
   database: webapp_production
-  host: rails-db
-  username: root
-  password: password
+  host: ENV['DATABASE_HOST']
+  username: ENV['DATABASE_USER_NAME']
+  password: ENV['DATABASE_PASSWORD']
