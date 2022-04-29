@@ -37,7 +37,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
-  config.action_mailer.default_url_options = { host: 'https://techbooks.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'https://www.techbookhub.site' }
   # Print deprecation notices to the Rails logger.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
@@ -47,7 +47,7 @@ Rails.application.configure do
     :user_name => ENV['PRO_MAILER_EMAIL'],
     :password => ENV['PRO_MAILER_PASSWORD'],
     :authentication => :plain,
-    :domain => 'heroku.com',
+    :domain => 'smtp.gmail.com',
     :enable_starttls_auto => true
   }
   # Mount Action Cable outside main process or domain.

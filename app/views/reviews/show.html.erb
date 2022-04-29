@@ -17,8 +17,8 @@
                 <% end %>
               <% end %>
               <div style="opacity: 87%;" class="review-show-post-name">
-                <div><%= link_to "#{@review.user.username}", userpage_path(@review.user.id), class: "user-icon-link-color" %></div>
-                <div class="all-review-to-since">Since <%= @review.user.created_at.strftime("%Y/%m/%d") %></div>
+                <div style="opacity: 87%;"><%= link_to "#{@review.user.username}", userpage_path(@review.user.id), class: "user-icon-link-color" %></div>
+                <div style="opacity: 87%;" class="all-review-to-since">Since <%= @review.user.created_at.strftime("%Y/%m/%d") %></div>
               </div>
             </div>
             <div class="review-show-post-follows">
