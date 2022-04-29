@@ -16,7 +16,7 @@
                   <img src="/uploads/user/avatar/default.png" class="icon-image-class" style="height: 45px; width: 45px;">
                 <% end %>
               <% end %>
-              <div class="review-show-post-name">
+              <div style="opacity: 87%;" class="review-show-post-name">
                 <div><%= link_to "#{@review.user.username}", userpage_path(@review.user.id), class: "user-icon-link-color" %></div>
                 <div class="all-review-to-since">Since <%= @review.user.created_at.strftime("%Y/%m/%d") %></div>
               </div>
@@ -36,7 +36,7 @@
                   <% end %>
                 </div>
               <% end %>
-              <div class="review-show-pv"><%=  @review.impressionist_count %>PV</div>
+              <div style="opacity: 87%;" class="review-show-pv"><%= @review.impressionist_count %>PV</div>
             </div>
           </div>
         </div>
