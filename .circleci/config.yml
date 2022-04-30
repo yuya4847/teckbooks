@@ -16,6 +16,9 @@ jobs:
           command: docker-compose exec app bundle install
       - run: sleep 30
       - run:
+          name: setup db preparation
+          command: docker-compose exec db mysql -u root -p -e"$(cat db/grant_user.sql)"
+      - run:
           name: setup db
           command: docker-compose exec app rails db:create db:migrate
       - run:
