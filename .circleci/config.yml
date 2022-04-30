@@ -11,10 +11,10 @@ jobs:
       - run:
           name: docker-compose up
           command: docker-compose up -d
-      - run: sleep 30
       - run:
           name: bundle install
           command: docker-compose exec app bundle install
+      - run: sleep 30
       - run:
           name: setup db
           command: docker-compose exec app rails db:create db:migrate
