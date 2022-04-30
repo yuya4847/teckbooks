@@ -10,7 +10,7 @@ jobs:
           command: |
             set -x
             docker-compose up -d
-            docker exec potepanec_app curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
+            docker exec techbooks_app_1 curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
       - run:
           command: |
             docker-compose exec techbooks_app_1 bash -c 'yes n | bundle exec rails g spree:install --migrate --seed --sample --auto_accept'
