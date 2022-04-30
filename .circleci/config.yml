@@ -13,6 +13,5 @@ workflows:
     jobs:
       - test
         filters:
-            branches:
               only:
                 - task-1
