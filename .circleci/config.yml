@@ -9,6 +9,9 @@ jobs:
           name: docker-compose build
           command: docker-compose build
       - run:
+          name: docker-compose up
+          command: docker-compose up -d
+      - run:
           name: bundle install
           command: docker-compose exec app bundle install
       - run:
@@ -17,9 +20,6 @@ jobs:
       - run:
           name: seed db
           command: docker-compose exec app rails db:seed
-      - run:
-          name: docker-compose up
-          command: docker-compose up -d
       - run:
           name: rspec
           command: docker-compose exec app rspec
