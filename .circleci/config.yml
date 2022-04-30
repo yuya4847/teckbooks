@@ -1,13 +1,26 @@
 version: 2.1
 jobs:
   test:
+    working_directory: ~/techbooks
     docker:
-      - image: circleci/ruby:2.6.3-stretch-node
+      - image: circleci/ruby
     steps:
       - checkout
       - run:
-          name: echo
-          command: echo 'Hello, World'
+          command: |
+            echo "export COMPOSE_FILE=docker-compose.ci.yml" >> $BASH_ENV
+      - run:
+          command: |
+            set -x
+            docker-compose up -d
+            docker exec potepanec_app curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
+      - run:
+          command: |
+            docker-compose exec techbooks_app_1 bash -c 'yes n | bundle exec rails g spree:install --migrate --seed --sample --auto_accept'
+      - run:
+          command: docker-compose exec techbooks_app_1 rspec
+
+
 workflows:
   test_workflow:
     jobs:
