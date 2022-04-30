@@ -2,31 +2,12 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: circleci/ruby:2.7-node
-      - image: circleci/mysql:5.5
-        environment:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: app_test
-          MYSQL_USER: root
-    environment:
-      BUNDLE_JOBS: "3"
-      BUNDLE_RETRY: "3"
-      APP_DATABASE_HOST: "127.0.0.1"
-      RAILS_ENV: test
-    working_directory: ~/techbooks
+      - image: circleci/ruby:2.6.3-stretch-node
     steps:
-      - checkout:
-          path: ~/techbooks
-      - ruby/install-deps
+      - checkout
       - run:
-          name: Database setup
-          command: bundle exec rails db:migrate
-      - run:
-          name: yarn Install
-          command: yarn install
-      - run:
-          name: Rspec
-          command: bundle exec rspec
+          name: echo
+          command: echo 'Hello, World'
 workflows:
   test_workflow:
     jobs:
