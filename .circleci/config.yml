@@ -10,19 +10,19 @@ jobs:
           command: docker-compose build
       - run:
           name: bundle install
-          command: docker-compose exec techbooks_app_1 bundle install
+          command: docker-compose exec app bundle install
       - run:
           name: setup db
-          command: docker-compose exec techbooks_app_1 rails db:create db:migrate
+          command: docker-compose exec app rails db:create db:migrate
       - run:
           name: seed db
-          command: docker-compose exec techbooks_app_1 rails db:seed
+          command: docker-compose exec app rails db:seed
       - run:
           name: docker-compose up
           command: docker-compose up -d
       - run:
           name: rspec
-          command: docker-compose exec techbooks_app_1 rspec
+          command: docker-compose exec app rspec
       - run:
           name: docker-compose down
           command: docker-compose down
