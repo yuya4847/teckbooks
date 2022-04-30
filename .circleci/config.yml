@@ -11,7 +11,7 @@ jobs:
 workflows:
   test_workflow:
     jobs:
-      - test
+      - test:
         filters:
-              only:
-                - task-1
+          only:
+           - task-1
