@@ -12,9 +12,6 @@ jobs:
           name: docker-compose up
           command: docker-compose up -d
       - run:
-          name: bundle install
-          command: docker-compose run app bundle install
-      - run:
           name: setup db
           command: docker-compose run app rails db:create db:migrate
       - run:
