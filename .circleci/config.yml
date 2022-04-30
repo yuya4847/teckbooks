@@ -1,19 +1,34 @@
 version: 2.1
 jobs:
   test:
-    working_directory: ~/techbooks
-    docker:
-      - image: circleci/ruby
+    machine:
+      image: circleci/classic:edge
     steps:
       - checkout
       - run:
-          command: |
-            docker-compose up -d
+          name: docker-compose build
+          command: docker-compose build
       - run:
-          command: |
-            docker-compose exec techbooks_app_1 bash -c 'yes n | bundle exec rails g spree:install --migrate --seed --sample --auto_accept'
+          name: bundle install
+          command: docker-compose run techbooks_app_1 bundle install
       - run:
-          command: docker-compose exec techbooks_app_1 rspec
+          name: setup db
+          command: docker-compose run techbooks_app_1 rails db:create db:migrate
+      - run:
+          name: seed db
+          command: docker-compose run techbooks_app_1 rails db:seed
+      - run:
+          name: docker-compose up
+          command: docker-compose up -d
+      - run:
+          name: rubocop
+          command: docker-compose run techbooks_app_1 rubocop
+      - run:
+          name: rspec
+          command: docker-compose run techbooks_app_1 rspec
+      - run:
+          name: docker-compose down
+          command: docker-compose down
 
 
 workflows:
