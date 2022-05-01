@@ -20,8 +20,8 @@ services:
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=db_root_password
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=password
+      - MYSQL_USER=user_name
+      - MYSQL_PASSWORD=user_password
     volumes:
       - db-data:/var/lib/mysql
   web:

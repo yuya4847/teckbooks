@@ -1,35 +1,89 @@
 version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+
 jobs:
-  test:
-    machine:
-      image: circleci/classic:edge
+  build:
+    working_directory: ~/circleci-demo-ruby-rails
+    docker:
+      - image: cimg/ruby:3.1.1-node # https://circleci.com/developer/ja/images/image/cimg/ruby
+        environment:
+          DB_HOST: 127.0.0.1
+          RAILS_ENV: test
+          BUNDLER_VERSION: 2.3.7
+          TZ: "Japan"
+      - image: cimg/mysql:8.0.27
+        command: [--default-authentication-plugin=mysql_native_password]
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_DATABASE: circle_test
+          MYSQL_USER: user
+          MYSQL_PASSWORD: passw0rd
+
     steps:
       - checkout
-      - run:
-          name: docker-compose build
-          command: docker-compose build
-      - run:
-          name: docker-compose up
-          command: docker-compose up -d
-      - run:
-          name: setup db
-          command: docker-compose run app rails db:create db:migrate
-      - run:
-          name: seed db
-          command: docker-compose exec app rails db:seed
-      - run:
-          name: rspec
-          command: docker-compose exec app rspec
-      - run:
-          name: docker-compose down
-          command: docker-compose down
 
+      - run:
+          name: wait for database
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 3m
 
-workflows:
-  test_workflow:
-    jobs:
-      - test:
-        filters:
-          branches:
-            only:
-            - task-1
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - rails-demo-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - rails-demo-
+
+      - run:
+          name: setup bundler
+          command: |
+            sudo gem update --system
+            sudo gem uninstall bundler
+            sudo rm /usr/local/bin/bundle
+            sudo gem install bundler
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      - run:
+          name: bundle install
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run:
+          name: yarn
+          command: yarn
+
+      # Store bundle cache
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+            - ./node_modules
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: setup database
+          command: |
+            cp -v config/database.ci.yml config/database.yml
+      - run: mysql_config --socket
+      - run: bundle exec rails db:create
+      - run: bundle exec rails db:schema:load
+
+      # Build JavaScript files
+      - run: bundle exec bin/webpack
+
+      - run:
+          name: run rspec
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+      - store_artifacts:
+          path: tmp/screenshots
+          destination: test-screenshots
