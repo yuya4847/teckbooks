@@ -16,6 +16,9 @@ jobs:
           name: db接続を待機
           command: sleep 10
       - run:
+          name: Dockerコンテナの起動の確認
+          command: docker ps
+      - run:
           name: データベースのセットアップ
           command: docker-compose -f docker-compose.test.yml run web rails db:create RAILS_ENV=test
       - run:
