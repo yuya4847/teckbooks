@@ -17,6 +17,9 @@ jobs:
           command: sleep 10
       - run:
           name: データベースのセットアップ
+          command: docker-compose -f docker-compose.test.yml run web rails db:create RAILS_ENV=test
+      - run:
+          name: データベースのマイグレート
           command: docker-compose -f docker-compose.test.yml run web rails db:migrate RAILS_ENV=test
       - run:
           name: Dockerコンテナの停止
