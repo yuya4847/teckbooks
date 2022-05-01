@@ -19,6 +19,12 @@ jobs:
           name: Dockerコンテナの起動の確認
           command: docker ps
       - run:
+          name: 権限
+          command: docker-compose exec db mysql -u root -p -e"$(cat db/grant_user.sql)"
+      - run:
+          name: パスワード入力
+          command: read -s -p "Password: " password
+      - run:
           name: データベースのセットアップ
           command: docker-compose -f docker-compose.yml run app rails db:create RAILS_ENV=test
       - run:
