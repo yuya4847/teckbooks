@@ -1,41 +1,23 @@
-version: '3'
-services:
-  app:
-    build:
-      context: .
-    environment:
-      - MYSQL_ROOT_PASSWORD=db_root_password
-      - MYSQL_USER=user_name
-      - MYSQL_PASSWORD=user_password
-      - RAILS_ENV=development
-    command: bundle exec puma -C config/puma.rb
-    volumes:
-      - .:/webapp
-      - public-data:/webapp/public
-      - tmp-data:/webapp/tmp
-      - log-data:/webapp/log
-    depends_on:
-      - db
-  db:
-    image: mysql:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=db_root_password
-      - MYSQL_USER=user_name
-      - MYSQL_PASSWORD=user_password
-    volumes:
-      - db-data:/var/lib/mysql
-  web:
-    build:
-      context: containers/nginx
-    volumes:
-      - public-data:/webapp/public
-      - tmp-data:/webapp/tmp
-    ports:
-      - 80:80
-    depends_on:
-      - app
-volumes:
-  public-data:
-  tmp-data:
-  log-data:
-  db-data:
+version: 2
+jobs:
+  build:
+    # docker-composeがインストール済みの仮想マシンをプル
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - checkout
+      - run:
+          name: Dockerコンテナのビルド
+          command: docker-compose -f dockertest/docker-compose.test.yml build
+      - run:
+          name: Dockerコンテナの起動
+          command: docker-compose -f dockertest/docker-compose.test.yml up -d
+      - run:
+          name: db接続を待機
+          command: sleep 10
+      - run:
+          name: データベースのセットアップ
+          command: docker-compose -f dockertest/docker-compose.test.yml exec web bundle exec rails db:migrate RAILS_ENV=test
+      - run:
+          name: Dockerコンテナの停止
+          command: docker-compose -f dockertest/docker-compose.test.yml down

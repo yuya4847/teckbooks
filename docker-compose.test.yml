@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ../
+      dockerfile: Dockerfile.test
+    depends_on:
+      - test-db
+      - selenium_chrome
+
+  test-db:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_DATABASE: docker_test
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+    logging:
+      driver: none
