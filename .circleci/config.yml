@@ -23,10 +23,10 @@ jobs:
           command: docker-compose exec db mysql -u root -pdb_root_password -e"$(cat db/grant_user.sql)"
       - run:
           name: データベースのセットアップ
-          command: docker-compose -f docker-compose.yml run app rails db:create RAILS_ENV=test
+          command: docker-compose -f docker-compose.yml run app rails db:create
       - run:
           name: データベースのマイグレート
-          command: docker-compose -f docker-compose.yml run app rails db:migrate RAILS_ENV=test
+          command: docker-compose -f docker-compose.yml run app rails db:migrate
       - run:
           name: webpackerのインストール
           command: docker-compose -f docker-compose.yml run app rails webpacker:install
