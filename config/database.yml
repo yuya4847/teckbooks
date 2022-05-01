@@ -12,10 +12,10 @@ development:
 
 test:
   <<: *default
-  database: myapp_test
+  database: webapp_development
   host: db
-  username: postgres
-  password:
+  username: <%= ENV.fetch('MYSQL_USER') { 'root' } %>
+  password: <%= ENV.fetch('MYSQL_PASSWORD') { 'password' } %>
 
 production:
   <<: *default
