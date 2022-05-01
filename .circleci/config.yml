@@ -8,16 +8,16 @@ jobs:
       - checkout
       - run:
           name: Dockerコンテナのビルド
-          command: docker-compose -f dockertest/docker-compose.test.yml build
+          command: docker-compose -f docker-compose.test.yml build
       - run:
           name: Dockerコンテナの起動
-          command: docker-compose -f dockertest/docker-compose.test.yml up -d
+          command: docker-compose -f docker-compose.test.yml up -d
       - run:
           name: db接続を待機
           command: sleep 10
       - run:
           name: データベースのセットアップ
-          command: docker-compose -f dockertest/docker-compose.test.yml exec web bundle exec rails db:migrate RAILS_ENV=test
+          command: docker-compose -f docker-compose.test.yml exec web bundle exec rails db:migrate RAILS_ENV=test
       - run:
           name: Dockerコンテナの停止
-          command: docker-compose -f dockertest/docker-compose.test.yml down
+          command: docker-compose -f docker-compose.test.yml down
