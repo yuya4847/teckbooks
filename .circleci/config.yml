@@ -28,9 +28,6 @@ jobs:
           name: データベースのマイグレート
           command: docker-compose -f docker-compose.yml run app rails db:migrate
       - run:
-          name: webpackerのインストール
-          command: docker-compose -f docker-compose.yml run app rails webpacker:install
-      - run:
           name: webpackerのコンパイル
           command: docker-compose -f docker-compose.yml run app rails webpacker:compile
       - run:
