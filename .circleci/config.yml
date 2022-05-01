@@ -20,7 +20,8 @@ jobs:
           command: docker ps
       - run:
           name: 権限
-          command: docker-compose exec db mysql -u root -p -e"$(cat db/grant_user.sql)" -p "Password: " password
+          command: docker-compose exec db mysql -u root -p -e"$(cat db/grant_user.sql)"
+          password: password
       - run:
           name: データベースのセットアップ
           command: docker-compose -f docker-compose.yml run app rails db:create RAILS_ENV=test
