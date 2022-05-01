@@ -1,11 +1,9 @@
 version: '3'
 services:
   web:
-    build:
-      context: .
+    build: .
     depends_on:
       - test-db
-      - selenium_chrome
 
   test-db:
     image: mysql:5.7
@@ -15,8 +13,3 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: root
       MYSQL_PASSWORD: password
-
-  selenium_chrome:
-    image: selenium/standalone-chrome-debug
-    logging:
-      driver: none
