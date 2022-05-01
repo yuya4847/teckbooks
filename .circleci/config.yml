@@ -17,7 +17,7 @@ jobs:
           command: sleep 10
       - run:
           name: データベースのセットアップ
-          command: docker-compose -f docker-compose.test.yml exec web bundle exec rails db:migrate RAILS_ENV=test
+          command: docker-compose -f docker-compose.test.yml exec run rails db:migrate RAILS_ENV=test
       - run:
           name: Dockerコンテナの停止
           command: docker-compose -f docker-compose.test.yml down
