@@ -20,10 +20,10 @@ jobs:
           command: docker ps
       - run:
           name: データベースのセットアップ
-          command: docker-compose -f docker-compose.yml run web rails db:create RAILS_ENV=test
+          command: docker-compose -f docker-compose.yml run app rails db:create RAILS_ENV=test
       - run:
           name: データベースのマイグレート
-          command: docker-compose -f docker-compose.yml run web rails db:migrate RAILS_ENV=test
+          command: docker-compose -f docker-compose.yml run app rails db:migrate RAILS_ENV=test
       - run:
           name: Dockerコンテナの停止
           command: docker-compose -f docker-compose.yml down
