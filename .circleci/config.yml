@@ -28,5 +28,8 @@ jobs:
           name: データベースのマイグレート
           command: docker-compose -f docker-compose.yml run app rails db:migrate RAILS_ENV=test
       - run:
+          name: Rspecの実行
+          command: docker-compose -f docker-compose.yml run app bundle exec rspec
+      - run:
           name: Dockerコンテナの停止
           command: docker-compose -f docker-compose.yml down
