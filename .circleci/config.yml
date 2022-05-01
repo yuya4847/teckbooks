@@ -11,7 +11,7 @@ jobs:
           command: docker-compose -f docker-compose.yml build
       - run:
           name: Dockerコンテナの起動
-          command: docker-compose -f docker-compose..yml up -d
+          command: docker-compose -f docker-compose.yml up -d
       - run:
           name: db接続を待機
           command: sleep 10
