@@ -1,16 +1,20 @@
-version: '2'
+version: '3'
 services:
+  db:
+    image: postgres:9.6
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
   web:
     build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
-      - /app/log
+      - .:/myapp
+    ports:
+      - "3000:3000"
     depends_on:
-      - test-db
-
-  test-db:
-    image: mysql
-    environment:
-      MYSQL_DATABASE: docker_test
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      - db
+volumes:
+  postgresql-data:
+    driver: local

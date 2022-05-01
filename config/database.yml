@@ -12,10 +12,10 @@ development:
 
 test:
   <<: *default
-  username: root
-  password: password
-  host: test-db
-  database: docker_test
+  database: myapp_test
+  host: db
+  username: postgres
+  password:
 
 production:
   <<: *default
