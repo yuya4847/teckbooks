@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     machine:
       image: circleci/classic:edge
     steps:
@@ -38,3 +38,24 @@ jobs:
       - run:
           name: Dockerコンテナの停止
           command: docker-compose -f docker-compose.yml down
+
+  deploy:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run: echo "hello world"
+
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - task-1
