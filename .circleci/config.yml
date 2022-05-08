@@ -27,15 +27,11 @@ jobs:
           name: データベースのマイグレート
           command: docker-compose -f docker-compose.yml run app rails db:migrate
       - run:
+          name: Rubocopの実行
+          command: docker-compose -f docker-compose.yml run app bundle exec rubocop
+      - run:
           name: Rspecの実行
           command: docker-compose -f docker-compose.yml run app bundle exec rspec
       - run:
           name: Dockerコンテナの停止
           command: docker-compose -f docker-compose.yml down
-workflows:
-  version: 2
-    jobs:
-      - build
-          filters:
-            branches:
-              only: task-1
