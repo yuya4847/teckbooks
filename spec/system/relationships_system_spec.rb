@@ -2,9 +2,9 @@ require 'rails_helper'
 RSpec.describe "Relationships", type: :system do
   describe 'フォローできること' do
     describe 'プロフィールページからフォロー機能を検証する' do
-      let!(:user) { create(:user) }
-      let!(:second_user) { create(:second_user) }
-      let!(:relationship) { build(:relationship) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:second_user) { create(:second_user, id: 2) }
+      let!(:relationship) { build(:relationship, id: 1) }
 
       it 'フォローできること', js: true do
         log_in_as(user.email, user.password)
@@ -110,10 +110,10 @@ RSpec.describe "Relationships", type: :system do
     end
 
     describe '全投稿一覧ページからフォロー機能を検証する' do
-      let!(:user) { create(:user) }
-      let!(:second_user) { create(:second_user) }
-      let!(:good_review) { create(:good_review, user_id: second_user.id) }
-      let!(:relationship) { build(:relationship) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:second_user) { create(:second_user, id: 2) }
+      let!(:good_review) { create(:good_review, user_id: second_user.id, id: 1) }
+      let!(:relationship) { build(:relationship, id: 1) }
 
       it 'フォローできること', js: true do
         log_in_as(user.email, user.password)
@@ -156,10 +156,10 @@ RSpec.describe "Relationships", type: :system do
     end
 
     describe '投稿詳細ページからフォロー機能を検証する' do
-      let!(:user) { create(:user) }
-      let!(:second_user) { create(:second_user) }
-      let!(:good_review) { create(:good_review, user_id: second_user.id) }
-      let!(:relationship) { build(:relationship) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:second_user) { create(:second_user, id: 2) }
+      let!(:good_review) { create(:good_review, user_id: second_user.id, id: 1) }
+      let!(:relationship) { build(:relationship, id: 1) }
 
       it 'フォローできること', js: true do
         log_in_as(user.email, user.password)
@@ -195,10 +195,10 @@ RSpec.describe "Relationships", type: :system do
 
     describe 'ユーザーの投稿一覧ページからフォロー機能を検証する' do
       describe '友達を見つけよう！からフォロー機能を検証する' do
-        let!(:user) { create(:user) }
-        let!(:second_user) { create(:second_user) }
-        let!(:third_user) { create(:third_user) }
-        let!(:relationship) { create(:relationship) }
+        let!(:user) { create(:user, id: 1) }
+        let!(:second_user) { create(:second_user, id: 2) }
+        let!(:third_user) { create(:third_user, id: 3) }
+        let!(:relationship) { create(:relationship, id: 1) }
 
         it 'フォローできること', js: true do
           log_in_as(user.email, user.password)
@@ -236,11 +236,11 @@ RSpec.describe "Relationships", type: :system do
       end
 
       describe '知り合いかも？からフォロー機能を検証する' do
-        let!(:user) { create(:user) }
-        let!(:second_user) { create(:second_user) }
-        let!(:third_user) { create(:third_user) }
-        let!(:relationship) { create(:relationship) }
-        let!(:second_relationship) { create(:relationship, follower_id: second_user.id, followed_id: third_user.id) }
+        let!(:user) { create(:user, id: 1) }
+        let!(:second_user) { create(:second_user, id: 2) }
+        let!(:third_user) { create(:third_user, id: 3) }
+        let!(:relationship) { create(:relationship, id: 1) }
+        let!(:second_relationship) { create(:relationship, follower_id: second_user.id, followed_id: third_user.id, id: 2) }
 
         it 'フォローできること', js: true do
           log_in_as(user.email, user.password)
@@ -278,7 +278,7 @@ RSpec.describe "Relationships", type: :system do
       end
 
       describe '友達を見つけよう！にユーザーが存在しない場合の検証' do
-        let!(:user) { create(:user) }
+        let!(:user) { create(:user, id: 1) }
 
         it '友達を見つけよう！一覧が発見されないこと', js: true do
           log_in_as(user.email, user.password)
@@ -288,7 +288,7 @@ RSpec.describe "Relationships", type: :system do
       end
 
       describe '知り合いかも？にユーザーが存在しない場合の検証' do
-        let!(:user) { create(:user) }
+        let!(:user) { create(:user, id: 1) }
 
         it '知り合いかも？一覧が発見されないこと', js: true do
           log_in_as(user.email, user.password)
@@ -300,11 +300,11 @@ RSpec.describe "Relationships", type: :system do
   end
 
   describe 'following一覧が閲覧できること' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:third_user) { create(:third_user) }
-    let!(:relationship) { create(:relationship) }
-    let!(:second_relationship) { create(:relationship, follower_id: user.id, followed_id: third_user.id ) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:third_user) { create(:third_user, id: 3) }
+    let!(:relationship) { create(:relationship, id: 1) }
+    let!(:second_relationship) { create(:relationship, follower_id: user.id, followed_id: third_user.id, id: 2) }
 
     it 'following一覧ページが正しく表示されること' do
       log_in_as(user.email, user.password)
@@ -329,12 +329,12 @@ RSpec.describe "Relationships", type: :system do
   end
 
   describe 'followers一覧が閲覧できること' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:third_user) { create(:third_user) }
-    let!(:relationship) { create(:relationship) }
-    let!(:second_relationship) { create(:relationship, follower_id: user.id, followed_id: third_user.id ) }
-    let!(:third_relationship) { create(:relationship, follower_id: second_user.id, followed_id: third_user.id ) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:third_user) { create(:third_user, id: 3) }
+    let!(:relationship) { create(:relationship, id: 1) }
+    let!(:second_relationship) { create(:relationship, follower_id: user.id, followed_id: third_user.id, id: 2) }
+    let!(:third_relationship) { create(:relationship, follower_id: second_user.id, followed_id: third_user.id, id: 3) }
 
     it 'followers一覧ページが正しく表示されること' do
       log_in_as(third_user.email, third_user.password)

@@ -1,11 +1,11 @@
 require 'rails_helper'
 RSpec.describe "Registrations", type: :system do
   describe '新規ユーザーの作成' do
-    let!(:user) { build(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { build(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     it '新規ユーザー画面の要素検証すること' do
       visit '/users/sign_up'
@@ -72,10 +72,10 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe 'ユーザー情報の編集' do
-    let!(:user) { create(:user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     it 'プロフィール編集画面の要素検証すること' do
       log_in_as(user.email, user.password)
@@ -167,12 +167,12 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe 'ユーザーのアカウント削除' do
-    let!(:admin_user) { create(:third_user) }
-    let!(:sample_user) { create(:second_user) }
-    let!(:user) { create(:user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:admin_user) { create(:third_user, id: 1) }
+    let!(:sample_user) { create(:second_user, id: 2) }
+    let!(:user) { create(:user, id: 3) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     it 'ユーザーのアカウントを停止できること' do
       log_in_as(user.email, user.password)
@@ -193,11 +193,11 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe 'accountの有効化' do
-    let!(:user) { build(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { build(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     it 'アカウント有効化メール再送信画面の要素検証をすること' do
       visit '/users/confirmation/new.user'
@@ -287,16 +287,16 @@ RSpec.describe "Registrations", type: :system do
   end
 
   describe 'プロフィールページの表示' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:third_user) { create(:third_user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
-    let!(:relationship) { create(:relationship) }
-    let!(:room) { create(:room) }
-    let!(:entry1) { create(:entry, user_id: user.id, room_id: room.id) }
-    let!(:entry2) { create(:entry, user_id: third_user.id, room_id: room.id) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:third_user) { create(:third_user, id: 3) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
+    let!(:relationship) { create(:relationship, id: 1) }
+    let!(:room) { create(:room, id: 1) }
+    let!(:entry1) { create(:entry, user_id: user.id, room_id: room.id, id: 1) }
+    let!(:entry2) { create(:entry, user_id: third_user.id, room_id: room.id, id: 2) }
 
     context "ユーザーが存在しない場合" do
       it '存在しないプロフィールは閲覧できないこと' do

@@ -57,9 +57,9 @@ RSpec.describe Rule, type: :model do
   end
 
   describe 'ユーザーの作成と同時に、適切なruleが生成されること' do
-    let!(:user) { build(:user) }
-    let!(:second_user) { build(:second_user) }
-    let!(:third_user) { build(:third_user) }
+    let!(:user) { build(:user, id: 1) }
+    let!(:second_user) { build(:second_user, id: 2) }
+    let!(:third_user) { build(:third_user, id: 3) }
 
     it "ユーザーの作成と同時にruleが生成されること" do
       expect{ user.save }.to change{ Rule.count }.by(+1)

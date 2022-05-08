@@ -2,13 +2,13 @@ require 'rails_helper'
 include ActionView::Helpers::DateHelper
 RSpec.describe "Homes_after_login", type: :system do
   describe 'ログイン後のトップページの検証' do
-    let!(:user) { create(:user) }
-    let!(:sample_user) { create(:second_user, email: "example@samp.com") }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:sample_user) { create(:second_user, email: "example@samp.com", id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
-    it 'トップページの要素検証すること', js: true do
+    it 'トップページの要素検証すること' do
       log_in_as(user.email, user.password)
       visit '/'
       within('.search_words') do
@@ -42,7 +42,7 @@ RSpec.describe "Homes_after_login", type: :system do
       end
     end
 
-    xit 'ネットが機能すること', js: true do
+    xit 'ネットが機能すること' do
       # 一応この状態でもxを外せばテストは通るが amazon, googleなど他のapi検索のテストも行う
       log_in_as(user.email, user.password)
       visit '/'

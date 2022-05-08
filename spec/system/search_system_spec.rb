@@ -95,25 +95,25 @@ RSpec.describe "Search", type: :system do
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "ruby"
             find('.title-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within(".mypage-reviews-post-#{Review.last.id}") do
               expect(page).to have_content "#{ruby_review.content}"
             end
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "面白い"
             find('.title-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within(".mypage-reviews-post-#{Review.last.id}") do
               expect(page).to have_content "#{ruby_review.content}"
             end
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "ruby"
             find('.content-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within(".mypage-reviews-post-#{Review.last.id}") do
               expect(page).to have_content "#{ruby_review.content}"
             end
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "面白い"
             find('.content-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within(".mypage-reviews-post-#{Review.last.id}") do
               expect(page).to have_content "#{ruby_review.content}"
             end
           end
@@ -130,49 +130,33 @@ RSpec.describe "Search", type: :system do
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "ガイド"
             find('.title-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within('.index') do
               expect(page).to have_content "#{ruby_review.content}"
-            end
-            within('.mypage-reviews-post-2') do
               expect(page).to have_content "#{php_review.content}"
-            end
-            within('.mypage-reviews-post-3') do
               expect(page).to have_content "#{python_review.content}"
             end
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "面白い"
             find('.title-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within('.index') do
               expect(page).to have_content "#{ruby_review.content}"
-            end
-            within('.mypage-reviews-post-2') do
               expect(page).to have_content "#{php_review.content}"
-            end
-            within('.mypage-reviews-post-3') do
               expect(page).to have_content "#{python_review.content}"
             end
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "ガイド"
             find('.content-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within('.index') do
               expect(page).to have_content "#{ruby_review.content}"
-            end
-            within('.mypage-reviews-post-2') do
               expect(page).to have_content "#{php_review.content}"
-            end
-            within('.mypage-reviews-post-3') do
               expect(page).to have_content "#{python_review.content}"
             end
             visit '/reviews'
             fill_in 'q_title_or_content_cont', with: "面白い"
             find('.content-search-btn').click
-            within('.mypage-reviews-post-1') do
+            within('.index') do
               expect(page).to have_content "#{ruby_review.content}"
-            end
-            within('.mypage-reviews-post-2') do
               expect(page).to have_content "#{php_review.content}"
-            end
-            within('.mypage-reviews-post-3') do
               expect(page).to have_content "#{python_review.content}"
             end
           end

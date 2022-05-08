@@ -6,7 +6,7 @@ RSpec.describe "DmRooms", type: :system do
       let!(:user) { create(:user) }
       let!(:second_user) { create(:second_user) }
 
-      it '要素検証をすること', js: true do
+      it '要素検証をすること' do
         log_in_as(user.email, user.password)
         visit '/dms'
         within(".dm-rooms-frame") do
@@ -32,7 +32,7 @@ RSpec.describe "DmRooms", type: :system do
       let!(:user_and_third_user_room_entry2) { create(:entry, user_id: third_user.id, room_id: user_and_third_user_room.id) }
       let!(:message) { create(:message, content: "メッセージ", user_id: user.id, room_id: user_and_third_user_room.id) }
 
-      it '要素検証をすること', js: true do
+      it '要素検証をすること' do
         log_in_as(user.email, user.password)
         visit '/dms'
         within(".dm-rooms-frame") do
@@ -56,8 +56,8 @@ RSpec.describe "DmRooms", type: :system do
 
   describe 'DMルーム一覧の表示の検証' do
     context 'ルームを追加する場合' do
-      let!(:user) { create(:user) }
-      let!(:second_user) { create(:second_user) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:second_user) { create(:second_user, id: 2) }
 
       it 'ルームが追加されること', js: true do
         log_in_as(user.email, user.password)
@@ -72,7 +72,7 @@ RSpec.describe "DmRooms", type: :system do
         visit '/dms'
         within(".dm-rooms-frame") do
           within(".dm-rooms-scroll") do
-            expect(page).to have_selector 'a', class: "each-dm-room-1"
+            expect(page).to have_selector 'a', class: "each-dm-room-#{Room.last.id}"
           end
         end
       end
@@ -85,7 +85,7 @@ RSpec.describe "DmRooms", type: :system do
       let!(:user_and_second_user_room_entry1) { create(:entry, user_id: user.id, room_id: user_and_second_user_room.id) }
       let!(:user_and_second_user_room_entry2) { create(:entry, user_id: second_user.id, room_id: user_and_second_user_room.id) }
 
-      it 'ルーム一覧に変化がないこと', js: true do
+      it 'ルーム一覧に変化がないこと' do
         log_in_as(user.email, user.password)
         visit '/dms'
         within(".dm-rooms-frame") do
@@ -105,11 +105,11 @@ RSpec.describe "DmRooms", type: :system do
     end
 
     context 'ルームを削除する場合' do
-      let!(:user) { create(:user) }
-      let!(:second_user) { create(:second_user) }
-      let!(:user_and_second_user_room) { create(:room) }
-      let!(:user_and_second_user_room_entry1) { create(:entry, user_id: user.id, room_id: user_and_second_user_room.id) }
-      let!(:user_and_second_user_room_entry2) { create(:entry, user_id: second_user.id, room_id: user_and_second_user_room.id) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:second_user) { create(:second_user, id: 2) }
+      let!(:user_and_second_user_room) { create(:room, id: 1) }
+      let!(:user_and_second_user_room_entry1) { create(:entry, user_id: user.id, room_id: user_and_second_user_room.id, id: 1) }
+      let!(:user_and_second_user_room_entry2) { create(:entry, user_id: second_user.id, room_id: user_and_second_user_room.id, id: 2) }
 
       it 'ルームが削除されていること', js: true do
         log_in_as(user.email, user.password)

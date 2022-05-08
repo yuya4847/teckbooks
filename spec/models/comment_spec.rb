@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  let!(:user) { create(:user) }
-  let!(:good_review) { create(:good_review) }
-  let!(:comment) { build(:comment) }
+  let!(:user) { create(:user, id: 1) }
+  let!(:good_review) { create(:good_review, id: 1) }
+  let!(:comment) { build(:comment, id: 1) }
 
   describe '#new' do
     it "reviewを作成できること" do

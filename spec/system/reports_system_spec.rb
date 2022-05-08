@@ -1,15 +1,15 @@
 require 'rails_helper'
 RSpec.describe "Reports", type: :system do
   describe '通報機能の検証' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:third_user) { create(:third_user) }
-    let!(:unfollow_user) { create(:unfollow_user) }
-    let!(:fifth_user) { create(:user, email: "aaaa@aa.aa") }
-    let!(:top_page_sample_first_review) { create(:good_review) }
-    let!(:top_page_sample_second__review) { create(:good_review) }
-    let!(:top_page_sample_third_review) { create(:good_review) }
-    let!(:good_review) { create(:good_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:third_user) { create(:third_user, id: 3) }
+    let!(:unfollow_user) { create(:unfollow_user, id: 4) }
+    let!(:fifth_user) { create(:user, email: "aaaa@aa.aa", id: 5) }
+    let!(:top_page_sample_first_review) { create(:good_review, id: 1) }
+    let!(:top_page_sample_second__review) { create(:good_review, id: 2) }
+    let!(:top_page_sample_third_review) { create(:good_review, id: 3) }
+    let!(:good_review) { create(:good_review, id: 4) }
 
     describe '全ての投稿一覧から通報を検証する' do
       it '通報ボタン・モーダルの動作確認をすること', js: true do

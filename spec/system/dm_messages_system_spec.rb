@@ -2,15 +2,15 @@ require 'rails_helper'
 include ActionView::Helpers::DateHelper
 RSpec.describe "DmMessages", type: :system do
   describe 'DMルーム内の要素検証' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:room) { create(:room) }
-    let!(:entry1) { create(:entry, user_id: user.id, room_id: room.id) }
-    let!(:entry2) { create(:entry, user_id: second_user.id, room_id: room.id) }
-    let!(:user_message) { create(:message, content: "自分のメッセージ", user_id: user.id, room_id: room.id) }
-    let!(:second_user_message) { create(:message, content: "相手のメッセージ", user_id: second_user.id, room_id: room.id) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:room) { create(:room, id: 1) }
+    let!(:entry1) { create(:entry, user_id: user.id, room_id: room.id, id: 1) }
+    let!(:entry2) { create(:entry, user_id: second_user.id, room_id: room.id, id: 2) }
+    let!(:user_message) { create(:message, content: "自分のメッセージ", user_id: user.id, room_id: room.id, id: 1) }
+    let!(:second_user_message) { create(:message, content: "相手のメッセージ", user_id: second_user.id, room_id: room.id, id: 2) }
 
-    it '要素検証をすること', js: true do
+    it '要素検証をすること' do
       log_in_as(user.email, user.password)
       visit "/rooms/#{room.id}"
       within(".dm-chat-frame") do
@@ -43,11 +43,11 @@ RSpec.describe "DmMessages", type: :system do
   end
 
   describe 'メッセージ送信に関する検証' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     it '相互にメッセージを送りあえること', js: true do
       log_in_as(user.email, user.password)
@@ -66,7 +66,7 @@ RSpec.describe "DmMessages", type: :system do
       click_link 'ログアウト'
       log_in_as(second_user.email, second_user.password)
       find('.mypage-profile-dm-btn').click
-      find('.each-dm-room-1').click
+      find(".each-dm-room-#{Room.last.id}").click
       within(".dm-chat-content") do
         within(".dm-chat-message-each-user") do
           expect(page).to have_selector("a[href$='/userpages/1']")
@@ -88,7 +88,7 @@ RSpec.describe "DmMessages", type: :system do
       click_link 'ログアウト'
       log_in_as(user.email, user.password)
       find('.mypage-profile-dm-btn').click
-      find('.each-dm-room-1').click
+      find(".each-dm-room-#{Room.last.id}").click
       within(".dm-chat-content") do
         within(".dm-chat-message-each-user") do
           expect(page).to have_selector("a[href$='/userpages/2']")

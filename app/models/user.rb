@@ -27,9 +27,8 @@ class User < ApplicationRecord
                                   dependent:   :destroy
   has_many :active_notifications, foreign_key: "visitor_id", class_name: "Notification", dependent: :destroy
   has_many :passive_notifications, foreign_key: "visited_id", class_name: "Notification", dependent: :destroy
-  before_save { self.email = email.downcase }
   validates :username, presence: true, length: { maximum: 20 }
-  validates :email, presence: true, uniqueness: true, length: { maximum: 255 }, format: { with: Const::VALID_EMAIL_REGEX }
+  validates :email, presence: true, uniqueness: true, length: { maximum: 255 }, format: { with: Const::VALID_EMAIL_REGEX }, uniqueness: { case_sensitive:  true }
   validates :password, presence: true, confirmation: true, length: { minimum: 6 }, on: :create
   validates :password, allow_blank: true, confirmation: true, length: { minimum: 6 }, on: :update
   devise :database_authenticatable, :registerable,

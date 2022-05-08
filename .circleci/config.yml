@@ -1,7 +1,6 @@
 version: 2
 jobs:
   build:
-    # docker-composeがインストール済みの仮想マシンをプル
     machine:
       image: circleci/classic:edge
     steps:
@@ -16,10 +15,7 @@ jobs:
           name: db接続を待機
           command: sleep 10
       - run:
-          name: Dockerコンテナの起動の確認
-          command: docker ps
-      - run:
-          name: 権限
+          name: データの権限のセットアップ
           command: docker-compose exec db mysql -u root -pdb_root_password -e"$(cat db/grant_user.sql)"
       - run:
           name: データベースのセットアップ
@@ -36,3 +32,10 @@ jobs:
       - run:
           name: Dockerコンテナの停止
           command: docker-compose -f docker-compose.yml down
+workflows:
+  version: 2
+    jobs:
+      - build
+        filters:
+          branches:
+            only: task-1

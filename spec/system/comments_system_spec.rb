@@ -3,13 +3,13 @@ include ActionView::Helpers::DateHelper
 RSpec.describe "Comments", type: :system do
   describe 'コメントの検証' do
     describe 'コメントの検証' do
-      let!(:user) { create(:user) }
-      let!(:second_user) { create(:second_user) }
-      let!(:good_review) { create(:good_review) }
-      let!(:normal_review) { create(:normal_review) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:second_user) { create(:second_user, id: 2) }
+      let!(:good_review) { create(:good_review, id: 1) }
+      let!(:normal_review) { create(:normal_review, id: 2) }
 
       describe '要素の検証' do
-        it '要素検証をすること', js: true do
+        it '要素検証をすること' do
           log_in_as(user.email, user.password)
           visit "/reviews/#{good_review.id}"
           within('.review-show-post') do
@@ -33,7 +33,7 @@ RSpec.describe "Comments", type: :system do
       end
 
       describe 'キャンセル機能の検証' do
-        it '途中までフォームに入力したコメントがキャンセルされること', js: true do
+        it '途中までフォームに入力したコメントがキャンセルされること' do
           log_in_as(user.email, user.password)
           visit "/reviews/#{good_review.id}"
           comment_textarea = find('#FlexTextarea')
@@ -59,7 +59,7 @@ RSpec.describe "Comments", type: :system do
 
         # 手動だと正しく表示されるが、system_specで文字入力を行うとスタイルが崩れる。
         # context '文字数オーバーの場合' do
-        #   it '文字数オーバーでコメントするとエラーが表示されること', js: true do
+        #   it '文字数オーバーでコメントするとエラーが表示されること' do
         #     log_in_as(user.email, user.password)
         #     visit '/reviews/1'
         #     expect(page).to have_no_selector 'div', id: "comments_error", text: 'コメント内容は500文字以内で入力してください'
@@ -138,12 +138,12 @@ RSpec.describe "Comments", type: :system do
 
     describe 'コメント返信機能の検証' do
       describe '要素の検証' do
-        let!(:user) { create(:user) }
-        let!(:second_user) { create(:second_user) }
-        let!(:good_review) { create(:good_review) }
-        let!(:normal_review) { create(:normal_review) }
-        let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
-        let!(:response_comment) { create(:comment, user_id: user.id, review_id: good_review.id, parent_id: parent_comment.id, content: "bbbbb") }
+        let!(:user) { create(:user, id: 1) }
+        let!(:second_user) { create(:second_user, id: 2) }
+        let!(:good_review) { create(:good_review, id: 1) }
+        let!(:normal_review) { create(:normal_review, id: 2) }
+        let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
+        let!(:response_comment) { create(:comment, user_id: user.id, review_id: good_review.id, parent_id: parent_comment.id, content: "bbbbb", id: 2) }
 
         it '要素検証をすること', js: true do
           log_in_as(user.email, user.password)
@@ -174,12 +174,12 @@ RSpec.describe "Comments", type: :system do
         end
       end
 
-      describe 'キャンセル機能の検証', js: true do
-        let!(:user) { create(:user) }
-        let!(:second_user) { create(:second_user) }
-        let!(:good_review) { create(:good_review) }
-        let!(:normal_review) { create(:normal_review) }
-        let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
+      describe 'キャンセル機能の検証' do
+        let!(:user) { create(:user, id: 1)}
+        let!(:second_user) { create(:second_user, id: 2) }
+        let!(:good_review) { create(:good_review, id: 1) }
+        let!(:normal_review) { create(:normal_review, id: 2) }
+        let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
 
         it '要素検証をすること', js: true do
           log_in_as(user.email, user.password)
@@ -209,11 +209,11 @@ RSpec.describe "Comments", type: :system do
 
       describe '投稿機能の検証' do
         context '未記入の場合' do
-          let!(:user) { create(:user) }
-          let!(:second_user) { create(:second_user) }
-          let!(:good_review) { create(:good_review) }
-          let!(:normal_review) { create(:normal_review) }
-          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
+          let!(:user) { create(:user, id: 1) }
+          let!(:second_user) { create(:second_user, id: 2) }
+          let!(:good_review) { create(:good_review, id: 1) }
+          let!(:normal_review) { create(:normal_review, id: 2) }
+          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
 
           it '未入力で返信するとエラーが表示されること', js: true do
             log_in_as(user.email, user.password)
@@ -231,14 +231,14 @@ RSpec.describe "Comments", type: :system do
         end
 
         context '文字数オーバーの場合' do
-          let!(:user) { create(:user) }
-          let!(:second_user) { create(:second_user) }
-          let!(:good_review) { create(:good_review) }
-          let!(:normal_review) { create(:normal_review) }
-          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
+          let!(:user) { create(:user, id: 1) }
+          let!(:second_user) { create(:second_user, id: 2) }
+          let!(:good_review) { create(:good_review, id: 1) }
+          let!(:normal_review) { create(:normal_review, id: 2) }
+          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
 
           # 手動だと正しく表示されるが、system_specで文字入力を行うとスタイルが崩れる。
-          # it '文字数オーバーで返信するとエラーが表示されること', js: true do
+          # it '文字数オーバーで返信するとエラーが表示されること' do
           #   log_in_as(user.email, user.password)
           #   visit '/reviews/1'
           #   within('.show-review-each-response-btn-div') do
@@ -256,10 +256,10 @@ RSpec.describe "Comments", type: :system do
         context 'フォームの入力値が正常の場合' do
           context '自分のレビューに投稿する場合' do
             context '自分のコメントに返信する場合' do
-              let!(:user) { create(:user) }
-              let!(:second_user) { create(:second_user) }
-              let!(:good_review) { create(:good_review) }
-              let!(:parent_comment) { create(:comment, user_id: second_user.id, review_id: good_review.id, content: "aaaaa") }
+              let!(:user) { create(:user, id: 1) }
+              let!(:second_user) { create(:second_user, id: 2) }
+              let!(:good_review) { create(:good_review, id: 1) }
+              let!(:parent_comment) { create(:comment, user_id: second_user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
 
               it '正しくコメントが投稿されること', js: true do
                 log_in_as(user.email, user.password)
@@ -273,7 +273,7 @@ RSpec.describe "Comments", type: :system do
                   find(".review-show-review-id-#{parent_comment.id}").click
                   expect(page).to have_no_selector 'div', class: "response_error_alert"
                 end
-                within(".response-each-comment-id-2") do
+                within(".response-reviews-comment-css") do
                   within(".response-reviews-response-each-comment") do
                     expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
                     expect(page).to have_selector 'a', text: "#{user.username}"
@@ -288,10 +288,10 @@ RSpec.describe "Comments", type: :system do
             end
 
             context '他人のコメントに返信する場合' do
-              let!(:user) { create(:user) }
-              let!(:second_user) { create(:second_user) }
-              let!(:good_review) { create(:good_review) }
-              let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
+              let!(:user) { create(:user, id: 1) }
+              let!(:second_user) { create(:second_user, id: 2) }
+              let!(:good_review) { create(:good_review, id: 1) }
+              let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
 
               it '正しくコメントが投稿されること', js: true do
                 log_in_as(user.email, user.password)
@@ -305,7 +305,7 @@ RSpec.describe "Comments", type: :system do
                   find(".review-show-review-id-#{parent_comment.id}").click
                   expect(page).to have_no_selector 'div', class: "response_error_alert"
                 end
-                within(".response-each-comment-id-2") do
+                within(".response-reviews-comment-css") do
                   within(".response-reviews-response-each-comment") do
                     expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
                     expect(page).to have_selector 'a', text: "#{user.username}"
@@ -322,12 +322,12 @@ RSpec.describe "Comments", type: :system do
 
           context '他者のレビューに投稿する場合' do
             context '自分のコメントに返信する場合' do
-              let!(:user) { create(:user) }
-              let!(:second_user) { create(:second_user) }
-              let!(:good_review) { create(:good_review) }
-              let!(:normal_review) { create(:normal_review) }
-              let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
-              let!(:second_parent_comment) { create(:comment, user_id: user.id, review_id: normal_review.id, content: "bbbbb") }
+              let!(:user) { create(:user, id: 1) }
+              let!(:second_user) { create(:second_user, id: 2) }
+              let!(:good_review) { create(:good_review, id: 1) }
+              let!(:normal_review) { create(:normal_review, id: 2) }
+              let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
+              let!(:second_parent_comment) { create(:comment, user_id: user.id, review_id: normal_review.id, content: "bbbbb", id: 2) }
 
               it '正しくコメントが投稿されること', js: true do
                 log_in_as(user.email, user.password)
@@ -341,7 +341,7 @@ RSpec.describe "Comments", type: :system do
                   find(".review-show-review-id-#{second_parent_comment.id}").click
                   expect(page).to have_no_selector 'div', class: "response_error_alert"
                 end
-                within(".response-each-comment-id-3") do
+                within(".response-reviews-comment-css") do
                   within(".response-reviews-response-each-comment") do
                     expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
                     expect(page).to have_selector 'a', text: "#{user.username}"
@@ -356,12 +356,12 @@ RSpec.describe "Comments", type: :system do
             end
 
             context '他人のコメントに返信する場合' do
-              let!(:user) { create(:user) }
-              let!(:second_user) { create(:second_user) }
-              let!(:good_review) { create(:good_review) }
-              let!(:normal_review) { create(:normal_review) }
-              let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
-              let!(:second_parent_comment) { create(:comment, user_id: second_user.id, review_id: normal_review.id, content: "bbbbb") }
+              let!(:user) { create(:user, id: 1) }
+              let!(:second_user) { create(:second_user, id: 2) }
+              let!(:good_review) { create(:good_review, id: 1) }
+              let!(:normal_review) { create(:normal_review, id: 2) }
+              let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
+              let!(:second_parent_comment) { create(:comment, user_id: second_user.id, review_id: normal_review.id, content: "bbbbb", id: 2) }
 
               it '正しくコメントが投稿されること', js: true do
                 log_in_as(user.email, user.password)
@@ -375,7 +375,7 @@ RSpec.describe "Comments", type: :system do
                   find(".review-show-review-id-#{second_parent_comment.id}").click
                   expect(page).to have_no_selector 'div', class: "response_error_alert"
                 end
-                within(".response-each-comment-id-3") do
+                within(".response-reviews-comment-css") do
                   within(".response-reviews-response-each-comment") do
                     expect(page).to have_selector("img[src$='/uploads/user/avatar/default.png']")
                     expect(page).to have_selector 'a', text: "#{user.username}"
@@ -394,12 +394,12 @@ RSpec.describe "Comments", type: :system do
 
       describe '削除機能の検証' do
         context '返信を単体で削除する場合' do
-          let!(:user) { create(:user) }
-          let!(:second_user) { create(:second_user) }
-          let!(:good_review) { create(:good_review) }
-          let!(:normal_review) { create(:normal_review) }
-          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
-          let!(:response_comment) { create(:comment, user_id: user.id, review_id: good_review.id, parent_id: parent_comment.id, content: "bbbbb") }
+          let!(:user) { create(:user, id: 1) }
+          let!(:second_user) { create(:second_user, id: 2) }
+          let!(:good_review) { create(:good_review, id: 1) }
+          let!(:normal_review) { create(:normal_review, id: 2) }
+          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
+          let!(:response_comment) { create(:comment, user_id: user.id, review_id: good_review.id, parent_id: parent_comment.id, content: "bbbbb", id: 2) }
 
           it '削除できること', js: true do
             log_in_as(user.email, user.password)
@@ -411,12 +411,12 @@ RSpec.describe "Comments", type: :system do
         end
 
         context '親コメントの削除と同時に削除される場合' do
-          let!(:user) { create(:user) }
-          let!(:second_user) { create(:second_user) }
-          let!(:good_review) { create(:good_review) }
-          let!(:normal_review) { create(:normal_review) }
-          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa") }
-          let!(:response_comment) { create(:comment, user_id: user.id, review_id: good_review.id, parent_id: parent_comment.id, content: "bbbbb") }
+          let!(:user) { create(:user, id: 1) }
+          let!(:second_user) { create(:second_user, id: 2) }
+          let!(:good_review) { create(:good_review, id: 1) }
+          let!(:normal_review) { create(:normal_review, id: 2) }
+          let!(:parent_comment) { create(:comment, user_id: user.id, review_id: good_review.id, content: "aaaaa", id: 1) }
+          let!(:response_comment) { create(:comment, user_id: user.id, review_id: good_review.id, parent_id: parent_comment.id, content: "bbbbb", id: 2) }
 
           it '両方とも削除できること', js: true do
             log_in_as(user.email, user.password)

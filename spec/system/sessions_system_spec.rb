@@ -1,11 +1,11 @@
 require 'rails_helper'
 RSpec.describe "Sessions", type: :system do
   describe 'ログイン・ログアウト機能の検証' do
-    let!(:user) { create(:user) }
-    let!(:unconfirmed_user) { create(:unconfirmed_user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:unconfirmed_user) { create(:unconfirmed_user, id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     it 'ログインページの要素検証すること' do
       visit '/users/sign_in'
@@ -67,11 +67,11 @@ RSpec.describe "Sessions", type: :system do
   end
 
   describe 'ログイン状態でページ遷移が変わること' do
-    let!(:user) { create(:user) }
-    let!(:unconfirmed_user) { create(:unconfirmed_user) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:unconfirmed_user) { create(:unconfirmed_user, id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     context '未ログイン状態の場合' do
       it '未ログインユーザー用のページが表示されること' do

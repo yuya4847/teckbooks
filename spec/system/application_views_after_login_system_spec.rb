@@ -1,14 +1,14 @@
 require 'rails_helper'
 RSpec.describe "ログイン後の共通表示を検証", type: :system do
   describe 'ヘッダーの要素検証' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:sample_first_review) { create(:good_review) }
-    let!(:sample_second_review) { create(:good_review) }
-    let!(:sample_third_review) { create(:good_review) }
-    let!(:good_review) { create(:good_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:sample_first_review) { create(:good_review, id: 1) }
+    let!(:sample_second_review) { create(:good_review, id: 2) }
+    let!(:sample_third_review) { create(:good_review, id: 3) }
+    let!(:good_review) { create(:good_review, id: 4) }
 
-    it '自分のプロフィールページで、共通のテンプレートが表示されること', js: true do
+    it '自分のプロフィールページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{user.id}"
       within(".header-btns") do
@@ -19,7 +19,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '他者のプロフィールページで、共通のテンプレートが表示されること', js: true do
+    it '他者のプロフィールページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{second_user.id}"
       within(".header-btns") do
@@ -30,7 +30,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'ネット検索ページで、共通のテンプレートが表示されること', js: true do
+    it 'ネット検索ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/"
       within(".header-btns") do
@@ -41,7 +41,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '全投稿一覧ページで、共通のテンプレートが表示されること', js: true do
+    it '全投稿一覧ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/all_reviews"
       within(".header-btns") do
@@ -52,7 +52,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '通知一覧ページで、共通のテンプレートが表示されること', js: true do
+    it '通知一覧ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/notifications"
       within(".header-btns") do
@@ -63,7 +63,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '検索ページで、共通のテンプレートが表示されること', js: true do
+    it '検索ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/reviews"
       within(".header-btns") do
@@ -74,7 +74,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'レビュー投稿ページで、共通のテンプレートが表示されること', js: true do
+    it 'レビュー投稿ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/reviews/new"
       within(".header-btns") do
@@ -85,7 +85,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'レビュー編集ページで、共通のテンプレートが表示されること', js: true do
+    it 'レビュー編集ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/reviews/#{good_review.id}/edit"
       within(".header-btns") do
@@ -96,7 +96,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'プロフィール編集ページで、共通のテンプレートが表示されること', js: true do
+    it 'プロフィール編集ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/users/edit"
       within(".header-btns") do
@@ -107,7 +107,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'プロフィール投稿ページで、共通のテンプレートが表示されること', js: true do
+    it 'プロフィール投稿ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/profile_reviews/#{user.id}"
       within(".header-btns") do
@@ -118,7 +118,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'DM一覧ページで、共通のテンプレートが表示されること', js: true do
+    it 'DM一覧ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/dms"
       within(".header-btns") do
@@ -129,7 +129,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'followingページで、共通のテンプレートが表示されること', js: true do
+    it 'followingページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{user.id}/following"
       within(".header-btns") do
@@ -140,7 +140,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'followersページで、共通のテンプレートが表示されること', js: true do
+    it 'followersページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{user.id}/followers"
       within(".header-btns") do
@@ -151,7 +151,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '利用規約ページで、共通のテンプレートが表示されること', js: true do
+    it '利用規約ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/homes/terms"
       within(".header-btns") do
@@ -162,7 +162,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'プライバシーポリシーページで、共通のテンプレートが表示されること', js: true do
+    it 'プライバシーポリシーページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/homes/privacy_policy"
       within(".header-btns") do
@@ -173,7 +173,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'DMルーム内ページで、共通のテンプレートが表示されること', js: true do
+    it 'DMルーム内ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{second_user.id}"
       find('.start-dm').click
@@ -189,14 +189,14 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
   end
 
   describe 'サブヘッダーの要素検証' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:sample_first_review) { create(:good_review) }
-    let!(:sample_second_review) { create(:good_review) }
-    let!(:sample_third_review) { create(:good_review) }
-    let!(:good_review) { create(:good_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:sample_first_review) { create(:good_review, id: 1) }
+    let!(:sample_second_review) { create(:good_review, id: 2) }
+    let!(:sample_third_review) { create(:good_review, id: 3) }
+    let!(:good_review) { create(:good_review, id: 4) }
 
-    it '自分のプロフィールページで、共通のテンプレートが表示されること', js: true do
+    it '自分のプロフィールページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{user.id}"
       within(".subheader-btns") do
@@ -214,7 +214,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '他者のプロフィールページで、共通のテンプレートが表示されること', js: true do
+    it '他者のプロフィールページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{second_user.id}"
       within(".subheader-btns") do
@@ -232,7 +232,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '全投稿一覧ページで、共通のテンプレートが表示されること', js: true do
+    it '全投稿一覧ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/all_reviews"
       within(".subheader-btns") do
@@ -250,7 +250,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '通知一覧ページで、共通のテンプレートが表示されること', js: true do
+    it '通知一覧ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/notifications"
       within(".subheader-btns") do
@@ -268,7 +268,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '検索ページで、共通のテンプレートが表示されること', js: true do
+    it '検索ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/reviews"
       within(".subheader-btns") do
@@ -286,7 +286,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'レビュー投稿ページで、共通のテンプレートが表示されること', js: true do
+    it 'レビュー投稿ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/reviews/new"
       within(".subheader-btns") do
@@ -304,7 +304,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'レビュー編集ページで、共通のテンプレートが表示されること', js: true do
+    it 'レビュー編集ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/reviews/#{good_review.id}/edit"
       within(".subheader-btns") do
@@ -322,7 +322,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'プロフィール編集ページで、共通のテンプレートが表示されること', js: true do
+    it 'プロフィール編集ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/users/edit"
       within(".subheader-btns") do
@@ -340,7 +340,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'プロフィール投稿ページで、共通のテンプレートが表示されること', js: true do
+    it 'プロフィール投稿ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/profile_reviews/#{user.id}"
       within(".subheader-btns") do
@@ -358,7 +358,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'DM一覧ページで、共通のテンプレートが表示されること', js: true do
+    it 'DM一覧ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/dms"
       within(".subheader-btns") do
@@ -376,7 +376,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'followingページで、共通のテンプレートが表示されること', js: true do
+    it 'followingページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{user.id}/following"
       within(".subheader-btns") do
@@ -394,7 +394,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'followersページで、共通のテンプレートが表示されること', js: true do
+    it 'followersページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{user.id}/followers"
       within(".subheader-btns") do
@@ -412,7 +412,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it '利用規約ページで、共通のテンプレートが表示されること', js: true do
+    it '利用規約ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/homes/terms"
       within(".subheader-btns") do
@@ -430,7 +430,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'プライバシーポリシーページで、共通のテンプレートが表示されること', js: true do
+    it 'プライバシーポリシーページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/homes/privacy_policy"
       within(".subheader-btns") do
@@ -448,7 +448,7 @@ RSpec.describe "ログイン後の共通表示を検証", type: :system do
       end
     end
 
-    it 'DMルーム内ページで、共通のテンプレートが表示されること', js: true do
+    it 'DMルーム内ページで、共通のテンプレートが表示されること' do
       log_in_as(user.email, user.password)
       visit "/userpages/#{second_user.id}"
       find('.start-dm').click

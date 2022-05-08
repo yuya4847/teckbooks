@@ -1,8 +1,8 @@
 RSpec.describe "Likes", type: :request do
   describe "全投稿一覧ページからlike・like解除を行う" do
-    let!(:user) { create(:user) }
-    let!(:good_review) { create(:good_review) }
-    let!(:like) { build(:like) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:good_review) { create(:good_review, id: 1) }
+    let!(:like) { build(:like, id: 1) }
 
     before do
       login_as(user)
@@ -88,9 +88,9 @@ RSpec.describe "Likes", type: :request do
   end
 
   describe "投稿詳細ページからlike・like解除を行う" do
-    let!(:user) { create(:user) }
-    let!(:good_review) { create(:good_review) }
-    let!(:like) { build(:like) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:good_review) { create(:good_review, id: 1) }
+    let!(:like) { build(:like, id: 1) }
 
     before do
       login_as(user)

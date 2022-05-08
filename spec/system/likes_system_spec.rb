@@ -2,9 +2,9 @@ require 'rails_helper'
 RSpec.describe "Likes", type: :system do
   describe 'Likeができる' do
     describe '投稿詳細ページからlikeとnot_like機能の動作を検証' do
-      let!(:user) { create(:user) }
-      let!(:good_review) { create(:good_review) }
-      let!(:like) { build(:like) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:good_review) { create(:good_review, id: 1) }
+      let!(:like) { build(:like, id: 1) }
 
       it 'likeができること', js: true do
         log_in_as(user.email, user.password)
@@ -31,9 +31,9 @@ RSpec.describe "Likes", type: :system do
     end
 
     describe '全投稿一覧ページからlikeとnot_like機能の動作を検証' do
-      let!(:user) { create(:user) }
-      let!(:good_review) { create(:good_review) }
-      let!(:like) { build(:like) }
+      let!(:user) { create(:user, id: 1) }
+      let!(:good_review) { create(:good_review, id: 1) }
+      let!(:like) { build(:like, id: 1) }
 
       it 'likeができること', js: true do
         log_in_as(user.email, user.password)

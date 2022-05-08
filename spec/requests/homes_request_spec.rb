@@ -37,9 +37,9 @@ RSpec.describe "Homes", type: :request do
 
   describe "#home" do
     let!(:user) { create(:user) }
-    let!(:good_review) { create(:good_review) }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:good_review) { create(:good_review, id: 1) }
+    let!(:recent_review) { create(:recent_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     before do
       get root_path

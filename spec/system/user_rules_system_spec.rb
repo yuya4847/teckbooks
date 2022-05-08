@@ -1,11 +1,11 @@
 require 'rails_helper'
 RSpec.describe "それぞれのユーザーの権限に応じた処理を行う", type: :system do
   describe '編集ページに対するアクセス制御を検証する' do
-    let!(:admin_user) { create(:user) }
-    let!(:sample_user) { create(:second_user) }
-    let!(:general_user) { create(:third_user) }
-    let!(:top_page_sample_review) { create(:good_review) }
-    let!(:will_deleted_review) { create(:great_review) }
+    let!(:admin_user) { create(:user, id: 1) }
+    let!(:sample_user) { create(:second_user, id: 2) }
+    let!(:general_user) { create(:third_user, id: 3) }
+    let!(:top_page_sample_review) { create(:good_review, id: 1) }
+    let!(:will_deleted_review) { create(:great_review, id: 2) }
 
     it 'adminユーザーでアクセスできること' do
       log_in_as(admin_user.email, admin_user.password)
@@ -31,15 +31,15 @@ RSpec.describe "それぞれのユーザーの権限に応じた処理を行う"
   end
 
   describe 'レビューの削除に値するリクエストを検証する' do
-    let!(:admin_user) { create(:user) }
-    let!(:sample_user) { create(:second_user) }
-    let!(:general_user) { create(:third_user) }
-    let!(:top_page_sample_first_review) { create(:good_review) }
-    let!(:top_page_sample_second__review) { create(:good_review) }
-    let!(:top_page_sample_third_review) { create(:good_review) }
-    let!(:admin_review) { create(:good_review, user_id: admin_user.id) }
-    let!(:sample_review) { create(:good_review, user_id: sample_user.id) }
-    let!(:general_review) { create(:good_review, user_id: general_user.id) }
+    let!(:admin_user) { create(:user, id: 1) }
+    let!(:sample_user) { create(:second_user, id: 2) }
+    let!(:general_user) { create(:third_user, id: 3) }
+    let!(:top_page_sample_first_review) { create(:good_review, id: 1) }
+    let!(:top_page_sample_second__review) { create(:good_review, id: 2) }
+    let!(:top_page_sample_third_review) { create(:good_review, id: 3) }
+    let!(:admin_review) { create(:good_review, user_id: admin_user.id, id: 4) }
+    let!(:sample_review) { create(:good_review, user_id: sample_user.id, id: 5) }
+    let!(:general_review) { create(:good_review, user_id: general_user.id, id: 6) }
 
     describe 'adminユーザーでログインしている時' do
       it '自身の投稿を削除できること' do

@@ -8,6 +8,7 @@ services:
       - MYSQL_USER=user_name
       - MYSQL_PASSWORD=user_password
       - RAILS_ENV=development
+      - "SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub"
     command: bundle exec puma -C config/puma.rb
     volumes:
       - .:/webapp

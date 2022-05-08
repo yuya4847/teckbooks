@@ -2,11 +2,11 @@ require 'rails_helper'
 include ActionView::Helpers::DateHelper
 RSpec.describe "Homes_before_login", type: :system do
   describe 'ログイン前のトップページの検証' do
-    let!(:user) { create(:user) }
-    let!(:sample_user) { create(:second_user, email: "example@samp.com") }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:sample_user) { create(:second_user, email: "example@samp.com", id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
     it 'トップページの要素検証すること', js: true do
       visit '/'
@@ -94,27 +94,23 @@ RSpec.describe "Homes_before_login", type: :system do
 
     it 'モーダル内のリンクの動作確認をすること' do
       visit '/'
-      within('.terms-consent-links-guest-login') do
-        find('.consent-link-resister-display-none').click
-      end
+      find('.consent-link-resister-display-none').click
       expect(current_path).to eq userpage_path(sample_user.id)
       click_link "ログアウト"
       visit '/'
-      within('.terms-consent-links-signup') do
-        find('.consent-link-signup-display-none').click
-      end
+      find('.consent-link-signup-display-none').click
       expect(current_path).to eq new_user_registration_path
     end
   end
 
-  describe 'ログイン前の利用規約ページの検証', js: true do
-    let!(:user) { create(:user) }
-    let!(:sample_user) { create(:second_user, email: "example@samp.com") }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+  describe 'ログイン前の利用規約ページの検証' do
+    let!(:user) { create(:user, id: 1) }
+    let!(:sample_user) { create(:second_user, email: "example@samp.com", id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
-    it '利用規約ページの要素検証すること' do
+    it '利用規約ページの要素検証すること', js: true do
       visit '/'
       click_link "利用規約"
       expect(current_path).to eq show_terms_path
@@ -123,14 +119,14 @@ RSpec.describe "Homes_before_login", type: :system do
     end
   end
 
-  describe 'ログイン前のプライバシーポリシーページの検証', js: true do
-    let!(:user) { create(:user) }
-    let!(:sample_user) { create(:second_user, email: "example@samp.com") }
-    let!(:recent_review) { create(:recent_review) }
-    let!(:good_review) { create(:good_review) }
-    let!(:great_review) { create(:great_review) }
+  describe 'ログイン前のプライバシーポリシーページの検証' do
+    let!(:user) { create(:user, id: 1) }
+    let!(:sample_user) { create(:second_user, email: "example@samp.com", id: 2) }
+    let!(:recent_review) { create(:recent_review, id: 1) }
+    let!(:good_review) { create(:good_review, id: 2) }
+    let!(:great_review) { create(:great_review, id: 3) }
 
-    it 'プライバシーポリシーページの要素検証すること' do
+    it 'プライバシーポリシーページの要素検証すること', js: true do
       visit '/'
       click_link "プライバシーポリシー"
       expect(current_path).to eq show_privacy_policy_path

@@ -41,20 +41,12 @@ RSpec.describe "関連した投稿機能の検証", type: :system do
         log_in_as(user.email, user.password)
         visit "/reviews/#{first_rank_review.id}"
         within(".wrap-tab-content") do
-          within(".recent-review-#{first_rank_review.id}") do
-            expect(page).to have_selector('a', count: 2)
-            expect(page).to have_selector 'div', text: "𝙉𝙤 𝙄𝙢𝙖𝙜𝙚"
-            expect(page).to have_selector 'a', text: "#{first_rank_review.title}"
-          end
+          expect(page).to have_selector 'a', text: "#{first_rank_review.title}"
         end
         find('#related-review').click
         expect(page).to have_no_selector 'div', class: "recent-review-#{first_rank_review.id}"
         within(".wrap-tab-content") do
-          within(".related-review-#{second_rank_review.id}") do
-            expect(page).to have_selector('a', count: 2)
-            expect(page).to have_selector 'div', text: "𝙉𝙤 𝙄𝙢𝙖𝙜𝙚"
-            expect(page).to have_selector 'a', text: "#{second_rank_review.title}"
-          end
+          expect(page).to have_selector 'a', text: "#{second_rank_review.title}"
         end
       end
     end

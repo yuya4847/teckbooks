@@ -1,13 +1,13 @@
 require 'rails_helper'
 RSpec.describe "タイトルが適切に表示されていること", type: :system do
-  let!(:user) { create(:user) }
-  let!(:second_user) { create(:second_user) }
-  let!(:recent_review) { create(:recent_review) }
-  let!(:good_review) { create(:good_review) }
-  let!(:great_review) { create(:great_review) }
-  let!(:room) { create(:room) }
-  let!(:entry1) { create(:entry, user_id: user.id, room_id: room.id) }
-  let!(:entry2) { create(:entry, user_id: second_user.id, room_id: room.id) }
+  let!(:user) { create(:user, id: 1) }
+  let!(:second_user) { create(:second_user, id: 2) }
+  let!(:recent_review) { create(:recent_review, id: 1) }
+  let!(:good_review) { create(:good_review, id: 2) }
+  let!(:great_review) { create(:great_review, id: 3) }
+  let!(:room) { create(:room, id: 1) }
+  let!(:entry1) { create(:entry, user_id: user.id, room_id: room.id, id: 1) }
+  let!(:entry2) { create(:entry, user_id: second_user.id, room_id: room.id, id: 2) }
 
   describe 'そのページにおける適切なタイトルが表示されること' do
     it 'ホームページのタイトルが表示されること' do

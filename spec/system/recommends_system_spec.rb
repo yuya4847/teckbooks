@@ -2,11 +2,11 @@ require 'rails_helper'
 include ActionView::Helpers::DateHelper
 RSpec.describe "Recommends", type: :system do
   describe '全ての投稿一覧ページからのレコメンド機能の検証' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:third_user) { create(:third_user) }
-    let!(:forth_user) { create(:forth_user) }
-    let!(:fifth_user) { create(:fifth_user) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:third_user) { create(:third_user, id: 3) }
+    let!(:forth_user) { create(:forth_user, id: 4) }
+    let!(:fifth_user) { create(:fifth_user, id: 5) }
     let!(:first_relationship) { create(:relationship, follower_id: user.id, followed_id: second_user.id) }
     let!(:second_relationship) { create(:relationship, follower_id: user.id, followed_id: third_user.id) }
     let!(:good_review) { create(:good_review) }
@@ -253,11 +253,11 @@ RSpec.describe "Recommends", type: :system do
   end
 
   describe '投稿詳細ページからのレコメンド機能の検証' do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:third_user) { create(:third_user) }
-    let!(:forth_user) { create(:forth_user) }
-    let!(:fifth_user) { create(:fifth_user) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:third_user) { create(:third_user, id: 3) }
+    let!(:forth_user) { create(:forth_user, id: 4) }
+    let!(:fifth_user) { create(:fifth_user, id: 5) }
     let!(:first_relationship) { create(:relationship, follower_id: user.id, followed_id: second_user.id) }
     let!(:second_relationship) { create(:relationship, follower_id: user.id, followed_id: third_user.id) }
     let!(:good_review) { create(:good_review) }

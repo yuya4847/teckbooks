@@ -143,9 +143,9 @@ RSpec.describe "Notifications", type: :request do
   end
 
   describe "それぞれのアクション時に通知が生成されること" do
-    let!(:user) { create(:user) }
-    let!(:second_user) { create(:second_user) }
-    let!(:third_user) { create(:third_user) }
+    let!(:user) { create(:user, id: 1) }
+    let!(:second_user) { create(:second_user, id: 2) }
+    let!(:third_user) { create(:third_user, id: 3) }
     let!(:good_review) { create(:good_review, user_id: second_user.id) }
     let!(:comment) { build(:comment, user_id: user.id, content: "通知のためのコメント") }
     let!(:room) { create(:room) }
