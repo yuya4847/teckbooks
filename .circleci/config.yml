@@ -15,7 +15,7 @@ jobs:
           name: db接続を待機
           command: sleep 10
       - run:
-          name: データの権限のセットアップ
+          name: データの権限のセットsアップ
           command: docker-compose exec db mysql -u root -pdb_root_password -e"$(cat db/grant_user.sql)"
       - run:
           name: データベースのセットアップ
