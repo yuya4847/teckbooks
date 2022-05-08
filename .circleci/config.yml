@@ -27,6 +27,9 @@ jobs:
           name: データベースのマイグレート
           command: docker-compose -f docker-compose.yml run app rails db:migrate
       - run:
+          name: webpackerの実行
+          command: docker-compose -f docker-compose.yml run app bundle exec bin/webpack
+      - run:
           name: Rubocopの実行
           command: docker-compose -f docker-compose.yml run app bundle exec rubocop
       - run:
