@@ -34,7 +34,6 @@ jobs:
           command: docker-compose -f docker-compose.yml down
 workflows:
   version: 2
-    jobs:
       - build
         filters:
           branches:
