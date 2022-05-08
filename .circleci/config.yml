@@ -28,7 +28,7 @@ jobs:
           command: docker-compose -f docker-compose.yml run app rails db:migrate
       - run:
           name: webpackerの実行
-          command: docker-compose -f docker-compose.yml run app rails webpacker:compile
+          command: docker-compose -f docker-compose.yml run app rails webpacker:install
       - run:
           name: Rubocopの実行
           command: docker-compose -f docker-compose.yml run app bundle exec rubocop
