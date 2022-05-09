@@ -48,8 +48,6 @@ jobs:
     steps:
         - checkout
         - add_ssh_keys:
-            fingerprints:
-              - 80:66:b9:09:3f:c2:5a:0c:ec:71:8d:c3:85:78:ac:bf
         - run: ssh ${USER_NAME}@${HOST_NAME} 'cd teckbooks && git pull'
 
 
