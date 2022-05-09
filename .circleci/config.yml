@@ -40,11 +40,12 @@ jobs:
           command: docker-compose -f docker-compose.yml down
 
   deploy:
-    docker:
-      - image: circleci/node:4.8.2
+    machine:
+        image: circleci/classic:edge
     steps:
-      - checkout
-      - run: echo "hello world"
+        - checkout
+        - add_ssh_keys:
+        - run: ssh ${USER_NAME}@${HOST_NAME} 'cd teckbooks && git pull'
 
 
 workflows:
