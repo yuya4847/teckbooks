@@ -33,6 +33,9 @@ jobs:
           name: Rubocopの実行
           command: docker-compose -f docker-compose.yml run app bundle exec rubocop
       - run:
+          name: データーベースの環境設定
+          command: docker-compose -f docker-compose.yml run app rails db:environment:set RAILS_ENV=test
+      - run:
           name: Rspecの実行
           command: docker-compose -f docker-compose.yml run app bundle exec rspec
       - run:
