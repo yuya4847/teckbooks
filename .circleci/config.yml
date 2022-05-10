@@ -18,6 +18,9 @@ jobs:
           name: データの権限のセットsアップ
           command: docker-compose exec db mysql -u root -pdb_root_password -e"$(cat db/grant_user.sql)"
       - run:
+          name: データベースの削除
+          command: docker-compose -f docker-compose.yml run app rails db:drop
+      - run:
           name: データベースのセットアップ
           command: docker-compose -f docker-compose.yml run app rails db:create
       - run:
