@@ -24,9 +24,6 @@ jobs:
           name: データベースのセットアップ
           command: docker-compose -f docker-compose.yml run app rails db:create
       - run:
-          name: データの実行環境の
-          command: docker-compose -f docker-compose.yml run app rails db:environment:set
-      - run:
           name: データベースのマイグレート
           command: docker-compose -f docker-compose.yml run app rails db:migrate
       - run:
