@@ -330,7 +330,7 @@ RSpec.describe "いいねランキング機能の検証", type: :system do
           let!(:eighth_user_like_second_review) { create(:like, user_id: eighth_user.id, review_id: second_rank_review.id) }
           let!(:ninth_user_like_first_review) { create(:like, user_id: ninth_user.id, review_id: first_rank_review.id) }
 
-          it 'ランキングが表示されること', js: true do
+          xit 'ランキングが表示されること', js: true do
             log_in_as(user.email, user.password)
             visit "/all_reviews"
             within("#ranking_ajax") do
@@ -875,7 +875,7 @@ RSpec.describe "いいねランキング機能の検証", type: :system do
           let!(:eighth_user_like_second_review) { create(:like, user_id: eighth_user.id, review_id: second_rank_review.id) }
           let!(:ninth_user_like_first_review) { create(:like, user_id: ninth_user.id, review_id: first_rank_review.id) }
 
-          it 'ランキングが表示されること', js: true do
+          xit 'ランキングが表示されること', js: true do
             log_in_as(user.email, user.password)
             visit "/reviews"
             within("#ranking_ajax") do
