@@ -39,7 +39,7 @@ jobs:
           name: Rspecの実行
           command: docker-compose -f docker-compose.yml run app bundle exec rspec
       - run:
-          name: Dockerコンテナの停止するsd
+          name: Dockerコンテナの停止するsdaaaaaa
           command: docker-compose -f docker-compose.yml down
 
   deploy:
@@ -50,7 +50,7 @@ jobs:
         - add_ssh_keys:
             fingerprints:
               - 4d:2d:85:da:a0:a4:72:e2:59:7d:2b:b2:55:01:b4:31
-        - run: ssh ${USER_NAME}@${HOST_NAME} 'cd teckbooks'
+        - run: ssh ${USER_NAME}@${HOST_NAME} 'cd teckbooks && git pull origin task-1'
 
 
 workflows:
