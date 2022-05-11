@@ -39,7 +39,7 @@ jobs:
           name: Rspecの実行
           command: docker-compose -f docker-compose.yml run app bundle exec rspec
       - run:
-          name: Dockerコンテナの停止するsdaaaaaaaaoooooosswwxx
+          name: Dockerコンテナの停止するsdaaaaaaaaoooooosswwxxss
           command: docker-compose -f docker-compose.yml down
 
   deploy:
