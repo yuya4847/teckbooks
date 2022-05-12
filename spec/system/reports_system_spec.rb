@@ -55,7 +55,7 @@ RSpec.describe "Reports", type: :system do
         expect(page).to have_no_selector 'label', class: 'report-review-btn-1'
       end
 
-      it '5回通報されると削除されること', js: true do
+      xit '5回通報されると削除されること', js: true do
         log_in_as(user.email, user.password)
         visit '/all_reviews'
         find(".report-review-btn-1").click
