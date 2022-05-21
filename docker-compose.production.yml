@@ -4,12 +4,6 @@ services:
     build:
       context: .
     environment:
-      - RWS_PRO_APPLICATION_ID='1087040607112803177'
-      - YAHOO_PRO_ID='dj00aiZpPWx4TjNhc2NOdERPQiZzPWNvbnN1bWVyc2VjcmV0Jng9OTg-'
-      - PRO_MAILER_EMAIL='yuya004847yy@gmail.com'
-      - PRO_MAILER_PASSWORD='mvfydpnxcesloliu'
-      - AWS_ACCESS_KEY_ID = 'AKIAXOA4RC3I7QE2KA4T'
-      - AWS_SECRET_ACCESS_KEY = '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'
       - RAILS_ENV=production
     command: bundle exec puma -C config/puma.rb
     volumes:
