@@ -9,3 +9,6 @@ variable "prefix" {
 variable "allowed_cidr" {
   default = null
 }
+
+# Route53
+variable "my_domain" {}

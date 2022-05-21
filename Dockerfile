@@ -6,7 +6,10 @@ RUN apt-get update -qq && \
                        nodejs
 
 # yarnパッケージ管理ツールインストール
+# yarnパッケージ管理ツールインストール
 RUN apt-get update && apt-get install -y curl apt-transport-https wget && \
+    apt install -y lsb-release && \
+    apt remove -y libmariadb-dev-compat libmariadb-dev && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && apt-get install -y yarn
@@ -26,6 +29,20 @@ RUN apt-get update && apt-get install -y unzip && \
     sh -c 'wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -' && \
     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
     apt-get update && apt-get install -y google-chrome-stable
+
+# 追加分
+RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-common_8.0.18-1debian10_amd64.deb \
+    https://dev.mysql.com/get/Downloads/MySQL-8.0/libmysqlclient21_8.0.18-1debian10_amd64.deb \
+    https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-client-core_8.0.18-1debian10_amd64.deb \
+    https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-client_8.0.18-1debian10_amd64.deb \
+    https://dev.mysql.com/get/Downloads/MySQL-8.0/libmysqlclient-dev_8.0.18-1debian10_amd64.deb
+
+# 追加分
+RUN dpkg -i mysql-common_8.0.18-1debian10_amd64.deb \
+    libmysqlclient21_8.0.18-1debian10_amd64.deb \
+    mysql-community-client-core_8.0.18-1debian10_amd64.deb \
+    mysql-community-client_8.0.18-1debian10_amd64.deb \
+    libmysqlclient-dev_8.0.18-1debian10_amd64.deb
 
 # ルート直下にwebappという名前で作業ディレクトリを作成（コンテナ内のアプリケーションディレクトリ）
 RUN mkdir /webapp
