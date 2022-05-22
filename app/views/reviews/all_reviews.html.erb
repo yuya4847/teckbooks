@@ -674,7 +674,7 @@ p{
   $(`.mypage-reviews-recommend-icon`).on('click',function(){
     select_user_ids = [];
     select_review_id = Number($(this).attr('class').split(" ")[5].substring(20));
-    for (let i = 2; i <= recommend_user_total_number + 1; i++) {
+    for (let i = 1; i <= recommend_user_total_number + 1; i++) {
       $(`.recommend_user_${i}`).removeClass('select_user');
     }
     $.ajax({
