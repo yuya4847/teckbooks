@@ -1,9 +1,10 @@
+REAOMMEND_USERS = 5
+RELATED_REVIRES_COUNT = 7
 class UserpagesController < ApplicationController
   before_action :authenticate_user!, only: [:show, :profile_reviews, :avatar_destroy, :following, :followers]
-  before_action :user_exist?, only: [:show, :following, :followers]
   before_action :correct_user, only: [:avatar_destroy]
-  REAOMMEND_USERS = 5
-  RELATED_REVIRES_COUNT = 7
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def show
     @user = User.find(params[:id])
@@ -104,11 +105,9 @@ class UserpagesController < ApplicationController
 
   private
 
-  def user_exist?
-    unless User.exists?(id: params[:id])
-      flash[:alert] = "ユーザーは存在しません。"
-      redirect_to root_path
-    end
+  def record_not_found
+    flash[:alert] = "そのようなユーザーは存在しません。"
+    redirect_to root_path
   end
 
   def correct_user

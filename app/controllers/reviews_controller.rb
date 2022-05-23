@@ -2,10 +2,11 @@ class ReviewsController < ApplicationController
   REAOMMEND_USERS = 5
   RELATED_REVIRES_COUNT = 7
   before_action :authenticate_user!, only: [:index, :all_reviews, :new, :create, :show, :edit, :update, :review_destroy]
-  before_action :review_exist?, only: [:show, :edit]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_or_current_user, only: :review_destroy
   impressionist actions: [:show]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def index
     @q = Review.ransack(params[:q])
@@ -147,11 +148,9 @@ class ReviewsController < ApplicationController
     )
   end
 
-  def review_exist?
-    unless Review.exists?(id: params[:id])
-      flash[:alert] = "レビューは存在しません。"
-      redirect_to root_path
-    end
+  def record_not_found
+    flash[:alert] = "そのようなレビューは存在しません。"
+    redirect_to root_path
   end
 
   # 正しいユーザーかどうか確認
