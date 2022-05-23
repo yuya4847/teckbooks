@@ -18,7 +18,6 @@ class Review < ApplicationRecord
   validate :rate_custom_error
   validates :content, presence: true, length: { maximum: 250 }
   validate  :picture_size
-
   scope :find_top_pv_reviews, -> { find(Impression.group(:impressionable_id).pluck(:impressionable_id)).sort {|a,b| b.impressionist_count <=> a.impressionist_count}.first(3) }
 
     def create_notification_recommend!(visitor_user, visited_user)
