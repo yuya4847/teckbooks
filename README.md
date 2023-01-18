@@ -16,10 +16,6 @@
 情報を表示することができればなと思い、このTechbookhubを作りました。また、そこで
 自分にあった技術書を見つけやすくするために、発見した技術書に関する情報を投稿・シェアできるようにしました。
 
-## メイン機能(検索比較機能)の紹介
-
-https://user-images.githubusercontent.com/68845212/213187938-2a80361e-f75c-4a0a-b413-b93372b567ba.mov
-
 <br>
 
 ## 機能一覧
@@ -28,6 +24,8 @@ https://user-images.githubusercontent.com/68845212/213187938-2a80361e-f75c-4a0a-
 - サジェスト補完機能(Rakuten API)
 - 書籍比較検索機能(Rakuten API, Yahoo! API, Google API, Amazonスクレイピング )
 - 頻出ワードによる検索(Rakuten API, Yahoo! API, Google API, Amazonスクレイピング )
+#### 検索結果が表示されるまでに時間がかかります。そのためご視聴いただけると幸いです.
+https://user-images.githubusercontent.com/68845212/213187938-2a80361e-f75c-4a0a-b413-b93372b567ba.mov
 
 ### ユーザー関連
 - 登録機能
