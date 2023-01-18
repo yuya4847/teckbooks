@@ -24,7 +24,7 @@
 - サジェスト補完機能(Rakuten API)
 - 書籍比較検索機能(Rakuten API, Yahoo! API, Google API, Amazonスクレイピング )
 - 頻出ワードによる検索(Rakuten API, Yahoo! API, Google API, Amazonスクレイピング )
-検索結果が表示されるまでに時間がかかります。そのためムービーを用意しましたので、ご視聴いただけると幸いです.
+###### 検索結果が表示されるまでに時間がかかります。そのためムービーを用意しましたので、ご視聴いただけると幸いです.
 https://user-images.githubusercontent.com/68845212/213187938-2a80361e-f75c-4a0a-b413-b93372b567ba.mov
 
 ### ユーザー関連
