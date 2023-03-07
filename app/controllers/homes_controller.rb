@@ -53,7 +53,6 @@ class HomesController < ApplicationController
       end
       page = Nokogiri::HTML.parse(html, nil, charset)
       page_count = page.xpath('//div[@id="pagehandle"]/span').count
-      sleep 0.3
       @amazon_isbns = []
       @amazon_links = []
 
@@ -73,7 +72,7 @@ class HomesController < ApplicationController
         page_html.xpath('//td[@class="itemdetail"]/div[5]').each do |book|
           @amazon_isbns << book.text[16..28]
         end
-        sleep 0.3
+        sleep 1.0
       end
 
       @amazon_books = []
